@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+<meta charset="gbk2312">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<!-- Le styles -->
+<link href="../dist/css/bootstrap.css" rel="stylesheet">
+<link href="../dist/css/bootstrap-theme.css" rel="stylesheet">
+
+<!-- upload machine key file 1>
+<link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://blueimp.github.io/jQuery-File-Upload/css/jquery.fileupload-ui.css">
+<script src="http://www.see-source.com/js/jquery-1.8.1.js"></script>
+<script src="http://blueimp.github.io/jQuery-File-Upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="http://blueimp.github.io/jQuery-File-Upload/js/jquery.iframe-transport.js"></script>
+<script src="http://blueimp.github.io/jQuery-File-Upload/js/jquery.fileupload.js"></script>
+<-->
+<title>server demo</title>
+<!-- upload file 2 -->
+<script src="../js/bootstrap.file-input.js"></script>
+<link href="../css/bootstrap.file-input.css" rel="stylesheet">
+
+<style>
+body {
+    padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+}
+</style>
+								<script type="text/javascript">
+									function check_all(obj,cName)
+									{
+									    var checkboxs = document.getElementsByName(cName);
+									    for(var i=0;i<checkboxs.length;i++){checkboxs[i].checked = obj.checked;}
+									}
+								</script>
+<link href="../dist/css/bootstrap-responsive.css" rel="stylesheet">
+  </head>
+
+  <body>
+	<div class="navbar navbar-default navbar-static-top" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">MiaoZhen Cluster Manager</a>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="server.html">server</a></li>
+					<li><a href="service.html">service</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">admin<b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="#">修改密码</a></li>
+							<li><a href="#">管理账户</a></li>
+							<li><a href="#">Something else here</a></li>
+							<li class="divider"></li>
+							<li><a href="#">Separated link</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div><!--/.nav-collapse -->
+		</div>
+	</div>
+	<div class="container col-md-12">
+		<div class="row">
+			<div class="row">
+				<h2>120.mzhen.cn </h2>
+				<a href="./server.html" class="pull-right">back to the server list</a>
+			</div>
+			<div class="row">
+				<div class="container col-md-6">
+					<div class="row">
+						<div class="panel-group" id="HostSummary">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<a data-toggle="collapse" data-parent="HostSummary" href="#HostInfo">
+										Host Info
+									</a>
+								</div>
+								<div id="HostInfo" class="panel-collapse collapse in">
+									<div class="panel-body">
+										<div class="row">
+										
+											<table class="table">
+												<tr>
+													<td>HostName</td>
+													<td>120.mzhen.cn</td>
+												</tr>
+												<tr>
+													<td>IP</td>
+													<td>192.168.1.120</td>
+												</tr>
+												<tr>
+													<td>OS</td>
+													<td>centos(x86_64)</td>
+												</tr>
+												
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<br><br>
+					<div class="row">
+						<div class="panel-group" id="HostSummary">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<a data-toggle="collapse" data-parent="HostSummary" href="#ComponentsInfo">
+										Components Info
+									</a>
+								</div>
+								<div id="ComponentsInfo" class="panel-collapse collapse in">
+									<div class="panel-body">
+										<div class="row">
+											
+											<table class="table">
+												<thead>
+													<tr>
+														<th>
+															Component Name
+														</th>
+														<th>
+															Service
+														</th>
+														<th>
+															Status
+														</th>
+														<th>
+															Start
+														</th>
+														<th>
+															Stop
+														</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>
+															DataNode
+														</td>
+														<td>
+															HDFS
+														</td>
+														<td>
+															Health
+														</td>
+														<td>
+															<button type="button" class="btn btn-primary">Start</button>
+														</td>
+														<td>
+															<button type="button" class="btn btn-primary disabled">Stop</button>
+														</td>
+												
+													</tr>
+													<tr>
+														<td>
+															NameNode
+														</td>
+														<td>
+															HDFS
+														</td>
+														<td>
+															Health Running
+														</td>
+														<td>
+															<button type="button" class="btn btn-primary">Start</button>
+														</td>
+														<td>
+															<button type="button" class="btn btn-primary disabled">Stop</button>
+														</td>
+												
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="container col-md-6">
+					<p>The dashboard for the 120.mzhen.cn will be here</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="../dist/js/bootstrap.js"></script>
+</body>
+
+</html>

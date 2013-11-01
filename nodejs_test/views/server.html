@@ -1,0 +1,337 @@
+<% include header.html %>
+	<div class="container col-md-12">
+		<div class="row">
+			<ul class="nav nav-tabs">
+				<li id="server_list_link_id" name="server_list_link" class="active"><a href="#server-list" data-toggle="tab">server list</a></li>
+				<li id="add_server_link_id" name="add_server_link"><a href="#add-server" data-toggle="tab">add server</a></li>
+				<li id="delete_server_link_id" name="delete_server_link"><a href="#delete-server" data-toggle="tab">delete server</a></li>
+				<!--li><a href="#config-server" data-toggle="tab">config server</a></li-->
+			</ul>
+
+<!-- Tab panes -->
+			<div class="tab-content">
+				<div class="tab-pane active" id="server-list">
+					<div class="col-md-12">
+					<div class="table-responsive">
+
+					<table class="table" id="server_list11">
+						<thead>
+							<tr>
+								<th>
+									host
+								</th>
+								<th>
+									ip
+								</th>
+								<th>
+									cpu
+								</th>
+								<th>
+									ram
+								</th>
+								<th>
+									status
+								</th>
+								<th>
+									load(%)
+								</th>
+								<th>
+									Components
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<a href="./host_demo.html">120.mzhen.cn</a>
+								</td>
+								<td>
+									192.168.1.120
+								</td>
+								<td>
+									16
+								</td>
+								<td>
+									32g
+								</td>
+								<td>
+									health
+								</td>
+								<td>
+									20
+								</td>
+								<td>
+									<div class="dropdown">
+									<a class="dropdown-toggle" data-toggle="dropdown">角色<b class="caret"></b></a>
+							  		<ul class="dropdown-menu">
+								    		<li><a href="#">hdfs</a></li>
+								    		<li><a href="#">mapreduce</a></li>
+								    		<li><a href="#">zookeeper</a></li>
+							  		</ul>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>				
+					</div>
+	
+					<div align="right">
+						<ul class="pagination">
+							<li><a href="#">&laquo;</a></li>
+							<li><a href="#">1</a></li>
+							<li><a href="#">2</a></li>
+							<li><a href="#">3</a></li>
+							<li><a href="#">4</a></li>
+							<li><a href="#">5</a></li>
+							<li><a href="#">&raquo;</a></li>
+						</ul>
+					</div>
+
+
+				</div>
+				</div>
+				<div class="tab-pane" id="add-server">
+					
+					<div class="container">
+						<div class="row">
+							<div class="col-md-8">
+								<!--form class="form-horizontal" action="" method=""-->
+									<br><br>
+									<label>Machine Host And Port</label>
+									<div class="container">
+									<form class="form-inline" role="form" method="post" action="/server/add_server_check">
+										<div class="row">
+										
+											<div class="form-group" style="width:70%">
+												<label class="sr-only"></label>
+												<input type="text" class="form-control" name="machine_host" placeholder="enter the right machine host" check-type="required host">
+											</div>
+											<div class="form-group" style="width:20%">
+												<label class="sr-only"></label>
+												<input type="text" class="form-control" name="machine_port" placeholder="enter port" check-type="required number" range="0~60000">
+											</div>
+										
+										</div>
+									</div>
+									<br><br>
+									<label>SSH Private Key</label>
+										<div>
+										<input type="file" id="files" name="files[]" check-type="required " multiple />
+										<output id="list"></output>
+
+										<script>
+										  function handleFileSelect(evt) {
+											 var files = evt.target.files; // FileList object
+
+											    // Loop through the FileList and render image files as thumbnails.
+											    for (var i = 0, f; f = files[i]; i++) {
+
+											      var reader = new FileReader();
+
+											      // Closure to capture the file information.
+											      reader.onload = (function(theFile) {
+												return function(e) {
+												  // Render thumbnail.
+												  var textarea1 = document.createElement('textarea');
+												  textarea1.innerHTML = e.currentTarget.result;
+												  textarea1.className="form-control";
+												 
+												  
+												  document.getElementById('list').insertBefore(textarea1, null);
+												};
+											      })(f);
+											      // Read in the image file as a data URL.
+											      reader.readAsText(f);
+											    }
+										    
+										  }
+										
+										  document.getElementById('files').addEventListener('change', handleFileSelect, false);
+										</script>
+
+										</div>
+								
+										<span class="help-block">please enter the right machine host and port.select the right key file</span>
+										
+										<!--button  type="sumbit" class="btn btn-primary pull-right" data-toggle="modal" data-target="#CheckHost">next</button-->
+										<button  type="submit" class="btn btn-primary pull-right" id="FirstNext">next</button>
+
+									</form>
+
+										<div class="modal fade" id="CheckHost" tabindex="-1" role="dialog" aria-labelledby="add hosts key">
+											<div class="modal-dialog">
+											    <div class="modal-content">
+											      <div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+												<h4 class="modal-title" id="CheckHostLabel">CheckHost</h4>
+											      </div>
+												<div class="modal-body">
+													<p id="CheckResult">the host with the port can be accessed</p>
+												</div>
+											      <div class="modal-footer">
+												<form class="form" method="post" action="add_server_add">
+												<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+												<button type="submit" class="btn btn-primary"  name="SecondNext" id="SecondNext" onclick="document.getElementById('SecondNext').value='true'">Add</button>
+												</form>
+											      </div>
+											    </div><!-- /.modal-content -->
+											  </div><!-- /.modal-dialog -->
+										</div>
+
+
+								<!--/form-->
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<div class="tab-pane" id="delete-server">
+					<form>
+						<table class="table">
+							<thead>
+							<tr>
+								<th>
+
+									<input name="checkAll" onclick="check_all(this,'a')" type="checkbox" />
+
+				
+								</th>
+								
+								<th>host</th>
+								<th>ip</th>
+								<th>component status</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr>
+								<td>
+									<input type="checkbox" value="" name="a">
+								</td>
+								<td>
+									121.mzhen.cn
+								</td>
+								<td>
+									192.168.1.121
+								</td>
+								<td>
+									no component
+								</td>
+							</tr>
+							</tbody>
+						</table>
+							
+							<br><br><br>
+							<button class="btn btn-primary pull-right" data-toggle="modal" data-target="#CheckHostService">Delete</button>
+							<div class="modal fade" id="CheckHostService" tabindex="-1" role="dialog" aria-labelledby="add hosts for service" aria-hidden="true">
+								<div class="modal-dialog">
+								    <div class="modal-content">
+								      <div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+									<h4 class="modal-title" id="AddHostsForServiceLabel">Check and Stop Service</h4>
+								      </div>
+								      <div class="modal-body">
+										<p>if the host has service which is running,please stop the service firstly</p>
+										<a href="host_demo.html">120.mzhen.cn</a>
+								      </div>
+								      <div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#DeleteHost">Next</button>
+								      </div>
+								    </div><!-- /.modal-content -->
+								  </div><!-- /.modal-dialog -->
+	
+							</div>
+							<div class="modal fade" id="DeleteHost" tabindex="-1" role="dialog" aria-labelledby="add hosts for service" aria-hidden="true">
+								<div class="modal-dialog">
+								    <div class="modal-content">
+								      <div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+									<h4 class="modal-title" id="AddHostsForServiceLabel">Delete Host</h4>
+								      </div>
+								      <div class="modal-body">
+										<p>if you want to delete the host from the cluster,please enter the delete button</p>
+								      </div>
+								      <div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+									<button type="button" class="btn btn-primary">Delete</button>
+								      </div>
+								    </div><!-- /.modal-content -->
+								  </div><!-- /.modal-dialog -->
+	
+							</div>
+					</form>
+				</div>
+				<!--div class="tab-pane" id="config-server">
+					<blockquote> <p>config server in the page</p> </blockquote>
+				</div-->
+			</div>
+
+		</div>
+
+	</div>
+
+    </div> <!-- /container -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/bootstrap3-validation.js"></script>
+    <script src="/javascripts/json-to-table.js"></script>
+    <script language="JavaScript">
+	function myrefresh()
+	{
+	//var dt = new Date();
+	      $('#server_list_link_id a').tab("show");
+	      //alert(0);
+	      //window.location.reload();
+	      //window.location.href="http://localhost:3000/server/";
+	}
+	//setTimeout('myrefresh()',1000); //??1?????
+    </script>
+    <script type="text/javascript">
+	var DataBaseResult='<%= DataBase_Res %>'
+	if(DataBaseResult != '' ){
+		DataBaseResult=DataBaseResult.replace(/&quot;/g,'"');
+		var DataBaseResultJson=$.parseJSON(DataBaseResult);
+		var tbl_body="";
+		$.each(DataBaseResultJson,function(){
+			var tbl_row="";
+			$.each(this,function(k,v){
+				tbl_row+="<td>"+v+"</td>";
+			});
+			tbl_body+="<tr>"+tbl_row+"</tr>";
+		});
+		$("#server_list11 tbody").html(tbl_body);
+	}
+    </script>
+	<script type="text/javascript">
+		$(function(){
+			//1. ????:
+			$("form").validation();
+			$("button[id='FirstNext']").on('click',function(event){
+			// 2.????? valid()???
+			if ($("form").valid()==false){
+				$("#error-text").text("error!");
+				return false;
+			}
+		})  })
+	</script>
+	<!--script type="text/javascript">
+		$(function(){
+			$("button[id='SecondNext']").on('click',function(){
+				document.getElementById("SecondNext").value="helloworld";
+			})
+		})
+	</script-->
+    <script >
+	var flag='<%= flag %>';
+	if('true'==flag){
+//		document.getElementById("add_server_link_id").className="active ";
+//		document.getElementById("server_list_link_id").className=null;
+		$('#add_server_link_id a').click();
+		$('#CheckHost').modal('toggle');
+		document.getElementById("CheckResult").innerHTML='<%= CheckRes %>';
+	}
+	
+    </script>
+<% include footer.html %>
+
+

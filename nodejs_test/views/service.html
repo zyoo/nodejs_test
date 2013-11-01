@@ -1,0 +1,928 @@
+<% include header.html %>
+	<div class="container col-md-12">
+		<div class="row">
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#services-list" data-toggle="tab"><h5>services list</h5></a></li>
+				<li><a href="#add-service" data-toggle="tab"><h5>add service</h5></a></li>
+				<li><a href="#remove-service" data-toggle="tab"><h5>remove service</h5></a></li>
+			</ul>
+
+<!-- Tab panes -->
+			<div class="tab-content">
+				<div class="tab-pane active" id="services-list">
+					<div class="col-md-3">
+					
+						<ul class="nav nab-tabs">
+							<li>
+								<a href="#hdfs" data-toggle="tab">hdfs</a>
+							</li>
+							<li>
+								<a href="#mapreduce" data-toggle="tab">mapreduce</a>
+							</li>
+							<li>
+								<a href="#">hbase</a>
+							</li>
+
+							<li>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">其他服务<b class="caret"></b></a>
+					  		<ul class="dropdown-menu">
+						    		<li><a href="#">hive</a></li>
+						    		<li><a href="#">zookeeper</a></li>
+						    		<li><a href="#">Something else here</a></li>
+						    		<li class="divider"></li>
+						    		<li><a href="#">Separated link</a></li>
+					  		</ul>
+							</li>
+						</ul>
+					</div>
+					<div class="col-md-8 tab-content">
+						<div id="hdfs" class="tab-pane">
+							<ul class="nav nav-tabs">
+								<li class="active"><a href="#Info" data-toggle="tab">Info</a></li>
+								<li><a href="#Config" data-toggle="tab">Config</a></li>
+								<li><a href="#Action" data-toggle="tab">Action</a></li>
+								<div class="pull-right">
+									<button type="button" class="btn btn-info" data-toggle="modal" data-target="#ChoseComponentsForNewNode">add new service node</button>
+									<div class="modal fade" id="ChoseComponentsForNewNode" tabindex="-1" role="dialog" aria-labelledby="Chose Components For New Node" aria-hidden="true">
+										<div class="modal-dialog">
+										    <div class="modal-content">
+										      <div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+											<h4 class="modal-title" id="ChoseComponentsForNewNodeLabel">Chose Components For New Node</h4>
+										      </div>
+										      <div class="modal-body">
+												<input type="checkbox" >NameNode</input>
+												<br>
+												<input type="checkbox">DataNode</input>
+												<br>
+												<input type="checkbox">SecondaryNamenode</input>
+										      </div>
+										      <div class="modal-footer">
+											<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+											<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#AddNewNode">next</button>
+											
+											
+										      </div>
+										    </div><!-- /.modal-content -->
+										  </div><!-- /.modal-dialog -->
+									</div>
+									<div class="modal fade" id="AddNewNode" tabindex="-1" role="dialog" aria-labelledby="AddNewNode" aria-hidden="true">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+													<h4 class="modal-title" id="AddNewNodeLabel">Chose Components For New Node</h4>
+												</div>
+												<div class="modal-body">
+														
+															
+													<div class="panel-group" id="accordionAddNewNode">
+														<div class="panel panel-default">
+															<div class="panel-heading">
+															      <h4 class="panel-title">
+																<a data-toggle="collapse" data-parent="#accordionAddNewNode" href="#AddHostsForNameNode">
+																	NameNode
+																</a>
+															      </h4>
+															</div>
+															<div id="AddHostsForNameNode" class="panel-collapse collapse in">
+															      <div class="panel-body">
+																	
+																	<input type="checkbox">121.mzhen.cn</input>
+																	<br>
+																	<input type="checkbox">122.mzhen.cn</input>
+																
+															      </div>
+															</div>
+														</div>
+														<div class="panel panel-default">
+															<div class="panel-heading">
+															      <h4 class="panel-title">
+																<a data-toggle="collapse" data-toggle="collapse" data-parent="#accordionAddNewNode" href="#AddHostsForSecondaryNameNode">
+																	SecondaryNameNode
+																</a>
+															      </h4>
+															</div>
+															<div id="AddHostsForSecondaryNameNode" class="panel-collapse collapse in">
+															      <div class="panel-body">
+																	<input type="checkbox">122.mzhen.cn</input>
+															      </div>
+															</div>
+														</div>
+														<div class="panel panel-default">
+															<div class="panel-heading">
+															      <h4 class="panel-title">
+																<a data-toggle="collapse" data-toggle="collapse" data-parent="#accordionAddNewNode" href="#AddHostsForDataNode">
+																  DataNode
+																</a>
+															      </h4>
+															</div>
+															<div id="AddHostsForDataNode" class="panel-collapse collapse in">
+															      <div class="panel-body">
+																	<input type="checkbox">122.mzhen.cn</input>
+															      </div>
+															</div>
+														</div>
+													</div>
+															<br><br>
+															
+															
+														
+														
+												      </div>
+												      <div class="modal-footer">
+													<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+													<button type="button" class="btn btn-primary">next</button>
+													
+													
+												</div>
+											</div><!-- /.modal-content -->
+										</div><!-- /.modal-dialog -->
+									</div>
+									<button type="button" class="btn btn-primary" href="#">Start all</button>
+									<button type="button" class="btn btn-default" href="#">Stop all</button>
+								</div>
+							</ul>
+							
+	<!-- Tab panes -->
+							<div class="tab-content">
+								<div class="tab-pane active" id="Info">
+									<p>Here is some info of the service, the info includes the hdfs 's deployment Information and the hdfs's operating status</p>
+									<div>
+										<div class="table-responsive">
+											<table class="table">
+												<tbody>
+													<tr>
+														<td>
+															NameNode
+														</td>
+														<td>
+															<div>
+															
+																<span class="glyphicon glyphicon-star"></span>
+																<a href="#">120.mzhen.cn</a> 
+																
+																<a href="#" data-toggle="modal" data-target="#more-info-NameNode">more info</a>
+																<div class="modal fade" id="more-info-NameNode" tabindex="-1" role="dialog" aria-hidden="true">
+																	<div class="modal-dialog">
+																	    <div class="modal-content">
+																	      <div class="modal-header">
+																		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+																		<h4 class="modal-title" id="myModalLabel">NameNode Status</h4>
+																	      </div>
+																	      <div class="modal-body">
+																			<p> here is the status of the NameNode.<b>live </b> </p>
+																			
+																	      </div>
+																	      <div class="modal-footer">
+																		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+															
+																	      </div>
+																	    </div><!-- /.modal-content -->
+																	</div>
+																</div>
+															</div>
+														</td>
+													</tr>
+													<tr>
+														<td>
+														
+															Secondary NameNode
+														</td>
+														<td>
+															<div>
+																<a href="#">121.mzhen.cn</a>
+																
+																
+																<a href="#" data-toggle="modal" data-target="#more-info-SecondaryNameNode">more info</a>
+																<div class="modal fade" id="more-info-SecondaryNameNode" tabindex="-1" role="dialog" aria-hidden="true">
+																	<div class="modal-dialog">
+																	    <div class="modal-content">
+																	      <div class="modal-header">
+																		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+																		<h4 class="modal-title" id="myModalLabel">SecondaryNameNode Status</h4>
+																	      </div>
+																	      <div class="modal-body">
+																			<p> here is the status of the NameNode. <b>live</b></p>
+																			
+																	      </div>
+																	      <div class="modal-footer">
+																		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+															
+																	      </div>
+																	    </div><!-- /.modal-content -->
+																	</div>
+																</div>
+															</div>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															DataNodes
+														</td>
+														<td>
+															<!-- how do better from the translate.google!-->
+															<div>
+																<!--a >n DataNodes</a-->
+																<p>3 DataNodes
+																<a href="#" data-toggle="modal" data-target="#more-info-DataNodes">more info</a></p>
+																<div class="modal fade" id="more-info-DataNodes" tabindex="-1" role="dialog" aria-hidden="true">
+																	<div class="modal-dialog">
+																	    <div class="modal-content">
+																	      <div class="modal-header">
+																		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+																		<h4 class="modal-title" id="myModalLabel">DataNodes and their Status</h4>
+																	      </div>
+																	      <div class="modal-body">
+																			<p> here is the status of the DataNode. </p>
+																			<p>0 live / 3 dead / 0 decommissioning</p>
+																			<a href="#">120.mzhen.cn</a>
+																			<b>live</b>
+																			<a href="#" data-toggle="modal" data-target="#more-info-120mzhencn">more info</a>
+																	      </div>
+																	      <div class="modal-footer">
+																		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+															
+																	      </div>
+																	    </div><!-- /.modal-content -->
+																	</div>
+																	
+																</div>
+															</div>
+															
+															<div class="modal fade" id="more-info-120mzhencn" tabindex="-1" role="dialog" aria-hidden="true">
+																<div class="modal-dialog">
+																	<div class="modal-content">
+																		<div class="modal-header">
+																			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+																			<h4 class="modal-title" id="120.mzhen.cn-DataNode">120.mzhen.cn Status</h4>
+																		</div>
+																		<div class="modal-body">
+																			<p> here is the status of the NameNode. </p>
+																			
+																		</div>
+																		<div class="modal-footer">
+																			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+															
+																		</div>
+																	</div><!-- /.modal-content -->
+																</div>
+															</div>	
+																
+															
+														</td>
+													</tr>
+													<tr>
+														<td>
+															Version
+														</td>
+														<td>
+															<p>1.1.1.1.1</p>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															NameNode UI
+														</td>
+														<td>
+															<a href="#">Web UI</a>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															NameNode Uptime
+														</td>
+														<td>
+															<!-- here should be updated every 1~3 hours-->
+															<p>10000 days</p>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															NameNode Heap
+														</td>
+														<td>
+															<!-- here should be updated every minute-->
+															<p>1000 M / 2000 M (50% used)</p>
+														</td>
+													</tr>
+													<tr>
+												
+														<td>
+															DataNodes Status
+														</td>
+														<td>
+															<p>
+																0 live / 3 dead / 0 decommissioning 
+																<a href="#" data-toggle="modal" data-target="#more-info">more info</a>
+																<div class="modal fade" id="more-info" tabindex="-1" role="dialog" aria-hidden="true">
+																	<div class="modal-dialog">
+																	    <div class="modal-content">
+																	      <div class="modal-header">
+																		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+																		<h4 class="modal-title" id="myModalLabel">Data Status</h4>
+																	      </div>
+																	      <div class="modal-body">
+																			<p> here is the status of every datanodes,if you want more info,please go to the hosts page. </p>
+																			<div class="table-responsive">
+																				<table class="table">
+																					<tbody>
+																						<tr>
+																							<td>
+																								<a href="#">123.mzhen.cn</a>
+																							</td>
+																							<td>
+																								<p>dead</p>
+																							</td>
+																						</tr>
+																						<tr>
+																							<td>
+																								<a href="#">124.mzhen.cn</a>
+																							</td>
+																							<td>
+																								<p>dead</p>
+																							</td>
+																						</tr>
+																						<tr>
+																							<td>
+																								<a href="#">125.mzhen.cn</a>
+																							</td>
+																							<td>
+																								<p>dead</p>
+																							</td>
+																						</tr>
+																					</tbody>
+																				</table>
+																			</div>
+																	      </div>
+																	      <div class="modal-footer">
+																		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+															
+																	      </div>
+																	    </div><!-- /.modal-content -->
+																	</div>
+																</div>
+															
+															</p>
+														</td>
+													</tr>
+											
+													<tr>
+														<td>
+															HDFS Disk Capacity
+														</td>
+														<td>
+															<p>n/a / n/a (0 % used)</p>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															blocks(total)
+														</td>
+														<td>
+															<p>9</p>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															block errors
+														</td>
+														<td>
+															<p>
+																0 corrupt / 0 missing / 9 under replicated
+																<a href="#" data-toggle="modal" data-target="#more-info-block-errors">more info</a>
+																<div class="modal fade" id="more-info-block-errors" tabindex="-1" role="dialog" aria-hidden="true">
+																	<div class="modal-dialog">
+																	    <div class="modal-content">
+																	      <div class="modal-header">
+																		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+																		<h4 class="modal-title" id="myModalLabel">HDFS Blocks Status</h4>
+																	      </div>
+																	      <div class="modal-body">
+																			<p> here is the status of every hdfs blocks,if you want more info,please go to the hosts page. </p>
+																			<div class="table-responsive">
+																				<table class="table">
+																					<tbody>
+																						<tr>
+																							<td>
+																								block 1
+																							</td>
+																							<td>
+																								<a href="#">123.mzhen.cn</a>
+																							</td>
+																							<td>
+																								<p>dead</p>
+																							</td>
+																						</tr>
+																						<tr>
+																							<td>
+																								block 2
+																							</td>
+																							<td>
+																								<a href="#">124.mzhen.cn</a>
+																							</td>
+																							<td>
+																								<p>dead</p>
+																							</td>
+																						</tr>
+																						<tr>
+																							<td>
+																								block 3
+																							</td>
+																							<td>
+																								<a href="#">125.mzhen.cn</a>
+																							</td>
+																							<td>
+																								<p>dead</p>
+																							</td>
+																						</tr>
+																						
+																						<tr>
+																							<td>
+																								...
+																							</td>
+																						</tr>
+																					</tbody>
+																				</table>
+																			</div>
+																	      </div>
+																	      <div class="modal-footer">
+																		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+															
+																	      </div>
+																	    </div><!-- /.modal-content -->
+																	</div>
+																</div>
+															</p>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															Total Files+ Directories
+														</td>
+														<td>
+															<p>30</p>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															Upgrade Status
+														</td>
+														<td>
+															<p>No pending upgrade</p>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															Safe Mode Status
+														</td>
+														<td>
+															<p>Not in safe mode</p>
+														</td>
+													</tr>
+												</tbody>
+											</table>				
+										</div>
+									</div>
+									<p>Here is some charts of the service(hdfs)</p>
+									<div>
+										<img src="./20100108135852447.jpg" class="img-responsive" alt="Responsive image">
+									</div>
+									<br>
+									<br>
+									
+								</div>
+								<div class="tab-pane" id="Config">
+									<form class="form-horizontal">
+										<p>here is some config info of the service</p>
+										<div class="panel-group" id="accordion">
+										  <div class="panel panel-default">
+										    <div class="panel-heading">
+										      <h4 class="panel-title">
+											<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+												NameNode
+											</a>
+										      </h4>
+										    </div>
+										    <div id="collapseOne" class="panel-collapse collapse in">
+										      <div class="panel-body">
+												<label>NameNode directories</label>
+												<input type="textarea"  class="form-control" name="namenode-directories" value="/home/hadoop/hdfs/namenode">
+												<br><br>
+												<label>NameNode Java Heap Size(MB)</label>
+												<input type="textarea"  class="form-control" name="namenode-JavaHeapSize" value="1024">
+												<br><br>
+												<label>NameNode New Generation Size(MB)</label>
+												<input type="textarea"  class="form-control" name="namenode-NewGenerationSize" value="200">
+												<br><br>
+												<label>NameNode host</label>
+												<p name="namenode-Host">121.mzhen.cn</p>
+										      </div>
+										    </div>
+										  </div>
+										  <div class="panel panel-default">
+										    <div class="panel-heading">
+										      <h4 class="panel-title">
+											<a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+												SecondaryNameNode
+											</a>
+										      </h4>
+										    </div>
+										    <div id="collapseTwo" class="panel-collapse collapse in">
+										      <div class="panel-body">
+												<label>SecondaryNameNode directories</label>
+												<input type="textarea"  class="form-control" name="secondarynamenode-directories" value="/home/hadoop/hdfs/secondarynamenode">
+												<br><br>
+												<label>SecondaryNameNode host</label>
+												<p name="secondarynamenode-Host">122.mzhen.cn</p>
+										      </div>
+										    </div>
+										  </div>
+										  <div class="panel panel-default">
+										    <div class="panel-heading">
+										      <h4 class="panel-title">
+											<a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+											  DataNode
+											</a>
+										      </h4>
+										    </div>
+										    <div id="collapseThree" class="panel-collapse collapse in">
+										      <div class="panel-body">
+												<label>DataNode directories</label>
+												<input type="textarea"  class="form-control" name="datanode-directories" value="/home/hadoop/hdfs/datanode">
+												<br><br>
+												<label>DataNode Volumes Failure Toleration</label>
+												<input type="textarea"  class="form-control" name="datanode-VolumesFailureToleration" value="0">
+												<br><br>
+												<label>DataNode Maximum Java Heap Size</label>
+												<input type="textarea"  class="form-control" name="datanode-MaximumJavaHeapSize" value="1024">
+										      </div>
+										    </div>
+										  </div>
+										  <div class="panel panel-default">
+										    <div class="panel-heading">
+										      <h4 class="panel-title">
+											<a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+												Gerneral
+											</a>
+										      </h4>
+										    </div>
+										    <div id="collapseFour" class="panel-collapse collapse in">
+										      <div class="panel-body">
+												<label>Hadoop Maximum Java Heap Size(MB)</label>
+												<input type="textarea"  class="form-control" name="hadoop-MaximumJavaHeapSize" value="1024">
+												<br><br>
+												<label>HDFS Maximum Checkpoint Delay(s-second)</label>
+												<input type="textarea"  class="form-control" name="hdfs-MaximumCheckpointDelay" value="21600">
+												<br><br>
+												<label>Reserved Space For HDFS</label>
+												<input type="textarea"  class="form-control" name="ReservedSpaceForHDFS" value="1">
+												<br><br>
+												<label>WebHDFS enabled</label>
+												<input type="checkbox" name="WebHDFS-enabled" value="1" checked="checked"> </input>
+										      </div>
+										    </div>
+										  </div>
+										</div>
+										<br><br>
+										
+										<button type="button" class="btn btn-primary pull-right">save</button>
+									
+									</form>
+								</div>
+								<div class="tab-pane" id="Action">
+									<p>start and stop node's service is here</p>
+									<div class="table-responsive">
+										<table class="table">
+											<thead>
+												<tr>
+													<th>
+														host
+													</th>
+													<th>
+														role
+													</th>
+													<th>
+														status
+													</th>
+													<th>
+														Start-action
+													</th>
+													<th>
+														Stop-action
+													</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>
+														<a href="#">120.mzhen.cn</a>
+													</td>
+													<td>
+														datanode
+													</td>
+													<td>
+														health <a href="#">more info</a>
+													</td>
+													<td>
+														<button type="button" class="btn btn-primary">Start</button>
+													</td>
+													<td>
+														<button type="button" class="btn btn-default disabled">Stop</button>
+													</td>
+													
+												</tr>
+											</tbody>
+										
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div id="mapreduce" class="tab-pane">
+							hell world
+						</div>
+					</div>
+					<div class="col-md-1">
+					</div>
+				</div>
+				<div class="tab-pane" id="add-service">
+					<div class="row">
+						<br>
+						<br>
+
+						<div class="container col-md-12">
+							<table class="table">
+								<tr>
+									<td> </td>
+									<td style="width:15%">
+										service name
+									</td>
+									<td style="width:10%">
+										version
+									</td>
+									<td style="width:75%">
+										service brief introduction
+									</td>
+								</tr>
+								
+								<tr>
+									<td>
+										<input type="radio" name="serviceChoice">
+									</td>
+									<td>
+										hdfs
+									</td>
+									<td>
+										1.1.1.1
+									</td>
+									<td>
+										hdfs is a distributed file system
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<input type="radio" name="serviceChoice">
+									</td>
+									<td>
+										mapreduce
+									</td>
+									<td>
+										1.1.1.1
+									</td>
+									<td>
+										mapreduce is a distributed computing framework
+									</td>
+								</tr>
+							</table>
+
+							<br><br>
+							<button class="btn btn-primary pull-right" data-toggle="modal" data-target="#AddHostsForService">add</button>
+							<div class="modal fade" id="AddHostsForService" tabindex="-1" role="dialog" aria-labelledby="add hosts for service" aria-hidden="true">
+								<div class="modal-dialog">
+								    <div class="modal-content">
+								      <div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+									<h4 class="modal-title" id="AddHostsForServiceLabel">Add Hosts For Service</h4>
+								      </div>
+								      <div class="modal-body">
+										<form class="form-horizontal">
+											
+											<div class="panel-group" id="accordion">
+											  <div class="panel panel-default">
+											    <div class="panel-heading">
+											      <h4 class="panel-title">
+												<a data-toggle="collapse" data-parent="#accordion" href="#AddHostsForNameNode">
+													NameNode
+												</a>
+											      </h4>
+											    </div>
+											    <div id="AddHostsForNameNode" class="panel-collapse collapse in">
+											      <div class="panel-body">
+													
+													<input type="checkbox">121.mzhen.cn</input>
+													<br>
+													<input type="checkbox">122.mzhen.cn</input>
+												
+											      </div>
+											    </div>
+											  </div>
+											  <div class="panel panel-default">
+											    <div class="panel-heading">
+											      <h4 class="panel-title">
+												<a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#AddHostsForSecondaryNameNode">
+													SecondaryNameNode
+												</a>
+											      </h4>
+											    </div>
+											    <div id="AddHostsForSecondaryNameNode" class="panel-collapse collapse in">
+											      <div class="panel-body">
+													<input type="checkbox">122.mzhen.cn</input>
+											      </div>
+											    </div>
+											  </div>
+											  <div class="panel panel-default">
+											    <div class="panel-heading">
+											      <h4 class="panel-title">
+												<a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#AddHostsForDataNode">
+												  DataNode
+												</a>
+											      </h4>
+											    </div>
+											    <div id="AddHostsForDataNode" class="panel-collapse collapse in">
+											      <div class="panel-body">
+													<input type="checkbox">122.mzhen.cn</input>
+											      </div>
+											    </div>
+											  </div>
+											</div>
+											<br><br>
+											
+											
+										
+										</form>
+								      </div>
+								      <div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+									<button type="button" class="btn btn-primary" href="#Config">Add</button>
+								      </div>
+								    </div><!-- /.modal-content -->
+								  </div><!-- /.modal-dialog -->
+							</div>
+						</div>
+						<div class="container col-md-1">
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane" id="remove-service">
+					<div class="row">
+						<br>
+						<br>
+						<div class="container col-md-12">
+							
+							<div class="table-responsive">
+								<table class="table">
+									<tr>
+										<td> </td>
+										<td style="width:15%">
+											service name
+										</td>
+										<td style="width:10%">
+											version
+										</td>
+										<td style="width:10%">
+											status
+										</td>
+										<td style="width:65%">
+											service brief introduction
+										</td>
+									</tr>
+									
+									<tr>
+										<td>
+											<input type="radio" name="serviceChoice">
+										</td>
+										<td>
+											hdfs
+										</td>
+										<td>
+											1.1.1.1
+										</td>
+										<td>
+											health running
+										</td>
+										<td>
+											hdfs is a distributed file system
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<input type="radio" name="serviceChoice">
+										</td>
+										<td>
+											mapreduce
+										</td>
+										<td>
+											1.1.1.1
+										</td>
+										<td>
+											health running
+										</td>
+										<td>
+											mapreduce is a distributed computing framework
+										</td>
+									</tr>
+								</table>
+							</div>
+							<br><br>
+							<button class="btn btn-primary pull-right" data-toggle="modal" data-target="#StopService">remove</button>
+							<div class="modal fade" id="StopService" tabindex="-1" role="dialog" aria-labelledby="add hosts for service" aria-hidden="true">
+								<div class="modal-dialog">
+								    <div class="modal-content">
+								      <div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+									<h4 class="modal-title" id="AddHostsForServiceLabel">Stop Service</h4>
+								      </div>
+								      <div class="modal-body">
+										<form class="form-horizontal">
+											
+											<div class="panel-group" id="accordion">
+											  <div class="panel panel-default">
+											    <div class="panel-heading">
+											      <h4 class="panel-title">
+												<a data-toggle="collapse" data-parent="#accordion" href="#AddHostsForNameNode">
+													NameNode
+												</a>
+											      </h4>
+											    </div>
+											    <div id="AddHostsForNameNode" class="panel-collapse collapse in">
+											      <div class="panel-body">
+													
+													<input type="checkbox">121.mzhen.cn</input>
+													<br>
+													<input type="checkbox">122.mzhen.cn</input>
+												
+											      </div>
+											    </div>
+											  </div>
+											  <div class="panel panel-default">
+											    <div class="panel-heading">
+											      <h4 class="panel-title">
+												<a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#AddHostsForSecondaryNameNode">
+													SecondaryNameNode
+												</a>
+											      </h4>
+											    </div>
+											    <div id="AddHostsForSecondaryNameNode" class="panel-collapse collapse in">
+											      <div class="panel-body">
+													<input type="checkbox">122.mzhen.cn</input>
+											      </div>
+											    </div>
+											  </div>
+											  <div class="panel panel-default">
+											    <div class="panel-heading">
+											      <h4 class="panel-title">
+												<a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#AddHostsForDataNode">
+												  DataNode
+												</a>
+											      </h4>
+											    </div>
+											    <div id="AddHostsForDataNode" class="panel-collapse collapse in">
+											      <div class="panel-body">
+													<input type="checkbox">122.mzhen.cn</input>
+											      </div>
+											    </div>
+											  </div>
+											</div>
+											<br><br>
+											
+											
+										
+										</form>
+								      </div>
+								      <div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+									<button type="button" class="btn btn-primary" href="#Config">Stop</button>
+								      </div>
+								    </div><!-- /.modal-content -->
+								  </div><!-- /.modal-dialog -->
+							</div>
+						</div>
+						<div class="container col-md-1">
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<% include footer.html %>
