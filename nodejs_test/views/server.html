@@ -41,7 +41,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
+							<!--tr>
 								<td>
 									<a href="./host_demo.html">120.mzhen.cn</a>
 								</td>
@@ -70,7 +70,7 @@
 							  		</ul>
 									</div>
 								</td>
-							</tr>
+							</tr-->
 						</tbody>
 					</table>				
 					</div>
@@ -275,6 +275,52 @@
     <script src="/javascripts/bootstrap.min.js"></script>
     <script src="/javascripts/bootstrap3-validation.js"></script>
     <script src="/javascripts/json-to-table.js"></script>
+    <script type="text/javascript">
+	function get_data()
+	{
+		$.ajax({
+			url: '/server',
+			success: function(data) {
+				var DataBaseResult='<%= DataBase_Res %>'
+				if(DataBaseResult != '' ){
+					DataBaseResult=DataBaseResult.replace(/&quot;/g,'"');
+					var DataBaseResultJson=$.parseJSON(DataBaseResult);
+					var tbl_body="";
+					$.each(DataBaseResultJson,function(){
+						var tbl_row="";
+						$.each(this,function(k,v){
+							if(k=='role_name'){
+								if(v == ''){
+									tbl_row+="<td>no services on the host</td>";
+								}
+								else{
+								var str_role=new Array();
+									while(-1 != v.indexOf(',')){
+										str_role.push(v.substr(0,v.indexOf(',')));
+										v=v.substr(v.indexOf(',')+1);
+									}
+									str_role.push(v);
+									tbl_row+="<td> <div class='dropdown'> <a class=dropdown-toggle' data-toggle='dropdown'>Components<b class='caret'></b></a><ul class='dropdown-menu'>";
+									for(var j=0;j<str_role.length;j++){
+										tbl_row+=("<li><a href='#'>"+str_role[j]+"</a></li>");
+									}
+									tbl_row+="</ul></div></td>";
+								}
+							}
+							else{
+								tbl_row+="<td>"+v+"</td>";
+							}
+						});
+						tbl_body+="<tr>"+tbl_row+"</tr>";
+					});
+					$("#server_list11 tbody").html(tbl_body);
+					
+				}
+			});
+		}
+	}
+	setInterval("get_data()",10000);//3?????
+    </script>
     <script language="JavaScript">
 	function myrefresh()
 	{
@@ -295,13 +341,49 @@
 		$.each(DataBaseResultJson,function(){
 			var tbl_row="";
 			$.each(this,function(k,v){
-				tbl_row+="<td>"+v+"</td>";
+				if(k=='role_name'){
+					if(v == ''){
+						tbl_row+="<td>no services on the host</td>";
+					}
+					else{
+					var str_role=new Array();
+						while(-1 != v.indexOf(',')){
+							str_role.push(v.substr(0,v.indexOf(',')));
+							v=v.substr(v.indexOf(',')+1);
+						}
+						str_role.push(v);
+						tbl_row+="<td> <div class='dropdown'> <a class=dropdown-toggle' data-toggle='dropdown'>Components<b class='caret'></b></a><ul class='dropdown-menu'>";
+						for(var j=0;j<str_role.length;j++){
+							tbl_row+=("<li><a href='#'>"+str_role[j]+"</a></li>");
+						}
+						tbl_row+="</ul></div></td>";
+					}
+				}
+				else{
+					tbl_row+="<td>"+v+"</td>";
+				}
 			});
 			tbl_body+="<tr>"+tbl_row+"</tr>";
 		});
 		$("#server_list11 tbody").html(tbl_body);
 	}
     </script>
+	<!--script type="text/javascript">/*<![CDATA[*/
+		var strJson = "[{username:'guosheng',password:'123456'},{username:'hanhan',password:'123s'}]";
+		function setStr()
+		{
+		  var list = (new Function("return ("+ strJson +")"))();
+		  for(var i=0; i<list.length; i++){
+		    var s="";
+		    for(var e in list[i]){
+		      s += e +"="+ list[i][e] +"\n";
+		    }
+		    alert(s);
+		  }
+		}
+		setStr();
+	</script-->
+    
 	<script type="text/javascript">
 		$(function(){
 			//1. ????:
@@ -332,6 +414,7 @@
 	}
 	
     </script>
+
 <% include footer.html %>
 
 

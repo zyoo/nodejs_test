@@ -2,9 +2,9 @@
 	<div class="container col-md-12">
 		<div class="row">
 			<ul class="nav nav-tabs">
-				<li class="active"><a href="#services-list" data-toggle="tab"><h5>services list</h5></a></li>
-				<li><a href="#add-service" data-toggle="tab"><h5>add service</h5></a></li>
-				<li><a href="#remove-service" data-toggle="tab"><h5>remove service</h5></a></li>
+				<li id='services-list-id' class="active"><a href="#services-list" data-toggle="tab"><h5>services list</h5></a></li>
+				<li id='add-service-id'><a href="#add-service" data-toggle="tab"><h5>add service</h5></a></li>
+				<li id='remove-service-id'><a href="#remove-service" data-toggle="tab"><h5>remove service</h5></a></li>
 			</ul>
 
 <!-- Tab panes -->
@@ -653,122 +653,128 @@
 						<br>
 
 						<div class="container col-md-12">
-							<table class="table">
-								<tr>
-									<td> </td>
-									<td style="width:15%">
-										service name
-									</td>
-									<td style="width:10%">
-										version
-									</td>
-									<td style="width:75%">
-										service brief introduction
-									</td>
-								</tr>
-								
-								<tr>
-									<td>
-										<input type="radio" name="serviceChoice">
-									</td>
-									<td>
-										hdfs
-									</td>
-									<td>
-										1.1.1.1
-									</td>
-									<td>
-										hdfs is a distributed file system
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<input type="radio" name="serviceChoice">
-									</td>
-									<td>
-										mapreduce
-									</td>
-									<td>
-										1.1.1.1
-									</td>
-									<td>
-										mapreduce is a distributed computing framework
-									</td>
-								</tr>
-							</table>
-
-							<br><br>
-							<button class="btn btn-primary pull-right" data-toggle="modal" data-target="#AddHostsForService">add</button>
-							<div class="modal fade" id="AddHostsForService" tabindex="-1" role="dialog" aria-labelledby="add hosts for service" aria-hidden="true">
-								<div class="modal-dialog">
-								    <div class="modal-content">
-								      <div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-									<h4 class="modal-title" id="AddHostsForServiceLabel">Add Hosts For Service</h4>
-								      </div>
-								      <div class="modal-body">
-										<form class="form-horizontal">
-											
-											<div class="panel-group" id="accordion">
-											  <div class="panel panel-default">
-											    <div class="panel-heading">
-											      <h4 class="panel-title">
-												<a data-toggle="collapse" data-parent="#accordion" href="#AddHostsForNameNode">
-													NameNode
-												</a>
-											      </h4>
-											    </div>
-											    <div id="AddHostsForNameNode" class="panel-collapse collapse in">
-											      <div class="panel-body">
-													
-													<input type="checkbox">121.mzhen.cn</input>
-													<br>
-													<input type="checkbox">122.mzhen.cn</input>
-												
-											      </div>
-											    </div>
-											  </div>
-											  <div class="panel panel-default">
-											    <div class="panel-heading">
-											      <h4 class="panel-title">
-												<a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#AddHostsForSecondaryNameNode">
-													SecondaryNameNode
-												</a>
-											      </h4>
-											    </div>
-											    <div id="AddHostsForSecondaryNameNode" class="panel-collapse collapse in">
-											      <div class="panel-body">
-													<input type="checkbox">122.mzhen.cn</input>
-											      </div>
-											    </div>
-											  </div>
-											  <div class="panel panel-default">
-											    <div class="panel-heading">
-											      <h4 class="panel-title">
-												<a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#AddHostsForDataNode">
-												  DataNode
-												</a>
-											      </h4>
-											    </div>
-											    <div id="AddHostsForDataNode" class="panel-collapse collapse in">
-											      <div class="panel-body">
-													<input type="checkbox">122.mzhen.cn</input>
-											      </div>
-											    </div>
-											  </div>
-											</div>
-											<br><br>
-											
-											
+							<form method='post' action='/service/select_service'>
+								<table class="table">
+									<tr>
+										<td> </td>
+										<td style="width:15%">
+											service name
+										</td>
+										<td style="width:10%">
+											version
+										</td>
+										<td style="width:75%">
+											service brief introduction
+										</td>
+									</tr>
+									
+									<tr name='hdfs_tr'>
+										<td>
+											<input type="radio" name="serviceChoice" value='hdfs'>
+										</td>
 										
-										</form>
-								      </div>
-								      <div class="modal-footer">
-									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-									<button type="button" class="btn btn-primary" href="#Config">Add</button>
-								      </div>
-								    </div><!-- /.modal-content -->
-								  </div><!-- /.modal-dialog -->
+										<td>
+											hdfs
+										</td>
+										<td>
+											1.1.1.1
+										</td>
+										<td>
+											hdfs is a distributed file system
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<input type="radio" name="serviceChoice" value='mapreduce'>
+										</td>
+										<td>
+											mapreduce
+										</td>
+										<td>
+											1.1.1.1
+										</td>
+										<td>
+											mapreduce is a distributed computing framework
+										</td>
+									</tr>
+								</table>
+								<br><br>
+								<!--button type='submit' class="btn btn-primary pull-right" data-toggle="modal" data-target="#AddHostsForService">add</button-->
+								<button type='submit' class='btn btn-primary pull-right' id='selectService'>select</button>
+							</form>
+							<div id='SelectHostsForService'>
+								<form  method='post' action='/service/select_hosts_for_service' class='form-horizontal'>
+									<div class="modal fade" id="AddHostsForService" tabindex="-1" role="dialog" aria-labelledby="add hosts for service" aria-hidden="true">
+										<div class="modal-dialog">
+										    <div class="modal-content">
+										      <div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+											<h4 class="modal-title" id="AddHostsForServiceLabel">Add Hosts For Service Components</h4>
+										      </div>
+										      <div id='AddHostsForComponentsModalBody' class="modal-body">
+												
+													
+													<div class="panel-group" id="accordion1">
+													  <div class="panel panel-default">
+													    <div class="panel-heading">
+													      <h4 class="panel-title">
+														<a data-toggle="collapse" data-parent="#accordion" href="#AddHostsForNameNode">
+															NameNode
+														</a>
+													      </h4>
+													    </div>
+													    <div id="AddHostsForNameNode" class="panel-collapse collapse in">
+													      <div class="panel-body">
+															
+															<input type="checkbox">121.mzhen.cn</input>
+															<br>
+															<input type="checkbox">122.mzhen.cn</input>
+														
+													      </div>
+													    </div>
+													  </div>
+													  <div class="panel panel-default">
+													    <div class="panel-heading">
+													      <h4 class="panel-title">
+														<a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#AddHostsForSecondaryNameNode">
+															SecondaryNameNode
+														</a>
+													      </h4>
+													    </div>
+													    <div id="AddHostsForSecondaryNameNode" class="panel-collapse collapse in">
+													      <div class="panel-body">
+															<input type="checkbox">122.mzhen.cn</input>
+													      </div>
+													    </div>
+													  </div>
+													  <div class="panel panel-default">
+													    <div class="panel-heading">
+													      <h4 class="panel-title">
+														<a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#AddHostsForDataNode">
+														  DataNode
+														</a>
+													      </h4>
+													    </div>
+													    <div id="AddHostsForDataNode" class="panel-collapse collapse in">
+													      <div class="panel-body">
+															<input type="checkbox">122.mzhen.cn</input>
+													      </div>
+													    </div>
+													  </div>
+													</div>
+													<br><br>
+
+										      </div>
+										      <div class="modal-footer">
+											<form action='/service/select_hosts_for_components' method='post'>
+											<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+											<button type="submit" class="btn btn-primary" href="#Config">Add</button>
+											</form>
+										      </div>
+										    </div><!-- /.modal-content -->
+										  </div><!-- /.modal-dialog -->
+									</div>
+								</form>
 							</div>
 						</div>
 						<div class="container col-md-1">
@@ -921,7 +927,56 @@
 
     </div> <!-- /container -->
 
-
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/bootstrap3-validation.js"></script>
+    <script src="/javascripts/json-to-table.js"></script>
+    <script type="text/javascript">
+	var originComponents='<%= Components %>';
+	var HostList='<%= HostList %>';
+	if(originComponents != ''){
+		if(HostList != '' ){
+			HostList=HostList.replace(/&quot;/g,'"');
+			var HostListJson=$.parseJSON(HostList);
+			var arrComponents=originComponents.split(",");
+			var SelectHostsForComponents="<form  method='post' action='/service/select_hosts_for_service' class='form-horizontal'><div class='modal fade' id='AddHostsForService' tabindex='-1' role='dialog' ara-labelledby='add hosts for service' aria-hidden='true'>"+
+			"<div class='modal-dialog'><div class='modal-content'><div class='modal-header'><button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>"+
+			"<h4 class='modal-title' id='AddHostsForServiceLabel'>Add Hosts For Service Components</h4></div><div id='AddHostsForComponentsModalBody' class='modal-body'>";
+			for(var i=0;i<arrComponents.length;i++)
+			{
+				SelectHostsForComponents+="<div class='panel panel-default'> <div class='panel-heading'><h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion1' href='#AddHostsFor"+arrComponents[i]+"'>"+arrComponents[i]+"</a>"+
+				"</h4></div><div id='AddHostsFor"+arrComponents[i]+"' class='panel-collapse collapse in'> <div class='panel-body'>";
+	
+				$.each(HostListJson,function(){
+					var hostsListTable="";
+					$.each(this,function(k,v){
+						SelectHostsForComponents+="<input type='checkbox' name='hostslist' value='"+arrComponents[i]+","+v+"'>"+v+"</input><br>";
+					});
+				});
+				SelectHostsForComponents+="</div></div></div>";
+			}
+			SelectHostsForComponents+="<br><br></div><div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>"+
+			"<button type='submit' class='btn btn-primary' href='#Config'>Add</button></div></div></div></div></form>";
+			
+			$("#SelectHostsForService").html(SelectHostsForComponents);
+		}
+	}
+	
+	
+    </script>
+    <script type="text/javascript">
+	var flag='<%= Flag %>';
+	if('true'==flag){
+//		document.getElementById("add_server_link_id").className="active ";
+//		document.getElementById("server_list_link_id").className=null;
+		$('#add-service-id a').click();
+		$('#AddHostsForService').modal('toggle');
+	}
+	else if('flase'==flag){
+		
+	}
+    </script>
+    
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
