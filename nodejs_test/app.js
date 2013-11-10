@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -70,7 +69,8 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
-            
+app.use(express.cookieParser());    
+app.use(express.session({secret: '123456789'}));
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
