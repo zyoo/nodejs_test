@@ -1,4 +1,3 @@
-
 /*
  * GET home page.
  */
@@ -127,14 +126,18 @@ exports.add_server_first=function(req,res){
                     res.render('server',{title:"Server:Add New Server",CheckRes:'the input info is illegal',DataBase_Res:''});
                 }               
         });
+        req.session.machine_host=host;
+        req.session.machin_port=port;
+        req.session.file=file;
     }
 }
 
 //function install_base_service(arg1,arg2,callback)
 exports.add_server_second=function(req,res){
-    var host=req.body.machine_host;
-    var port=req.body.machine_port;
-    var file=req.body.files;
+    // use session for transfer the args.
+    var host=req.session.machine_host;
+    var port=req.session.machine_port;
+    var file=req.session.file;
     var but_value=req.body.SecondNext;
     if(but_value=="true"){
         //call the api from xiaoqiang to install the nagios and other base service        
