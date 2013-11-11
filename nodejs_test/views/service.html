@@ -12,12 +12,12 @@
 				<div class="tab-pane active" id="services-list">
 					<div class="col-md-3">
 					
-						<ul class="nav nab-tabs">
+						<ul class="nav nab-tabs" id="service-infos">
 							<li>
-								<a href="#hdfs" data-toggle="tab">hdfs</a>
+								<a id='hdfs_label' href="#hdfs" data-toggle="tab">hdfs</a>
 							</li>
 							<li>
-								<a href="#mapreduce" data-toggle="tab">mapreduce</a>
+								<a id='mapreduce_label' href="#mapreduce" data-toggle="tab">mapreduce</a>
 							</li>
 							<li>
 								<a href="#">hbase</a>
@@ -38,9 +38,9 @@
 					<div class="col-md-8 tab-content">
 						<div id="hdfs" class="tab-pane">
 							<ul class="nav nav-tabs">
-								<li class="active"><a href="#Info" data-toggle="tab">Info</a></li>
-								<li><a href="#Config" data-toggle="tab">Config</a></li>
-								<li><a href="#Action" data-toggle="tab">Action</a></li>
+								<li id='info_label' class="active"><a href="#Info" data-toggle="tab">Info</a></li>
+								<li id='config_label'><a href="#Config" data-toggle="tab">Config</a></li>
+								<li id='action_label'><a href="#Action" data-toggle="tab">Action</a></li>
 								<div class="pull-right">
 									<button type="button" class="btn btn-info" data-toggle="modal" data-target="#ChoseComponentsForNewNode">add new service node</button>
 									<div class="modal fade" id="ChoseComponentsForNewNode" tabindex="-1" role="dialog" aria-labelledby="Chose Components For New Node" aria-hidden="true">
@@ -493,7 +493,7 @@
 									
 								</div>
 								<div class="tab-pane" id="Config">
-									<form class="form-horizontal">
+									<form class="form-horizontal" method="post" action="/service/modify_config">
 										<p>here is some config info of the service</p>
 										<div class="panel-group" id="accordion">
 										  <div class="panel panel-default">
@@ -586,7 +586,7 @@
 										</div>
 										<br><br>
 										
-										<button type="button" class="btn btn-primary pull-right">save</button>
+										<button type="submit" class="btn btn-primary pull-right">save</button>
 									
 									</form>
 								</div>
@@ -932,10 +932,24 @@
     <script src="/javascripts/bootstrap3-validation.js"></script>
     <script src="/javascripts/json-to-table.js"></script>
     <script type="text/javascript">
+
 	var originComponents='<%= Components %>';
 	var HostList='<%= HostList %>';
+	var Unique_Flag1='<%= Unique_Flag %>';
+	
+	Unique_Flag1=Unique_Flag1.replace(/&quot;/g,'"');
+	
+	Unique_Flag1=$.parseJSON(Unique_Flag1);
+	
+	var Unique_Flag_map=[];
+	for(var i=0;i<Unique_Flag1.length;i++)
+	{
+		Unique_Flag_map[Unique_Flag1[i].role_name]=Unique_Flag1[i].unique_flag;
+	}
 	if(originComponents != ''){
+		alert(originComponents);
 		if(HostList != '' ){
+			alert(HostList);
 			HostList=HostList.replace(/&quot;/g,'"');
 			var HostListJson=$.parseJSON(HostList);
 			var arrComponents=originComponents.split(",");
@@ -950,7 +964,11 @@
 				$.each(HostListJson,function(){
 					var hostsListTable="";
 					$.each(this,function(k,v){
-						SelectHostsForComponents+="<input type='checkbox' name='hostslist' value='"+arrComponents[i]+","+v+"'>"+v+"</input><br>";
+						if(Unique_Flag_map[arrComponents[i]] != '1')
+							SelectHostsForComponents+="<input type='checkbox' name='hostslist_"+arrComponents[i]+"' value='"+arrComponents[i]+","+v+"'>"+v+"</input><br>";
+						else
+							SelectHostsForComponents+="<input type='radio' name='hostslist_"+arrComponents[i]+"' value='"+arrComponents[i]+","+v+"'>"+v+"</input><br>";
+
 					});
 				});
 				SelectHostsForComponents+="</div></div></div>";
@@ -960,22 +978,79 @@
 			
 			$("#SelectHostsForService").html(SelectHostsForComponents);
 		}
+		
 	}
 	
 	
     </script>
     <script type="text/javascript">
+
 	var flag='<%= Flag %>';
+	var originComponents='<% Components %>';
+
+	var HostList='<%= HostList %>';
+	var Unique_Flag='<%= Unique_Flag %>';
+	var Config='<%= Config %>';
+
 	if('true'==flag){
+
 //		document.getElementById("add_server_link_id").className="active ";
 //		document.getElementById("server_list_link_id").className=null;
-		$('#add-service-id a').click();
-		$('#AddHostsForService').modal('toggle');
+		if(Config != '')
+		{
+			alert('hello');
+			Config=Config.replace(/&quot;/g,'"');
+			Config=eval(Config);
+			document.getElementById(Config[0].service_name).className='active '+document.getElementById(Config[0].service_name).className;
+			var Config_page='<form class="form-horizontal" method="post" action="/service/modify_config"> <div class="panel-group" id="accordion">';
+			var role_config_arr=Config[0].default_config.split(';');
+			for(var i=0;i<role_config_arr.length;i++)
+			{
+				if(role_config_arr[i].length == 0)
+					continue;
+				var role_config=role_config_arr[i].split(':');
+				Config_page+='<div class="panel panel-default"> <div class="panel-heading"> <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">';
+				Config_page+=role_config[0];
+				Config_page+='</a></h4></div> <div id="'+role_config[0]+'" class="panel-collapse collapse in"> <div class="panel-body">';
+				alert(role_config[1]);
+				var specific_config=(role_config[1]).split(",");
+				for(var j=0;j<specific_config.length;j++)
+				{
+					if(specific_config[j].length == 0)
+						continue;
+					Config_page+='<label>'+(specific_config[j].split("^"))[0]+'</label>';
+					Config_page+='<input type="textarea" class="form-control" name="'+specific_config[j].split('^')[0]+'" value="'+specific_config[j].split('^')[1]+'">';
+					Config_page+='<br><br>';
+				}
+				Config_page+='</div></div></div>';
+			}
+			Config_page+='<br><br><button type="button" class="btn btn-primary pull-right">save</button></form>';
+			document.getElementById("info_label").className=null;
+			document.getElementById("config_label").className="active";
+
+
+			$('#services-list-id a').click();
+			$('#'+Config[0].service_name+'_label a').click();
+//			$('#config_label a').tab('show');
+//			$('#config_label a').tab('show');
+
+		}
+		else
+		{
+
+			$('#add-service-id a').click();
+			$('#AddHostsForService').modal('toggle');
+		}
 	}
 	else if('flase'==flag){
 		
 	}
+	else{
+
+	}
     </script>
+    
+
     
     <!-- Bootstrap core JavaScript
     ================================================== -->
