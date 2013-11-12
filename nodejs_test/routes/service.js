@@ -80,6 +80,23 @@ exports.add_new_node=function(req,res){
     });
 
 }
+exports.select_new_node=function(req,res){
+    var role_list=req.body.RoleList;
+    for(var i=0;i<role_list.length;i++){
+        conn.query('select host from services_on_the_hosts_info where role_name != ?',[role_list[i]],function(err,res1){
+            if(err){
+                console.log(err);
+                res.send(500,{error:'get data from db failed'});
+            }
+            else{
+                
+            }
+        });
+    }
+    
+}
+
+
 exports.start_all_nodes=function(req,res){
     var service=req.body.Service;
     conn.query('select host,role_name from services_on_the_hosts_info where service_name = ? and service_status = ?',[service,'dead'],function(err,res1){
