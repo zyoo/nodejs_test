@@ -66,11 +66,15 @@ app.set('view engine','html');
 //app.set('view engine', 'ejs');
 app.use(express.favicon());
 app.use(express.logger('dev'));
-app.use(express.bodyParser());
+app.use(express.bodyParser({keepExtensions:true,uploadDir:'./temp_keyfile_dir'}));
 app.use(express.methodOverride());
-app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
-            
+app.use(express.cookieParser());            
+//app.use(express.cookieSession());
+app.use(express.session({secret:'123456789'}));
+app.use(app.router);
+
+app.use(express.static(path.join(__dirname, 'public')));
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
@@ -82,10 +86,22 @@ app.get('/login', routes.login);
 app.post('/login',routes.doLogin);
 app.get('/logout',routes.logout);
 app.get('/home',routes.home);
-app.get('/server',routes.server);
+
+
 app.get('/service',service.show_service);
 app.post('/service/select_service',service.select_service);
 app.post('/service/select_hosts_for_service',service.select_hosts_for_service);
+app.post('/service/modify_config',service.modify_config);
+app.post('/service/get_info',service.get_info);
+app.post('/service/get_config',service.get_config);
+app.post('/service/get_action',service.get_action);
+app.post('/service/add_new_node',service.add_new_node);
+app.post('/service/start_all_nodes',service.start_all_nodes);
+app.post('/service/stop_all_nodes',service.stop_all_nodes);
+app.post('/service/start_node',service.start_node);
+app.post('/service/stop_node',service.stop_node);
+
+app.get('/server',routes.server);
 app.post('/server/add_server_check',routes.add_server_first);
 app.post('/server/add_server_add',routes.add_server_second);
 
