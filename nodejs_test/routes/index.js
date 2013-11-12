@@ -1,4 +1,3 @@
-
 /*
  * GET home page.
  */
@@ -170,15 +169,25 @@ exports.add_server_first=function(req,res){
                     res.render('server',{title:"Server:Add New Server",flag:'true',CheckRes:'the input info for the host is illegal,the check err is '+JSON.stringify(err)+stdout+'. please check the host info,then try again',DataBase_Res:'',host_arg:''});
                 }               
         });
+        req.session.machine_host=host;
+        req.session.machin_port=port;
+        req.session.file=file;
     }
 }
 
 //function install_base_service(arg1,arg2,callback)
 exports.add_server_second=function(req,res){
+<<<<<<< HEAD
 //    var host=req.body.machine_host1;
 //    var port=req.body.machine_port1;
     var host=req.session.machine_host;
     var port=req.session.machine_port;
+=======
+    // use session for transfer the args.
+    var host=req.session.machine_host;
+    var port=req.session.machine_port;
+    var file=req.session.file;
+>>>>>>> bf458213e711c89b032ef0631af52bdbc8eeb297
     var but_value=req.body.SecondNext;
 
     if(but_value=="true"){
