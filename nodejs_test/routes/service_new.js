@@ -46,6 +46,62 @@ function checkInstallRole(host, role, component, callBack) {
 
 }
 
+function callBackForInstallRole(req, res, host, role, service) {
+    return conn.query('delete from services_on_the_hosts_info_temp where host = ? and role_name = ?', [host, role], funciont(err, result) {
+                if(err) {
+                    console.log(err);
+                }
+                else {
+                    conn.query('insert into services_on_the_hosts_info_temp set host = ?, role_name = ?, service_name = ?', [host, role, service], function(err, result) {
+                        if(err) {
+                            console.log(err);
+                            res.render('service',
+                                        {title:'Service:Select Service',
+                                         Flag:'false',
+                                         Components:'',
+                                         HostList:'',
+                                         Unique_Flag:'',
+                                         Config:'',
+                                         err_info:'insert into services_on_the_hosts_info_temp error'
+                                         });
+                        }
+                        else {
+                            countForInstallRole++;
+                            if(countForInstallRole == countFlagForInstallRole) {
+                                conn.query('select service_name, role_name, default_config from services_can_be_installed where service_name = ?', [service], function(err, result) {
+                                    if(err) {
+                                        console.log(err);
+                                        res.render('service',
+                                                    {title:'Service:Select Service',
+                                                     Flag:'false',
+                                                     Components:'',
+                                                     HostList:'',
+                                                     Unique_Flag:'',
+                                                     Config:'',
+                                                     err_info:'get default_config failed'
+                                                     });
+                                    }
+                                    else {
+                                        var configInfo = JSON.stringify(result);
+                                        res.render('service',
+                                                   {title:'Service:Select Service',
+                                                    Flag:'true',
+                                                    Components:'',
+                                                    HostList:'',
+                                                    Unique_Flag:'',
+                                                    Config:str_config,
+                                                    err_info:''
+                                                    });
+                                    }
+                                });
+                            }
+                        }
+                        
+                    });
+                }
+            });
+}
+
 function configRole(host, role, component, callBack) {
     var comp = component;
     var apiConfigRoleCmd = '';
@@ -180,10 +236,12 @@ exports.select_service = function(req, res) {
     });
 } 
 
-exports.select_hosts_for_service = function(req,res){ 
+
+var countForInstallRole = 0;
+var countFlagForInstallRole = 0;
+
+exports.selectHostsForService = function(req,res){ 
     var service = req.session.Service;
-    var count = 0;
-    var countFlag = 0;
     console.log(req.body);
     console.log(JSON.stringify(req.body)); 
     conn.query('select role_name from services_can_be_installed where service_name=?', [service], function(err,result) {
@@ -204,7 +262,17 @@ exports.select_hosts_for_service = function(req,res){
                     var roleHostPair = roleHostList.split(',');
                     var role = roleHostPair[0];
                     var host = roleHostList[1]; 
-                    installRole(host, role, service,); 
+                    installRole(host, role, service, callBackForInstallRole(req, res, host, role, service));
+                    
+                }
+                else {
+                    for(var hostRole in roleHostList) {
+                        coutFlag++;
+                        var arrHost = roleHostList[hostRole].split(',')；
+                        var role = arrHost[0];
+                        var host = arrHost[1];
+                        installRole(host, role, service, callBackForInstallRole(req, res, host, role, service));
+                    }
                 }
             } 
         }
