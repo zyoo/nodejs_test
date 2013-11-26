@@ -569,6 +569,8 @@ here is the add service functions,such as select service,select hosts for servic
 exports.select_service=function(req,res){
     console.log('the serviceChoice radio is '+req.body.serviceChoice);
     var serviceChoice=req.body.serviceChoice;
+    var user=req.session.username;
+    console.log('the user is ' + user);
     conn.query('select * from services_on_running where service_name=?',[serviceChoice],function(err,result){
         if(err){
             console.log(err);
@@ -586,8 +588,7 @@ exports.select_service=function(req,res){
                     }
                     else{
                         var role_name=result[0]['role_name'];
-                        req.session.Service=serviceChoice;
-                         conn.query('select host from host_info',function(err,result){
+                        req.session.Service=serviceChoice; conn.query('select host from host_info',function(err,result){
                             if(err){
                                 console.log(err); 
                                 res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'select host failed'});//should be modified
@@ -603,6 +604,8 @@ exports.select_service=function(req,res){
                                     }
                                     else{
                                         var str_res=JSON.stringify(result); 
+                                        req.session.username=user;
+                                        console.log(req.session.username);
                                         res.render('service',{title:'Service:Select Service',Flag:'true',Components:role_name,HostList:str_host_list,Unique_Flag:str_res,Config:'',err_info:''});
                                     }
                                 });
@@ -1009,7 +1012,6 @@ exports.modify_config=function(req,res){
         }
             
     }); 
-
 }
 exports.remove_service=function(req,res){
     console.log('the serviceChoice radio is '+req.body.serviceChoice);

@@ -14,6 +14,8 @@ var conn=mysql.createConnection({
 });
 
 exports.authorize=function(req,res,next){
+    console.log('check the username info ');
+    console.log(req.session.username);
 	if(!req.session.username){
 		res.redirect('/login');
 	}
