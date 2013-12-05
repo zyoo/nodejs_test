@@ -2,17 +2,42 @@
 <div class="container col-md-4">
 </div>
 <div class="container col-md-4">
-<form role="form-horizontal" method="post">
+<form role="form-horizontal" method="post" action="/dologin">
     <label for="username">User Name</label>
     <input type="text" class="form-control" id="username" name="username">
 
  
     <label for="password">Password</label>
     <input type="password" class="form-control" id="password" name="password">
-<br><br>
-  <button type="submit" class="btn btn-primary pull-right">Login</button>
+	<br>
+	<button type="submit" class="btn btn-primary pull-right">Login</button>
+
 </form>
+	<div class="modal fade" id="errorInfo_id" tabindex="-1" role="dialog" aria-labelledby="errorInfo modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="logout_label">LogIn Error Info</h4>
+				</div>
+				<div class="modal-body">
+					<p id = 'errorInfo_content_id'> </p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 <div class="container col-md-4">
 </div>
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="/javascripts/bootstrap.min.js"></script>
+<script type='text/javascript'>
+	var errorInfo = '<%= error %>';
+	if(errorInfo != '') {
+		$('#errorInfo_content_id').html(errorInfo);	
+		$('#errorInfo_id').modal('toggle');
+	}
+</script>
 <% include footer.html %>

@@ -1,0 +1,485 @@
+var mysql = require('mysql');
+var exec = require('child_process').exec;
+var conn = mysql.createConnection({
+    host:'localhost',
+    user:'root',
+    password:'',
+    database:'cluster_manager_dev',
+    port:3306
+});
+var service_operation = require('./service_operation');
+var sleep = require('sleep');
+var step = require('step');
+var RETRY_MAX_COUNT = 3;
+
+var countForInstallRole = 0;
+var countFlagForInstallRole = 0;
+var countForInstallRoleFailed = 0;
+
+var countForConfigRole = 0;
+var countFlagForConfigRole = 0;
+
+function callBackForInstallRole(req, res, host, role, service) {
+    return function(){ 
+            conn.query('delete from services_on_the_hosts_info_temp where host = ? and role_name = ?', [host, role], function(err, result) {
+                if(err) {
+                    console.log(err);
+					countForInstallRoleFailed++;
+                }
+                else {
+                    conn.query('insert into services_on_the_hosts_info_temp set host = ?, role_name = ?, service_name = ?, service_status = ?', [host, role, service, 'dead'], function(err, result) {
+                        if(err) {
+                            console.log(err);
+							countForInstallRoleFailed++;
+/*							
+                            res.render('service',
+                                        {title:'Service:Select Service',
+                                         Flag:'false',
+                                         Components:'',
+                                         HostList:'',
+                                         Unique_Flag:'',
+                                         Config:'',
+                                         err_info:'insert into services_on_the_hosts_info_temp error'
+                                         });
+*/
+
+                        }
+                        else {
+                            countForInstallRole++;
+							console.log(countForInstallRole);
+							console.log(countFlagForInstallRole);
+							console.log(countForInstallRoleFailed);
+                            if(countForInstallRole + countForInstallRoleFailed == countFlagForInstallRole) {
+								if(countForInstallRole == countFlagForInstallRole) {
+	                                conn.query('select service_name, role_name, default_config from services_can_be_installed where service_name = ?', [service], function(err, result) {
+										if(err) {
+											console.log(err);
+											res.render('service',
+														{title:'Service:Select Service',
+														 Flag:'false',
+														 Components:'',
+														 HostList:'',
+														 Unique_Flag:'',
+														 Config:'',
+														 err_info:'get default_config failed'
+														 });
+										}
+										else {
+											var configInfo = JSON.stringify(result);
+											req.session.Service = service;
+											res.render('service',
+													   {title:'Service:Select Service',
+														Flag:'true',
+														Components:'',
+														HostList:'',
+														Unique_Flag:'',
+														Config:configInfo,
+														err_info:''
+														});
+										}
+									});							
+								}
+								else if(countForInstallRoleFailed > 0) {
+									console.log('there are ' + countForInstallRoleFailed + ' cmd failed.');
+									res.render('service',
+										{title:'Service:Select Service',
+										 Flag:'false',
+										 Components:'',
+										 HostList:'',
+										 Unique_Flag:'',
+										 Config:'',
+										 err_info:'install service failed'
+										 });	
+						
+								}
+                            }
+                        }
+                        
+                    });
+                }
+            });
+        };
+}
+
+function callBackForConfigRole(req, res, service) {
+    return function() {
+            countForConfigRole++; 
+			console.log(countForConfigRole);
+			console.log(countFlagForConfigRole);
+            if(countForConfigRole == countFlagForConfigRole) {
+                console.log('enter callBackForConfigRole function');
+                conn.query('select * from services_can_be_installed where service_name = ?', [service], function(err,result) {
+                    if(err) {
+                        console.log(err);     
+                    } 
+                    else {
+                        var newConfig = '';
+                        var roleNameList = result[0].role_name;
+                        var config = result[0].default_config;
+                        var roleConfigArr = config.split(';');
+                        for(var i = 0; i < roleConfigArr.length; i++) {
+                            if(roleConfigArr[i].length == 0)
+                                continue;
+                            var roleConfig = roleConfigArr[i].split(':')[1];
+                            var roleName = roleConfigArr[i].split(':')[0];
+                            newConfig += roleName+':'; 
+                            var specificConfigArr = roleConfig.split(',');
+                            for( var j = 0; j < specificConfigArr.length; j++) {
+                                if(specificConfigArr[j].length == 0)
+                                    continue;
+                                var specificConfigName = specificConfigArr[j].split('^')[0];
+                                var specificConfig = req.body[specificConfigName]; 
+                                newConfig += specificConfigName + '^' + specificConfig + ',';
+                            }
+                            newConfig += ';';
+                        }
+                        console.log('the newConfig is ' + newConfig);
+                        conn.query('select * from services_on_running where service_name = ?', [service], function(err,result) {
+                            if(err) {
+                                console.log(err);     
+                            } 
+                            else {
+                                var updateConfigSqlCmd = '';
+                                if(result.length == 0) 
+                                    updateConfigSqlCmd = 'insert into services_on_running set current_config = "' + newConfig + '", service_name = "' + service + '", role_name = "' + roleNameList + '"';
+                                else
+                                    updateConfigSqlCmd = 'update services_on_running set current_config = "' + newConfig + '" where service_name = "' + service + '"';
+                                conn.query(updateConfigSqlCmd, function(err,result) {
+                                    if(err) {
+                                        console.log(err);     
+                                    }     
+                                    else {
+                                        conn.query('select host, role_name, service_status from services_on_the_hosts_info_temp where service_name = ?', [service], function(err, result) {
+                                            if(err) {
+                                                console.log(err);     
+                                                conn.query('delete from services_on_running where service_name = ?', [service], function(err, result){
+                                                    if(err) {
+                                                        console.log('delete services_on_running table temp data failed'); 
+                                                    }     
+                                                    return;
+                                                });
+                                            } 
+                                            else {
+												var count = 0;
+												step (
+													function() {
+														var group = this.group();	
+														var hostRoleInfo = result; 
+														for(var i = 0; i < hostRoleInfo.length; i++) {
+															conn.query('select * from services_on_the_hosts_info where host = ? and role_name = ?', [hostRoleInfo[i].host, hostRoleInfo[i].role_name], function(host, role){
+																return function(err,result) {
+																	if(err){
+																		console.log(err);
+																		return;     
+																	} 
+																	else {
+																		var sqlCmd1 = '';
+																		if(result.length == 0){
+																			//addNewNode or addNewService
+																			sqlCmd1 = 'insert into services_on_the_hosts_info set host = "' + host + '", role_name = "' + role + '", service_status = "dead", service_name = "' + service + '"'; 
+																			conn.query(sqlCmd1, group());
+																		} 
+																		else {
+																			//updateConfig
+																			count++;     
+																			if(count == hostRoleInfo.length) {
+																				res.redirect('/service');     
+																				return;
+																			}
+																		}
+																	}
+																}; 
+															}(hostRoleInfo[i].host, hostRoleInfo[i].role_name)); 
+														}
+													},
+													function(err,results) {
+														if(err) {
+															console.log(err);
+															conn.query('delete from services_on_running where service_name = ?', [service], function(err, result) {
+																if(err) {
+																	console.log(err);
+																	console.log('delete service from service_on_running table failed');
+																}	
+																else {
+																	conn.query('delete from services_on_the_hosts_info where service_name = ?', [service], function(err,result) {
+																		if(err) {
+																			console.log(err);	
+																		}		
+																	});
+																}
+															});	
+														}	
+														else {
+															res.redirect('/service');	
+														}
+													}
+												);
+                                            }
+                                        }); 
+                                    }
+                                });
+                            }
+                        });                            
+                    }
+                });
+            }
+        };
+}
+
+exports.select_service = function(req, res) {
+    console.log('the serviceChoice radio is '+req.body.serviceChoice);
+    var serviceChoice=req.body.serviceChoice;
+    conn.query('select * from services_on_running where service_name=?', [serviceChoice], function(err, result) {
+        if(err) {
+            console.log(err);
+        }
+        else {
+            if(result.length != 0) {
+                res.render('service', {title:'Service:Select Service', Flag:'false', Components:'', HostList:'', Unique_Flag:'', Config:'', err_info:'the service has been installed'});
+            }
+            else {
+                conn.query('select role_name from services_can_be_installed where service_name=?', [serviceChoice], function(err, result){
+                    var flag = 'true';
+                    if(err) {
+                        console.log(err); 
+                        flag = 'false';
+                    }
+                    else {
+                        var roleName = result[0]['role_name'];
+                        req.session.Service = serviceChoice;
+                         conn.query('select host from host_info', function(err, result) {
+                            if(err) {
+                                console.log(err); 
+                                res.render('service', {title:'Service:Select Service', Flag:'false', Components:'', HostList:'', Unique_Flag:'', Config:'', err_info:'select host failed'});//should be modified
+                            }      
+                            else {
+                                var str_host_list = JSON.stringify(result);
+                                console.log(result);
+                                console.log(str_host_list);
+                                  
+                                conn.query('select role_name, unique_flag from role_unique where service_name=?', [serviceChoice], function(err, result) {
+                                    if(err) {
+                                        console.log(err); 
+                                    }
+                                    else {
+                                        var str_res = JSON.stringify(result); 
+                                        req.session.Service = serviceChoice;
+                                        res.render('service', {title:'Service:Select Service', Flag:'true', Components:roleName, HostList:str_host_list, Unique_Flag:str_res, Config:'', err_info:''});
+                                    }
+                                });
+                            } 
+                        });                   
+                    }
+                });
+            }
+        }
+    });
+} 
+
+exports.selectHostsForService = function(req, res) { 
+    var service = req.session.Service;
+    console.log('enter selectHostsForService');
+    console.log('the service is ' + service);
+    console.log('the user is ' + req.session.username);
+    conn.query('select role_name from services_can_be_installed where service_name=?', [service], function(err,result) {
+        if(err) {
+            console.log(err); 
+        }
+        else {
+            console.log(result);
+            var roleNameArr = (result[0]['role_name']).split(",");
+            var roleNameArrLen = roleNameArr.length;
+            if(roleNameArrLen == 0) {
+                console.log('no service role error');
+                return;
+            }
+			countFlagForInstallRole = 0;
+			countForInstallRole = 0;
+			countForInstallRoleFailed = 0;
+            for(var j=0; j<roleNameArrLen; j++){
+                var roleHostList = req.body['hostslist_' + roleNameArr[j]]; 
+                if(typeof roleHostList == 'string') {
+                    countFlagForInstallRole++;   
+                    var roleHostPair = roleHostList.split(',');
+                    console.log(roleHostPair);
+                    var role = roleHostPair[0];
+                    var host = roleHostPair[1]; 
+                    service_operation.installRole(host, role, service, 0, callBackForInstallRole(req, res, host, role, service));
+                    
+                }
+                else {
+                    for(var hostRole in roleHostList) {
+                        countFlagForInstallRole++;
+                        var arrHost = roleHostList[hostRole].split(',');
+                        console.log(arrHost);
+                        var role = arrHost[0];
+                        var host = arrHost[1];
+                        service_operation.installRole(host, role, service, 0, callBackForInstallRole(req, res, host, role, service));
+                    }
+                }
+            } 
+        }
+    });
+}
+
+exports.modifyConfig = function(req, res) {
+    var service = req.session.Service;
+    console.log(service);
+    conn.query('select default_config from services_can_be_installed where service_name = ?', [service], function(err, result) {
+        if(err) {
+            console.log(err);
+            res.render('service', 
+                        {title:'Service:Select Service',
+                         Flag:'false',
+                         Components:'',
+                         HostList:'',
+                         Unique_Flag:'',
+                         Config:'',
+                         err_info:'modify config failed'
+                        });
+        }
+        else {
+            console.log(result);
+            var default_config = result[0]['default_config'];
+            conn.query('select host, role_name from services_on_the_hosts_info_temp where service_name = ?', [service], function(err,result) {
+				countFlagForConfigRole = result.length;
+                service_operation.generate(req, res, result, default_config, service, callBackForConfigRole(req, res, service));
+            }); 
+        }
+    }); 
+}
+
+exports.updateConfig = function(req, res) {
+    var service = req.session.Service;
+    console.log(service);
+    conn.query('select default_config from services_can_be_installed where service_name = ?', [service], function(err, result) {
+        if(err) {
+            console.log(err);
+            res.render('service', 
+                        {title:'Service:Select Service',
+                         Flag:'false',
+                         Components:'',
+                         HostList:'',
+                         Unique_Flag:'',
+                         Config:'',
+                         err_info:'modify config failed'
+                        });
+        }
+        else {
+            console.log(result);
+            var default_config = result[0]['default_config'];
+            conn.query('insert into services_on_the_hosts_info_temp select * from services_on_the_hosts_info where service_name = ?', [service], function(err, result) {
+                if(err) {
+                    console.og(err);    
+                    return;
+                }    
+                else {
+                    conn.query('select host, role_name from services_on_the_hosts_info_temp where service_name = ?', [service], function(err,result) {
+						countFlagForInstallRole = result.length;
+                        service_operation.generate(req, res, result, default_config, service, callBackForConfigRole(req, res, service));
+                    });                    
+                }
+            });
+
+        }
+    });    
+}
+
+exports.startNode = function(req, res) {
+    var host = req.body.Host;
+    var role = req.body.Role;
+    var service = req.body.Service;
+    var countFlag = {};
+    countFlag.success = 0;
+    countFlag.total = 1;
+    countFlag.failed = 0;
+	console.log(countFlag);
+    service_operation.startRole(req, res, host, role, service, 0, countFlag);
+}
+
+exports.startAllNodes = function(req, res) {
+	var service = req.body.Service;
+	var countFlag = {};
+    countFlag.success = 0;
+    countFlag.total = 0;
+    countFlag.failed = 0;
+	conn.query('select host, role_name from services_on_the_hosts_info where service_name = ? and service_status = ?', [service, 'dead'], function(err, result) {
+		if(err) {
+			console.log(err);	
+		}
+		else {
+			countFlag.total = result.length;	
+			for(var i = 0; i < countFlag.total; i++) {
+				service_operation.startRole(req, res, result[i].host, result[i].role_name, service, 0, countFlag);	
+			}	
+		}
+	});    
+}
+
+exports.stopNode = function(req, res) {
+    var host = req.body.Host;
+    var role = req.body.Role;
+    var service = req.body.Service;
+    var countFlag = {};
+    countFlag.success = 0;
+    countFlag.total = 1;
+    countFlag.failed = 0;
+    service_operation.stopRole(req, res, host, role, service, 0, countFlag);
+}
+exports.stopAllNodes = function(req, res) {
+	var service = req.body.Service;
+	var countFlag = {};
+    countFlag.success = 0;
+    countFlag.total = 0;
+    countFlag.failed = 0;
+	conn.query('select host, role_name from services_on_the_hosts_info where service_name = ? and service_status = ?', [service, 'health'], function(err, result) {
+		if(err) {
+			console.log(err);	
+		}
+		else {
+			countFlag.total = result.length;	
+			for(var i = 0; i < countFlag.total; i++) {
+				service_operation.stopRole(req, res, result[i].host, result[i].role_name, service, 0, countFlag);	
+			}	
+		}
+	});    
+}
+
+exports.installForNewNodes = function(req, res) {
+	var role_host=req.body.NodesSelected;
+	var service=req.session.service;
+	if(typeof role_host == 'undefined') {
+		console.log('empty node');	
+		return;
+	}
+	conn.query('delete from services_on_the_hosts_info_temp where service_name = ?', [service], function(err, result) {
+		if(err) {
+			console.log(err);	
+			return;
+		}					
+		else {
+			conn.query('insert into services_on_the_hosts_info_temp select * from services_on_the_hosts_info where service_name = ?', [service], function(err, result) {
+				if(err) {
+					console.log(err);	
+					return;
+				}			
+				else {
+					if(typeof role_host == 'string') {
+						countFlagForInstallRole = 1;
+						var host = role_host.split(':')[1];
+						var role = role_host.split(':')[0];
+						service_operation.installRole(host, role, service, 0, callBackForInstallRole(req, res, host, role, service));	
+					}	
+					else {
+						for(var i = 0; i < role_host.length; i++) {
+							countFlagForInstallRole++;
+							var host = role_host[i].split(':')[1];
+							var role = role_host[i].split(':')[0];
+							service_operation.installRole(host, role, service, 0, callBackForInstallRole(req, res, host, role, service));	
+						}	
+					}			
+				}
+			});	
+		}
+	});
+}

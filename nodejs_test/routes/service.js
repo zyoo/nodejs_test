@@ -16,11 +16,11 @@ exports.show_service=function(req,res){
     conn.query('select service_name from services_on_running',function(err,result){
         if(err){
             console.log(err);
-            res.render('service',{title:'Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'db failed:select service_name from services_on_running failed'});
+            res.render('service',{title:'Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'db failed:select service_name from services_on_running failed',username:req.session.username});
         }       
         else{
             var services_list=JSON.stringify(result);
-            res.render('service',{title:'Service',Flag:'unset',Components:services_list,HostList:'',Unique_Flag:'',Config:'',err_info:''});
+            res.render('service',{title:'Service',Flag:'unset',Components:services_list,HostList:'',Unique_Flag:'',Config:'',err_info:'',username:req.session.username});
         }
     });
 }
@@ -577,7 +577,7 @@ exports.select_service=function(req,res){
         }
         else{
             if(result.length != 0){
-                res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'the service has been installed'});
+                res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'the service has been installed',username:req.session.username});
             }
             else{
                 conn.query('select role_name from services_can_be_installed where service_name=?',[serviceChoice],function(err,result){
@@ -591,7 +591,7 @@ exports.select_service=function(req,res){
                         req.session.Service=serviceChoice; conn.query('select host from host_info',function(err,result){
                             if(err){
                                 console.log(err); 
-                                res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'select host failed'});//should be modified
+                                res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'select host failed',username:req.session.username});//should be modified
                             }      
                             else{
                                 var str_host_list=JSON.stringify(result);
@@ -606,7 +606,7 @@ exports.select_service=function(req,res){
                                         var str_res=JSON.stringify(result); 
                                         req.session.username=user;
                                         console.log(req.session.username);
-                                        res.render('service',{title:'Service:Select Service',Flag:'true',Components:role_name,HostList:str_host_list,Unique_Flag:str_res,Config:'',err_info:''});
+                                        res.render('service',{title:'Service:Select Service',Flag:'true',Components:role_name,HostList:str_host_list,Unique_Flag:str_res,Config:'',err_info:'',username:req.session.username});
                                     }
                                 });
                             } 
@@ -664,7 +664,7 @@ exports.select_hosts_for_service=function(req,res){
 							conn.query('insert into services_on_the_hosts_info_temp set host=?,role_name=?,service_name=?',[arr_host[1],arr_host[0],service],function(err,result){
 							    if(err){
 								console.log(err);
-								res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'insert into services_on_the_hosts_info_temp error'});
+								res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'insert into services_on_the_hosts_info_temp error',username:req.session.username});
 							    } 
 							    else{
 								count++;
@@ -673,11 +673,11 @@ exports.select_hosts_for_service=function(req,res){
 								    conn.query('select service_name,role_name,default_config from services_can_be_installed where service_name=?',[service],function(err,result){
 									if(err){
 									    console.log(err); 
-									    res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'get default_config failed'});
+									    res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'get default_config failed',username:req.session.username});
 									}
 									else{
 									    var str_config=JSON.stringify(result);
-									    res.render('service',{title:'Service:Select Service',Flag:'true',Components:'',HostList:'',Unique_Flag:'',Config:str_config,err_info:''});
+									    res.render('service',{title:'Service:Select Service',Flag:'true',Components:'',HostList:'',Unique_Flag:'',Config:str_config,err_info:'',username:req.session.username});
 									}
 								    });
 								}
@@ -722,7 +722,7 @@ exports.select_hosts_for_service=function(req,res){
 								    conn.query('insert into services_on_the_hosts_info_temp set host=?,role_name=?,service_name=?',[host,role_name,service],function(err,result){
 									if(err){
 									    console.log(err);
-									    res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'insert into services_on_the_hosts_info_temp error'});
+									    res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'insert into services_on_the_hosts_info_temp error',username:req.session.username});
 									} 
 									else{
 									    count++;
@@ -731,11 +731,11 @@ exports.select_hosts_for_service=function(req,res){
 										conn.query('select service_name,role_name,default_config from services_can_be_installed where service_name=?',[service],function(err,result){
 										    if(err){
 											console.log(err); 
-											res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'get default_config failed'});
+											res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'get default_config failed',username:req.session.username});
 										    }
 										    else{
 											var str_config=JSON.stringify(result);
-											res.render('service',{title:'Service:Select Service',Flag:'true',Components:'',HostList:'',Unique_Flag:'',Config:str_config,err_info:''});
+											res.render('service',{title:'Service:Select Service',Flag:'true',Components:'',HostList:'',Unique_Flag:'',Config:str_config,err_info:'',username:req.session.username});
 										    }
 										});
 									    }
@@ -766,7 +766,7 @@ exports.modify_config=function(req,res){
     conn.query('select default_config from services_can_be_installed where service_name=?',[service],function(err,result){
         if(err){
             console.log(err); 
-            res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'modify config failed'});
+            res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'modify config failed',username:req.session.username});
         }
         else{
             var makeConfigFileCmd='sh /usr/local/NArk/sbin/hadoop/generate.sh ';
@@ -776,7 +776,7 @@ exports.modify_config=function(req,res){
 	    conn.query('select host,role_name from services_on_the_hosts_info_temp where service_name=?',[service],function(err,result1){
                 if(err){
                     console.log(err); 
-                    res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'modify config failed'});
+                    res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'modify config failed',username:req.session.username});
                 }
                 else{
                     makeConfigFileCmd+=service+' ';
@@ -836,7 +836,7 @@ exports.modify_config=function(req,res){
                     exec(makeConfigFileCmd,function(err,stdout,stderr){
                         if(err){
                             console.log(err); 
-                            res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'modify config failed'});
+                            res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'modify config failed',username:req.session.username});
                         }
                         else{
 			    var count=0;
@@ -902,7 +902,7 @@ exports.modify_config=function(req,res){
 																	conn.query('insert into services_on_running set current_config=?,service_name=?,role_name=?',[update_config,service,role_name_list],function(err,result){
 																		if(err){
 																			console.log(err);
-																			res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'modify config failed'});
+																			res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'modify config failed',username:req.session.username});
 																		}         
 																		else{
 																			console.log('success insert');
@@ -915,7 +915,7 @@ exports.modify_config=function(req,res){
 																	conn.query('update services_on_running set current_config=?,role_name=? where service_name=?',[update_config,role_name_list,service],function(err,result){
 																		if(err){
 																			console.log(err);
-																			res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'modify config failed'});
+																			res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'modify config failed',username:req.session.username});
 																		}         
 																		else{
 																			console.log('success update');
@@ -968,7 +968,7 @@ exports.modify_config=function(req,res){
 															conn.query('insert into services_on_running set current_config=?,service_name=?,role_name=?',[update_config,service,role_name_list],function(err,result){
 																if(err){
 																	console.log(err);
-																	res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'modify config failed'});
+																	res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'modify config failed',username:req.session.username});
 																}         
 																else{
 																	console.log('success insert');
@@ -981,7 +981,7 @@ exports.modify_config=function(req,res){
 															conn.query('update services_on_running set current_config=?,role_name=? where service_name=?',[update_config,role_name_list,service],function(err,result){
 																if(err){
 																	console.log(err);
-																	res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'modify config failed'});
+																	res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'modify config failed',username:req.session.username});
 																}         
 																else{
 																	console.log('success update');
@@ -1022,7 +1022,7 @@ exports.remove_service=function(req,res){
         }
         else{
             if(result.length == 0){
-                res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'the service is not running'});
+                res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'the service is not running',username:req.session.username});
             }
             else{
                 conn.query('select * from services_on_the_hosts_info where service_name=? and service_status=?',[serviceChoice,'health'],function(err,result){
@@ -1035,7 +1035,7 @@ exports.remove_service=function(req,res){
 							uninstall_service(serviceChoice);
 						}
 						else{
-							res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'please stop the service firstly'});
+							res.render('service',{title:'Service:Select Service',Flag:'false',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'please stop the service firstly',username:req.session.username});
 						}
 					}
                 });
@@ -1079,7 +1079,7 @@ function uninstall_one_role_node(host,role_name){
 				}
 				if(uninstall_service_total_role_node == uninstall_service_count_role_node){
 					if(uninstall_service_success_count_role_node == uninstall_service_total_role_node){
-						res.render('service',{title:'Service:Select Service',Flag:'true',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'please stop the service firstly'});
+						res.render('service',{title:'Service:Select Service',Flag:'true',Components:'',HostList:'',Unique_Flag:'',Config:'',err_info:'please stop the service firstly',username:req.session.username});
 					}
 				}
 			});

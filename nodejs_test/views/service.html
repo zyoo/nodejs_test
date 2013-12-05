@@ -35,7 +35,7 @@
 									<div id="ChoseComponentsForNewNode_id">
 									
 									</div>
-									<div class="modal fade" id="ChoseComponentsForNewNode" tabindex="-1" role="dialog" aria-labelledby="Chose Components For New Node" aria-hidden="true">
+									<!--div class="modal fade" id="ChoseComponentsForNewNode1" tabindex="-1" role="dialog" aria-labelledby="Chose Components For New Node" aria-hidden="true">
 										<div class="modal-dialog">
 										    <div class="modal-content">
 										      <div class="modal-header">
@@ -55,9 +55,9 @@
 											
 											
 										      </div>
-										    </div><!-- /.modal-content -->
-										  </div><!-- /.modal-dialog -->
-									</div>
+										    </div>
+										  </div>
+									</div-->
 									<div class="modal fade" id="AddNewNode" tabindex="-1" role="dialog" aria-labelledby="AddNewNode" aria-hidden="true">
 										<div class="modal-dialog">
 											<div class="modal-content">
@@ -155,8 +155,7 @@
 																<a href="#">120.mzhen.cn</a> 
 																
 																<a href="#" data-toggle="modal" data-target="#more-info-NameNode">more info</a>
-																<div class="modal fade" id="more-info-NameNode" tabindex="-1" role="dialog" aria-hidden="true">
-																	<div class="modal-dialog">
+																<div class="modal fade" id="more-info-NameNode" tabindex="-1" role="dialog" aria-hidden="true"> <div class="modal-dialog">
 																	    <div class="modal-content">
 																	      <div class="modal-header">
 																		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -662,7 +661,7 @@
 									
 									<tr name='hdfs_tr'>
 										<td>
-											<input type="radio" name="serviceChoice" value='hdfs'>
+											<input type="radio" name="serviceChoice" value='hdfs' checked>
 										</td>
 										
 										<td>
@@ -694,6 +693,7 @@
 								<!--button type='submit' class="btn btn-primary pull-right" data-toggle="modal" data-target="#AddHostsForService">add</button-->
 								<button type='submit' class='btn btn-primary pull-right' id='selectService'>select</button>
 							</form>
+
 							<div id='SelectHostsForService'>
 								<form  method='post' action='/service/select_hosts_for_service' class='form-horizontal'>
 									<div class="modal fade" id="AddHostsForService" tabindex="-1" role="dialog" aria-labelledby="add hosts for service" aria-hidden="true">
@@ -802,7 +802,7 @@
 									
 									<tr>
 										<td>
-											<input type="radio" name="serviceChoice">
+											<input type="radio" name="serviceChoice" checked>
 										</td>
 										<td>
 											hdfs
@@ -926,89 +926,34 @@
     <script src="/javascripts/bootstrap.min.js"></script>
     <script src="/javascripts/bootstrap3-validation.js"></script>
     <script src="/javascripts/json-to-table.js"></script>
-    <!--script type="text/javascript">
-
-	if('true'==flag){
-		Unique_Flag1=Unique_Flag1.replace(/&quot;/g,'"');
-		
-		Unique_Flag1=$.parseJSON(Unique_Flag1);
-		
-		var Unique_Flag_map=[];
-		for(var i=0;i<Unique_Flag1.length;i++)
-		{
-			Unique_Flag_map[Unique_Flag1[i].role_name]=Unique_Flag1[i].unique_flag;
-		}
-		if(originComponents != ''){
-			alert(originComponents);
-			if(HostList != '' ){
-				alert(HostList);
-				HostList=HostList.replace(/&quot;/g,'"');
-				var HostListJson=$.parseJSON(HostList);
-				var arrComponents=originComponents.split(",");
-				var SelectHostsForComponents="<form  method='post' action='/service/select_hosts_for_service' class='form-horizontal'><div class='modal fade' id='AddHostsForService' tabindex='-1' role='dialog' ara-labelledby='add hosts for service' aria-hidden='true'>"+
-				"<div class='modal-dialog'><div class='modal-content'><div class='modal-header'><button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>"+
-				"<h4 class='modal-title' id='AddHostsForServiceLabel'>Add Hosts For Service Components</h4></div><div id='AddHostsForComponentsModalBody' class='modal-body'>";
-				for(var i=0;i<arrComponents.length;i++)
-				{
-					SelectHostsForComponents+="<div class='panel panel-default'> <div class='panel-heading'><h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion1' href='#AddHostsFor"+arrComponents[i]+"'>"+arrComponents[i]+"</a>"+
-					"</h4></div><div id='AddHostsFor"+arrComponents[i]+"' class='panel-collapse collapse in'> <div class='panel-body'>";
-		
-					$.each(HostListJson,function(){
-						var hostsListTable="";
-						$.each(this,function(k,v){
-							if(Unique_Flag_map[arrComponents[i]] != '1')
-								SelectHostsForComponents+="<input type='checkbox' name='hostslist_"+arrComponents[i]+"' value='"+arrComponents[i]+","+v+"'>"+v+"</input><br>";
-							else
-								SelectHostsForComponents+="<input type='radio' name='hostslist_"+arrComponents[i]+"' value='"+arrComponents[i]+","+v+"'>"+v+"</input><br>";
-
-						});
-					});
-					SelectHostsForComponents+="</div></div></div>";
-				}
-				SelectHostsForComponents+="<br><br></div><div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>"+
-				"<button type='submit' class='btn btn-primary' href='#Config'>Add</button></div></div></div></div></form>";
-				
-				$("#SelectHostsForService").html(SelectHostsForComponents);
-			}
-			
-		}
-	}
-	
-	
-    </script-->
     <script type="text/javascript">
 
+	var username = '<%= username %>';
+	$('#username_id').html(username);
 	var flag='<%= Flag %>';
 	var originComponents='<%= Components %>';
 	var HostList='<%= HostList %>';
 	var Unique_Flag1='<%= Unique_Flag %>';
 	var Config='<%= Config %>';
-
+    var ErrInfo='<%= err_info %>';
 	if('true'==flag){
 
-//		document.getElementById("add_server_link_id").className="active ";
-//		document.getElementById("server_list_link_id").className=null;
 		if(Config != '')
 		{
-//			alert('hello');
 			Config=Config.replace(/&quot;/g,'"');
 			Config=eval(Config);
-//			document.getElementById(Config[0].service_name).className='active '+document.getElementById(Config[0].service_name).className;
 			var Config_page="<form  method='post' action='/service/modify_config' class='form-horizontal'><div class='modal fade' id='ModifyConfigForService' tabindex='-1' role='dialog' ara-labelledby='modify config for service' aria-hidden='true'>"+
 				"<div class='modal-dialog'><div class='modal-content'><div class='modal-header'><button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>"+
-				"<h4 class='modal-title' id='ModifyConfigForServiceLabel'>Modify Config For Service Components</h4></div><div id='ModifyConfigForComponentsModalBody' class='modal-body'><div class='panel-group' id='accordion'";
-			//var Config_page='<form class="form-horizontal" method="post" action="/service/modify_config"> <div class="panel-group" id="accordion">';
+				"<h4 class='modal-title' id='ModifyConfigForServiceLabel'>Modify Config For Service Components</h4></div><div id='ModifyConfigForComponentsModalBody' class='modal-body'><div class='panel-group' id='accordion'>";
 			var role_config_arr=Config[0].default_config.split(';');
 			for(var i=0;i<role_config_arr.length;i++)
 			{
 				if(role_config_arr[i].length == 0)
 					continue;
-//				alert(role_config_arr[i]);
 				var role_config=role_config_arr[i].split(':');
 				Config_page+='<div class="panel panel-default"> <div class="panel-heading"> <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">';
 				Config_page+=role_config[0];
 				Config_page+='</a></h4></div> <div id="'+role_config[0]+'" class="panel-collapse collapse in"> <div class="panel-body">';
-//				alert(role_config[1]);
 				var specific_config=(role_config[1]).split(",");
 				for(var j=0;j<specific_config.length;j++)
 				{
@@ -1024,17 +969,9 @@
 				"<button type='submit' class='btn btn-primary' href='#Config'>save</button></div></div></div></div></form>";
 			
 			$("#ConfigForService").html(Config_page);
+
+			$('#add-service-id a').click();
 			$('#ModifyConfigForService').modal('toggle');
-			//Config_page+='<br><br><button type="button" class="btn btn-primary pull-right">save</button></form>';
-//			document.getElementById("info_label").className=null;
-//			document.getElementById("config_label").className="active";
-
-
-//			$('#services-list-id a').click();
-//			$('#'+Config[0].service_name+'_label a').click();
-//			$('#config_label a').tab('show');
-//			$('#config_label a').tab('show');
-
 		}
 		else
 		{
@@ -1048,9 +985,7 @@
 				Unique_Flag_map[Unique_Flag1[i].role_name]=Unique_Flag1[i].unique_flag;
 			}
 			if(originComponents != ''){
-				alert(originComponents);
 				if(HostList != '' ){
-					alert(HostList);
 					HostList=HostList.replace(/&quot;/g,'"');
 					var HostListJson=$.parseJSON(HostList);
 					var arrComponents=originComponents.split(",");
@@ -1085,8 +1020,9 @@
 			$('#AddHostsForService').modal('toggle');
 		}
 	}
-	else if('flase'==flag){
-		
+	else if('false'==flag){
+        $('#add-service-id a').click();
+	    alert(ErrInfo);	
 	}
 	else if('unset'==flag){
 		var servicesTag='<div class="col-md-3"><ul class="nav nab-tabs" id="service-infos">';
@@ -1095,133 +1031,207 @@
 		
 		for(var i=0;i<originComponents.length;i++){
 			var service_name_list=originComponents[i].service_name;
-			servicesTag+='<li> <a id="'+service_name_list+'_label" href="#hdfs" data-toggle="tab">'+service_name_list+'</a></li>';
+			servicesTag+='<li> <a id="'+service_name_list+'_label" href="#'+service_name_list+'" data-toggle="tab" onclick="get_all_infos(\''+service_name_list+'\')">'+service_name_list+'</a></li>';
 		}
-		servicesTag+='</ul></div>'+'<div class="col-md-8 tab-content">';
-//								<li id='info_label' class="active"><a href="#Info" data-toggle="tab">Info</a></li>
-//								<li id='config_label'><a href="#Config" data-toggle="tab">Config</a></li>
-//								<li id='action_label'><a href="#Action" data-toggle="tab">Action</a></li>
-		for(var i=0;i<originComponents.length;i++){
-			var service_name_list=originComponents[i].service_name;
-			servicesTag+='<div id="'+service_name_list+'" class="tab-pane"> <ul class="nav nav-tabs">';
-			servicesTag+='<li id="info_label" > <a href="#Info" data-toggle="tab" onclick="get_info(\''+service_name_list+'\')">Info</a></li>';
-			servicesTag+='<li id="config_label" > <a href="#Config" data-toggle="tab" onclick="get_config(\''+service_name_list+'\')">Config</a></li>';
-			servicesTag+='<li id="action_label" > <a href="#Action" data-toggle="tab" onclick="get_action(\''+service_name_list+'\')">Action</a></li>';
-			servicesTag+='<div class="pull-right">';
-			servicesTag+='<button type="button" class="btn btn-info" data-toggle="modal" data-target="#ChoseComponentsForNewNode" onclick="add_new_node(\''+service_name_list+'\')">add new service node</button>';
-			servicesTag+='<button type="button" class="btn btn-primary" href="#" onclick="start_all_node(\''+service_name_list+'\')">Start all</button>"';
-			servicesTag+='<button type="button" class="btn btn-primary" href="#" onclick="stop_all_node(\''+service_name_list+'\')">Stop all</button>"';
+		servicesTag+='</ul></div>'+'<div id="all_infos" class="col-md-8 tab-content"></div>';
 
-//			<button type="button" class="btn btn-info" data-toggle="modal" data-target="#ChoseComponentsForNewNode">add new service node</button>
-//			<button type="button" class="btn btn-primary" href="#">Start all</button>
-//			<button type="button" class="btn btn-default" href="#">Stop all</button>
+		$('#services-list').html(servicesTag);
+	}
+	function get_all_infos(ser){
+			var service_name_list1=ser;
+			var servicesTag="";
+			servicesTag+='<div id="'+service_name_list1+'" class="tab-pane"> <ul class="nav nav-tabs">';
+			servicesTag+='<li id="info_label" > <a href="#Info" data-toggle="tab" onclick="get_info(\''+service_name_list1+'\')">Info</a></li>';
+			servicesTag+='<li id="config_label" > <a href="#Config" data-toggle="tab" onclick="get_config(\''+service_name_list1+'\')">Config</a></li>';
+			servicesTag+='<li id="action_label" > <a href="#Action" data-toggle="tab" onclick="get_action(\''+service_name_list1+'\')">Action</a></li>';
+			servicesTag+='<div class="pull-right">';
+			servicesTag+='<button type="button" class="btn btn-info" data-toggle="modal" data-target="#ChoseComponentsForNewNode" onclick="add_new_node(\''+service_name_list1+'\')">add new service node</button>';
+			
+			servicesTag+='<button type="button" class="btn btn-primary" href="#" onclick="start_all_node(\''+service_name_list1+'\')">Start all</button>';
+			servicesTag+='<button type="button" class="btn btn-primary" href="#" onclick="stop_all_node(\''+service_name_list1+'\')">Stop all</button>';
+			servicesTag+='<div id="ChoseComponentsForNewNode_id"></div>';
+			servicesTag+='<div id="SelectNewNodeFroRole_id"></div>';
 			servicesTag+='</div></ul>';
 			servicesTag+='<div class="tab-content"><div class="tab-pane" id="Info"></div>';
 			servicesTag+='<div class="tab-pane" id="Config"></div>';
 			servicesTag+='<div class="tab-pane" id="Action"></div>';
-			servicesTag+='</div>';
-			
-		}
-		$('#services-list').html(servicesTag);
-		
+	//		servicesTag+='</div>';
+			$('#all_infos').html(servicesTag);	
+//            alert($('#all_infos').html());
+//            alert($('#services-list').html());
 
-		
-	}
-	
+	}	
 	function get_info(ser){
-
-		var data={"Service":ser};
-		$.post("service/get_info",data,function(data,textStatus){
-			if(textStatus == 'success'){
-				var temp_var=data.result;
-				var info_arr=temp_var.split("\n");
-				table_data='<div class="table-responsive"> <table class="table"> <tbody>';
-				for(var i=0;i<info_arr.length;i++){
-					table_data+='<tr><td>'+info_arr[i]+'</tr></td>';
+		function get_info_update(ser){
+			var data={"Service":ser};
+			var table_data;
+			var info_temp_var='';
+			$.post("service/get_info",data,function(data,textStatus){
+				if(textStatus == 'success'){
+					if(data.result){
+						info_temp_var=data.result;
+						var info_arr=info_temp_var.split(";");
+						table_data='<div class="table-responsive"> <table class="table"> <tbody>';
+						for(var i=0;i<info_arr.length;i++){
+							var info_k_v=info_arr[i].split(":");
+							table_data+='<tr><td>'+info_k_v[0]+'</td><td>'+info_k_v[1]+'</td></tr>';
+						}
+						table_data+='</tbody></table></div>';
+					}
+					else{
+						table_data='<p>'+data.error+'</p>';
+					}
 				}
-				table_data+='</tbody></table></div>';
-			}
-			$('#Info').html(table_data);
-		});
+				$('#Info').html(table_data);
+			});
 
+		}
+		get_info_update(ser);
+
+		setInterval(function(){
+			get_info_update(ser);
+		},30000);	
 	}
 	function get_config(ser){
 	
 		var data={"Service":ser};
 		$.post("service/get_config",data,function(data,textStatus){
 			if(textStatus == 'success'){
-				var temp_var=data.result;
-				var config_info="<form  method='post' action='/service/modify_config' class='form-horizontal'>"+
-				""+
-				"<div class='panel-group' id='accordion_config'>";
-				var config_arr=temp_var.split(';');
-				for(var i=0;i<config_arr.length;i++)
-				{
-					if(config_arr[i].length == 0)
-						continue;
-	//				alert(role_config_arr[i]);
-					var role_config=config_arr[i].split(':');
-					config_info+='<div class="panel panel-default"> <div class="panel-heading"> <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">';
-					config_info+=role_config[0];
-					config_info+='</a></h4></div> <div id="'+role_config[0]+'" class="panel-collapse collapse in"> <div class="panel-body">';
-	//				alert(role_config[1]);
-					var specific_config=(role_config[1]).split(",");
-					for(var j=0;j<specific_config.length;j++)
-					{
-						if(specific_config[j].length == 0)
-							continue;
-						config_info+='<label>'+(specific_config[j].split("^"))[0]+'</label>';
-						config_info+='<input type="textarea" class="form-control" name="'+specific_config[j].split('^')[0]+'" value="'+specific_config[j].split('^')[1]+'">';
-						config_info+='<br><br>';
-					}
-					config_info+='</div></div></div>';
-				}
-				config_info+="<br><br></div><button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>"+
-					"<button type='submit' class='btn btn-primary' href='#Config'>save</button></div></div></div></div></form>";
-				
+                var config_info='';
+                if(data.error){
+                    config_info="<p>"+data.error+"</p>";
+                }
+                else{
+                    var config_temp_var=data.result;
+                    config_info="<form  method='post' action='/service/modify_config' class='form-horizontal'>"+
+                    ""+
+                    "<div class='panel-group' id='accordion_config'>";
+                    var config_arr=config_temp_var.split(';');
+                    for(var i=0;i<config_arr.length;i++)
+                    {
+                        if(config_arr[i].length == 0)
+                            continue;
+                        var role_config=config_arr[i].split(':');
+                        config_info+='<div class="panel panel-default"> <div class="panel-heading"> <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion_config" href="#'+role_config[0]+'">';
+                        config_info+=role_config[0];
+                        config_info+='</a></h4></div> <div id="'+role_config[0]+'" class="panel-collapse collapse in"> <div class="panel-body">';
+                        var specific_config=(role_config[1]).split(",");
+                        for(var j=0;j<specific_config.length;j++)
+                        {
+                            if(specific_config[j].length == 0)
+                                continue;
+                            config_info+='<label>'+(specific_config[j].split("^"))[0]+'</label>';
+                            config_info+='<input type="textarea" class="form-control" name="'+specific_config[j].split('^')[0]+'" value="'+specific_config[j].split('^')[1]+'">';
+                            config_info+='<br>';
+                        }
+                        config_info+='</div></div></div>';
+                    }
+                    config_info+="<br><br></div><div class='pull-right'><button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>"+
+                        "<button type='submit' class='btn btn-primary' href='#Config'>save</button></div></div></div></div></div></form>";
+                }				
 				$("#Config").html(config_info);
 				$('#config_label a').tab('show');
 			}
 		});
 	}
 	function get_action(ser){
-		var data={"Service":ser};
-		$.post("/service/get_action",data,function(data,textStatus){
-			if(textStatus == 'success'){
-				var temp_var=data.result;
-				table_data='<div class="table-responsive"> <table class="table"> '+'<thead><tr><th>host</th><th>role</th><th>status</th><th>Start-action</th><th>Stop-action</th></tr></thead> <tbody>';
-				for(var i=0;i<temp_var.length;i++){
-					table_data+='<tr><td>'+temp_var[i].host+'</td><td>'+temp_var[i].role_name+'</td><td>'+temp_var[i].service_status+'</td>';
-					if(temp_var[i].service_status == 'dead'){
-						table_data+='<td><button type="button" class="btn btn-primary" onclick="start_node('+'\''+temp_var[i].host+'\',\''+temp_var[i].role_name+'\''+')" >Start</button></td>'+
-						'<td><button type="button" class="btn btn-default disabled" onclick="">Stop</button></td>';
-					}
-					else{
-						table_data+='<td><button type="button" class="btn btn-primary disabled" onclick="" >Start</button></td>'+
-						'<td><button type="button" class="btn btn-default" onclick="stop_node('+'\''+temp_var[i].host+'\',\''+temp_var[i].role_name+'\''+')">Stop</button></td>';
-					}
-					table_data+='</tr>';
+		function get_action_update(ser){
+			var data={"Service":ser};
+			$.post("/service/get_action",data,function(data,textStatus){
+				if(textStatus == 'success'){
+/*                    var table_data='';
+                    if(data.error){
+                        table_data="<p>"+data.error+"</p>"; 
+                    }
+                    else{
+*/
+                        var service_action_temp_var=data.result;
+                        var table_data='<div class="table-responsive"> <table class="table"> '+'<thead><tr><th>host</th><th>role</th><th>status</th><th>Start-action</th><th>Stop-action</th></tr></thead> <tbody>';
+                        for(var i=0;i<service_action_temp_var.length;i++){
+                            table_data+='<tr><td>'+service_action_temp_var[i].host+'</td><td>'+service_action_temp_var[i].role_name+'</td><td>'+service_action_temp_var[i].service_status+'</td>';
+                            if(service_action_temp_var[i].service_status == 'dead'){
+                                table_data+='<td><button type="button" data-loading-text="starting..." class="btn btn-primary" onclick="start_node('+'\''+service_action_temp_var[i].host+'\',\''+service_action_temp_var[i].role_name+'\''+')" >Start</button></td>'+
+                                '<td><button type="button" class="btn btn-default disabled" onclick="">Stop</button></td>';
+                            }
+                            else{
+                                table_data+='<td><button type="button" data-loading-text="stopping..." class="btn btn-default disabled" onclick="" >Start</button></td>'+
+                                '<td><button type="button" class="btn btn-primary" onclick="stop_node('+'\''+service_action_temp_var[i].host+'\',\''+service_action_temp_var[i].role_name+'\''+')">Stop</button></td>';
+                            }
+                            table_data+='</tr>';
+                        }
+                        table_data+='</tbody></table></div>'+'<div id="button_status_modal"></div>';
+//                    }
+                    
+                    $('#Action').html(table_data);
 				}
-			}
-			table_data+='</tbody></table></div>';
-			$('#Action').html(table_data);
-		});
+				
+			});
+
+		}
+		get_action_update(ser);
+
+/*		setInterval(function(){
+			get_action_update(ser);
+		},30000);	
+*/
 	}
 	function start_node(host,role){
+        var ButtonStatusModalContent1="<div class='modal fade' id='ButtonStatusModal' tabindex='-1' role='dialog' ara-labelledby='show button status' aria-hidden='true'>"+
+        "<div class='modal-dialog'><div class='modal-content'><div class='modal-header'><button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>"+
+        "<h4 class='modal-title' id='ButtonStatusModalLabel'>Operation Status</h4></div><div id='ButtonStatusModalBody' class='modal-body'>";
+        var ButtonStatusModalContent2="<p id='opreation_status'>Please waiting for a moment <image src='/images/loading.jpg'/> </p>";
+        var ButtonStatusModalContent3="</div><div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>"+
+        "</div></div></div></div>";
+        $('#button_status_modal').html(ButtonStatusModalContent1+ButtonStatusModalContent2+ButtonStatusModalContent3);
+        $('#ButtonStatusModal').modal('toggle');
 		var data={"Host":host,"Role":role};
 		$.post("/service/start_node",data,function(data,textStatus){
 			if(textStatus == 'success'){
-				var temp_var=data.result;
+                var start_node_temp_var='';
+                if(data.result){
+                    $('#opreation_status').html(data.result);
+                    start_node_temp_var=data.result;
+                    $('#ButtonStatusModal').modal('hide');
+                    $('#action_label a').click(); 
+                } 
+                else{
+                    start_node_temp_var=data.error;
+                    $('#opreation_status').html(start_node_temp_var);
+                }
 			}
 		
 		});
 	}
 	
 	function stop_node(host,role){
+        var ButtonStatusModalContent1="<div class='modal fade' id='ButtonStatusModal' tabindex='-1' role='dialog' ara-labelledby='show button status' aria-hidden='true'>"+
+        "<div class='modal-dialog'><div class='modal-content'><div class='modal-header'><button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>"+
+        "<h4 class='modal-title' id='ButtonStatusModalLabel'>Operation Status</h4></div><div id='ButtonStatusModalBody' class='modal-body'>";
+        var ButtonStatusModalContent2="<p id='opreation_status'>Please waiting for a moment <image src='/images/loading.jpg'/> </p>";
+        var ButtonStatusModalContent3="</div><div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal' >Close</button>"+
+        "</div></div></div></div>";
+        $('#button_status_modal').html(ButtonStatusModalContent1+ButtonStatusModalContent2+ButtonStatusModalContent3);
+        $('#ButtonStatusModal').modal('toggle');
+
 		var data={"Host":host,"Role":role};
 		$.post("/service/stop_node",data,function(data,textStatus){
 			if(textStatus == 'success'){
-				var temp_var=data.result;
+                var stop_node_temp_var='';
+                if(data.result){
+
+                    $('#opreation_status').html(data.result);
+                    stop_node_temp_var=data.result;
+  //                  $('#ButtonStatusModal').modal('toggle');
+   //                 $('#action_label a').click(); 
+                }
+                else{
+                    stop_node_temp_var=data.error;
+                    $('#opreation_status').html(stop_node_temp_var);
+                }
+                
+//                ButtonStatusModalContent2='<p>'+stop_node_temp_var+'</p>';
+    //            alert(stop_node_temp_var);
+//				$('#action_label a').click();
 			}
 		
 		});
@@ -1230,27 +1240,101 @@
 		var data={"Service":ser};
 		$.post("/service/add_new_node",data,function(data,textStatus){
 			if(textStatus == 'success'){
-				modal_data='<div class="modal fade" id="ChoseComponentsForNewNode" tabindex="-1" role="dialog" aria-labelledby="ChoseComponentsForNewNode123" aria-hidden="true"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
-				'<h4 class="modal-title" id="ChoseComponentsForNewNodeLabel">Chose Components For New Node</h4></div><div class="modal-body">';
-				var temp_data=data.result;
-				for(var i=0;i<temp_data.length;i++){
-					modal_data+='<input type="checkbox" name="role_selected" >'+temp_data[i].role_name+'</input><br>';
-				}
-				modal_data+='</div>';
-				modal_data+='<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>';
-				modal_data+='<button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#AddNewNode" onclick="select_host()">next</button></div></div></div>';
-				alert(modal_data);
-				$('#ChoseComponentsForNewNode_id').html(modal_data);
-				//can not show the modal,why?
-				$('#ChoseComponentsForNewNode').modal('toggle');
+                var modal_data='<div class="modal fade" id="ChoseComponentsForNewNode" tabindex="-1" role="dialog" aria-labelledby="ChoseComponentsForNewNode123" aria-hidden="true"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
+                '<h4 class="modal-title" id="ChoseComponentsForNewNodeLabel">Chose Components For New Node</h4></div><div class="modal-body">';
+                if(data.error){
+                    modal_data+="<p>"+data.error+"</p>";
+                }
+                else{
+
+                    var temp_data=data.result;
+                    for(var i=0;i<temp_data.length;i++){
+                        modal_data+='<input type="checkbox" name="role_selected" value="'+temp_data[i].role_name+'">'+temp_data[i].role_name+'</input><br>';
+                    }
+                }
+                modal_data+='</div><div class="modal-footer">';
+                modal_data+='<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>';
+                modal_data+='<button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#AddNewNode" onclick="select_new_node()">next</button></div></div></div>';
+                $('#ChoseComponentsForNewNode_id').html(modal_data);				
+                //can not show the modal,why?
+                $('#ChoseComponentsForNewNode').modal('toggle');
+            }
+			else{
+//				alert(data.error);
 			}
 		});
 	}
+	function select_new_node(){
+		var boxes=document.getElementsByName('role_selected');
+		var boxes_values=new Array();
+		for(var i=0;i<boxes.length;i++){
+			if(boxes[i].checked){
+				boxes_values[i]=boxes[i].value;
+			}
+		}
+		var data={"RoleList":boxes_values};
+		$.post("/service/select_new_node",data,function(data,textStatus){
+			if(textStatus == 'success'){
+				var modal_data='<form method="post" action="/service/install_for_newnodes" class="form-horizontal"><div class="modal fade" id="SelectNodeForNewNode" tabindex="-1" role="dialog" aria-labelledby="SelectNodeForNewNode123" aria-hidden="true"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+				modal_data+='<h4 class="modal-title" id="ChoseComponentsForNewNodeLabel">Select Node For New Node</h4></div><div class="modal-body">';
+
+                if(data.error){
+                    modal_data+='<p>'+data.error+'</p>';                 
+                }
+                else{
+                    modal_data+="<div class='panel-group' id='SelectNewNodePanel'>"
+                    for(var i=0;i<boxes.length;i++){
+                        modal_data+='<div class="panel panel-default"> <div class="panel-heading"> <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#SelectNewNodePanel" href="#'+boxes[i].value+'newnodelabel">';
+                        modal_data+=boxes[i].value;
+                        modal_data+='</a></h4></div> <div id="'+boxes[i].value+'newnodelabel" class="panel-collapse collapse in"> <div class="panel-body">';
+
+                        var temp_data=data.result[boxes[i].value];
+                        if(temp_data.length == 0){
+                            modal_data+='<p>no nodes for the role,please add new server to the cluster first</p>';
+
+                        }
+                        else{
+                            for(var j=0;j<temp_data.length;j++){
+                                modal_data+='<input type="checkbox" name="NodesSelected" value="'+boxes[i].value+':'+temp_data[j].host+'">';
+                                modal_data+=temp_data[j].host;
+                                modal_data+='</input>';
+                                modal_data+='<br>';
+                            }
+                        }
+                        modal_data+='</div></div></div>';
+                    }
+                    modal_data+="<br><br></div>";
+                }
+
+                modal_data+="<div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>";
+				modal_data+="<button type='submit' class='btn btn-primary' href='#'>Add</button></div></div></div></div>";
+				modal_data+='</div></form>';
+				$('#SelectNewNodeFroRole_id').html(modal_data);
+				$('#SelectNodeForNewNode').modal('toggle');
+			}
+
+		});
+	}
 	function start_all_node(ser){
+        var ButtonStatusModalContent1="<div class='modal fade' id='ButtonStatusModal' tabindex='-1' role='dialog' ara-labelledby='show button status' aria-hidden='true'>"+
+        "<div class='modal-dialog'><div class='modal-content'><div class='modal-header'><button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>"+
+        "<h4 class='modal-title' id='ButtonStatusModalLabel'>Operation Status</h4></div><div id='ButtonStatusModalBody' class='modal-body'>";
+        var ButtonStatusModalContent2="<p id='opreation_status'>Please waiting for a moment <image src='/images/loading.jpg'/> </p>";
+        var ButtonStatusModalContent3="</div><div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal' onclick=''>Close</button>"+
+        "</div></div></div></div>";
+        $('#button_status_modal').html(ButtonStatusModalContent1+ButtonStatusModalContent2+ButtonStatusModalContent3);
+        $('#ButtonStatusModal').modal('toggle');
+
 		var data={"Service":ser};
 		$.post("/service/start_all_nodes",data,function(data,textStatus){
 			if(textStatus == 'success'){
-				var temp_data=data.result;
+                if(data.result){
+                    $('#ButtonStatusModal').modal('toggle');
+                    $('action_label a').click();
+                }
+                else if(data.error_info){
+                    $('#opreation_status').html(data.error_info);
+                }
 			}
 			else{
 				
@@ -1258,11 +1342,24 @@
 		});
 	}
 	function stop_all_node(ser){
+        var ButtonStatusModalContent1="<div class='modal fade' id='ButtonStatusModal' tabindex='-1' role='dialog' ara-labelledby='show button status' aria-hidden='true'>"+
+        "<div class='modal-dialog'><div class='modal-content'><div class='modal-header'><button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>"+
+        "<h4 class='modal-title' id='ButtonStatusModalLabel'>Operation Status</h4></div><div id='ButtonStatusModalBody' class='modal-body'>";
+        var ButtonStatusModalContent2="<p id='opreation_status'>Please waiting for a moment <image src='/images/loading.jpg'/> </p>";
+        var ButtonStatusModalContent3="</div><div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal' onclick=''>Close</button>"+
+        "</div></div></div></div>";
+        $('#button_status_modal').html(ButtonStatusModalContent1+ButtonStatusModalContent2+ButtonStatusModalContent3);
+        $('#ButtonStatusModal').modal('toggle');
 		var data={"Service":ser};
 		$.post("/service/stop_all_nodes",data,function(data,textStatus){
 			if(textStatus == 'success'){
-				var temp_data=data.result;
-				
+                if(data.result){
+                    $('#ButtonStatusModal').modal('toggle');
+                    $('action_label a').click();
+                }
+                else if(data.error_info){
+                    $('#opreation_status').html(data.error_info);
+                }
 			}
 		
 		});

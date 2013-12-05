@@ -1,0 +1,100 @@
+<% include header.html %>
+	<div class="container">
+		<!--div class="row"-->
+        <div class="row">
+            <div class="col-sm-8"  style="border-radius:2px; border-width:1px; border-color:silver; border-style:groove;">
+                <h4 class="page-header">Cluster Total Load</h4>
+                <img width="750" height="420" src="http://test.ganglia.mzhen.com:82/ganglia/stacked.php?m=load_one&c=unspecified&r=hour&st=1384915717" style="min-height:200px;max-heigh:200px;min-width:200px;max-width=200px"/>
+            </div>
+            <div class="col-sm-4"  style="border-radius:2px; border-width:1px; border-color:#E0E0F8; border-style:groove;">
+                <h4 class="page-header">Single Load</h4>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <img width="165" height="90" src="http://test.ganglia.mzhen.com:82/ganglia/graph.php?m=load_one&z=small&c=unspecified&h=12.union.cn&l=e2ecff&v=0.00&r=hour&su=1&st=1384916914" />
+                        <br>
+                        <img height="1"/>
+                        <img width="165" height="90" src="http://test.ganglia.mzhen.com:82/ganglia/graph.php?m=load_one&z=small&c=unspecified&h=13.union.cn&l=e2ecff&v=0.00&r=hour&su=1&st=1384916914" />
+                        <img height="1"/>
+                        <img width="165" height="90" src="http://test.ganglia.mzhen.com:82/ganglia/graph.php?m=load_one&z=small&c=unspecified&h=14.union.cn&l=e2ecff&v=0.00&r=hour&su=1&st=1384916914" />
+                        <img height="1"/>
+                        <img width="165" height="90" src="http://test.ganglia.mzhen.com:82/ganglia/graph.php?m=load_one&z=small&c=unspecified&h=15.union.cn&l=e2ecff&v=0.27&r=hour&su=1&st=1384916914" />
+                    </div>
+                    <div class="col-sm-6">
+                        <img width="165" height="90" src="http://test.ganglia.mzhen.com:82/ganglia/graph.php?m=load_one&z=small&c=unspecified&h=16.union.cn&l=e2ecff&v=0.00&r=hour&su=1&st=1384916914" />
+                        <img height="1"/>
+                        <img width="165" height="90" src="http://test.ganglia.mzhen.com:82/ganglia/graph.php?m=load_one&z=small&c=unspecified&h=17.union.cn&l=e2ecff&v=0.00&r=hour&su=1&st=1384918719" />
+                        <img height="1"/>
+                        <img width="165" height="90" src="http://test.ganglia.mzhen.com:82/ganglia/graph.php?m=load_one&z=small&c=unspecified&h=20.union.cn&l=e2ecff&v=0.00&r=hour&su=1&st=1384919008" />
+                        <img height="1"/>
+
+                    </div>
+                </div>
+            </div>
+            <!--div class="col-sm-3">
+                <img src="http://test.ganglia.mzhen.com:82/ganglia/graph.php?m=load_one&z=small&c=unspecified&h=12.union.cn&l=e2ecff&v=0.00&r=hour&su=1&st=1384916914" />
+                <img src="http://test.ganglia.mzhen.com:82/ganglia/graph.php?m=load_one&z=small&c=unspecified&h=13.union.cn&l=e2ecff&v=0.00&r=hour&su=1&st=1384916914" />
+                <img src="http://test.ganglia.mzhen.com:82/ganglia/graph.php?m=load_one&z=small&c=unspecified&h=14.union.cn&l=e2ecff&v=0.00&r=hour&su=1&st=1384916914" />
+                <img src="http://test.ganglia.mzhen.com:82/ganglia/graph.php?m=load_one&z=small&c=unspecified&h=15.union.cn&l=e2ecff&v=0.27&r=hour&su=1&st=1384916914" />
+                <img src="http://test.ganglia.mzhen.com:82/ganglia/graph.php?m=load_one&z=small&c=unspecified&h=16.union.cn&l=e2ecff&v=0.00&r=hour&su=1&st=1384916914" />
+
+            </div-->
+        </div>
+            <img height="1"/>
+
+            <div class="row">
+                <div class="col-sm-4" style="border-radius:2px; border-width:1px; border-color:lightsteelblue; border-style:groove;">
+                    <h5 class="page-header">Total Memory</h5>
+                    <div style="min-height:200px;max-heigh:200px;min-width:200px;max-width=200px">
+                            <!--img alt="140x140" src="http://test.ganglia.mzhen.com:82/ganglia/graph.php?c=unspecified&m=load_one&r=hour&s=by+name&hc=4&mc=2&st=1384855375&g=load_report&z=medium&_=1384914824287" style="min-height:200px;max-heigh:200px;min-width:200px;max-width=200px"/-->
+                    <img height="240" width="355" src="http://test.ganglia.mzhen.com:82/ganglia/graph.php?c=unspecified&m=load_one&r=hour&s=by+name&hc=4&mc=2&st=1384855375&g=mem_report&z=medium&_=1384914824291"  style="min-height:200px;max-heigh:200px"/>
+                    </div>
+                </div>
+                <div class="col-sm-4" style="border-radius:2px; border-width:1px; border-color:lightsteelblue; border-style:groove;">
+                    <h5 class="page-header">Total Network</h5>
+                    <img height="240" width="355" src="http://test.ganglia.mzhen.com:82/ganglia/graph.php?c=unspecified&m=load_one&r=hour&s=by+name&hc=4&mc=2&st=1384855375&g=network_report&z=medium&_=1384914824294" style="min-height:200px"/>
+
+                </div>
+                <div class="col-sm-4" style="border-radius:2px; border-width:1px; border-color:lightsteelblue; border-style:groove;">
+                    <h5 class="page-header">Cpu Usage Rate</h5>
+                    <img height="240" width="355" src="http://test.ganglia.mzhen.com:82/ganglia/graph.php?c=unspecified&m=load_one&r=hour&s=by+name&hc=4&mc=2&st=1384855375&g=cpu_report&z=medium&_=1384915124313" style="min-height:200px"/>
+                </div>
+            </div>
+            <div class="row">
+            </div>
+            <!--div class="row-fluid" style="border-radius:0px;  border-left-style:groove; border-right-style:groove; border-width:5px; border-color:white; ">
+                <div class="span4" style="border-radius:2px; border-width:3px; border-color:lightsteelblue; border-style:groove;">
+
+                    <div class="span12">
+                            <img alt="140x140" src="http://a1004.mzhen.cn/ganglia/graph.php?c=mz&m=load_one&r=hour&s=by%20name&hc=4&mc=2&st=1372734217&g=mem_report&z=medium" style="min-height:270px"/>
+                    </div>
+                </div>
+                <div class="span4" style="border-radius:2px; border-width:3px; border-color:lightsteelblue; border-style:groove;">
+                    <img alt="140x140" src="http://a1004.mzhen.cn/ganglia/graph.php?r=hour&z=large&c=mz&m=load_one&s=by+name&mc=2&g=load_report"  style="min-height:270px"/>
+                </div>
+                <div class="span4" style="border-radius:2px; border-width:3px; border-color:lightsteelblue; border-style:groove;">
+                    <img alt="140x140" src="http://a1004.mzhen.cn/ganglia/graph.php?c=mz&m=load_one&r=hour&s=by%20name&hc=4&mc=2&st=1372734217&g=network_report&z=medium" style="min-height:270px"/>
+                </div>
+            </div>
+            <div class="row-fluid" style="border-radius:0px; border-left-style:groove; border-right-style:groove; border-width:5px; border-color:white; ">
+                <br>
+            </div>
+            <div class="row-fluid" style="border-radius:0px; border-left-style:groove; border-right-style:groove; border-width:5px; border-color:white; ">
+
+                <div class="span1">
+                </div>
+                <div class="span7" style="border-radius:2px; border-width:4px; border-color:lightsteelblue; border-style:groove;">
+                            <img alt="140x140"  style="min-height:270px; min-width:736px; max-height:330px" src="img/nagios.png"/>
+
+                </div>
+                <div class="span3" style="border-radius:2px; border-width:4px; border-color:lightsteelblue; border-style:groove;">
+                        <img alt="140x140" style="min-height:330px;min-width:290px;max-height:330px" src="img/guard.png"/>
+                </div>
+                <div class="span1">
+                </div>
+            </div-->
+
+        <!--/div -->
+    </div>
+<% include footer.html %>
+
+

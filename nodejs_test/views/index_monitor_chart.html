@@ -1,0 +1,233 @@
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <title>Dash Board of Computation Platform</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+
+    <!--link href="css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
+
+    <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+
+    <link href="css/style-metro.css" rel="stylesheet" type="text/css"/>
+
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
+
+    <link href="css/style-responsive.css" rel="stylesheet" type="text/css"/>
+
+    <link href="css/default.css" rel="stylesheet" type="text/css" id="style_color"/>
+
+    <link href="css/uniform.default.css" rel="stylesheet" type="text/css"/-->
+
+    <!-- END GLOBAL MANDATORY STYLES -->
+
+    <!-- BEGIN PAGE LEVEL STYLES --> 
+
+    <!--link href="plugins/jquery.gritter.css" rel="stylesheet" type="text/css"/>
+
+    <link href="plugins/daterangepicker.css" rel="stylesheet" type="text/css" />
+
+    <link href="plugins/fullcalendar.css" rel="stylesheet" type="text/css"/>
+
+    <link href="plugins/jqvmap.css" rel="stylesheet" type="text/css" media="screen"/>
+
+    <link href="plugins/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css" media="screen"/ -->
+
+    <!-- END PAGE LEVEL STYLES -->
+
+    <!-- Theme Stylesheet -->
+
+    <link rel="stylesheet" href="css/dandelion.theme.css" media="screen">
+
+    <!-- Icon Stylesheet -->
+
+    <link rel="stylesheet" href="css/1/style.css" media="screen">
+
+    <!--  Main Stylesheet -->
+
+    <link rel="stylesheet" href="css/dandelion.min.css" media="screen">
+
+    <link rel="stylesheet" href="css/customizer.css" media="screen">
+
+    <!-- Demo Stylesheet -->
+
+    <link rel="stylesheet" href="css/demo.css" media="screen">
+
+
+
+    <!-- Plugin Stylesheet -->
+
+    <link rel="stylesheet" href="css/dandelion.wizard.css" media="screen">
+
+
+        <script type="text/javascript" language="Javascript" src="js/jquery.js"></script>
+    <link rel="shortcut icon" href="favicon.ico" />
+
+
+    <script type="text/javascript" src="js/FusionCharts_003.js" ></script>
+        <script type="text/javascript" src="js/FusionCharts.js" ></script>
+    <script type="text/javascript" src="js/FusionCharts_002.js" ></script>
+       <script type="text/javascript" src="js/FusionCharts_004.js" ></script>
+       <script type="text/javascript" src="js/StCol2D1.js"></script>
+    <script type="text/javascript">
+
+
+        function change2alert(){
+            var alertDiv = document.getElementById("alert");
+            alert(alertDiv.innerHTML);
+            alertDiv.innerHTML = "<img src='img/danger.jpg' />";
+        };
+
+    </script>   
+    </head>
+    <body>
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+<div class="container-fluid" style=" background-color:azure; border-radius:10px; border-style:solid; border-color:azure; border-width:3px  ">
+    <div class="row-fluid">
+        <div class="span12" >
+
+            <div class="row-fluid" style="background-image:url('img/background_7.jpg');background-color:azure; border-radius:5px; border-top-style:groove; border-left-style:groove; border-right-style:groove; border-width:5px; border-color:white; ">
+                <ul class="nav nav-tabs"  contenteditable="true" >
+                    <li >
+
+                        <a href="#"></a>
+                    </li>
+                    <li  >
+                                        <!-- Icon Container -->
+
+                        <a href="./index_dashboard.html">
+
+                                        <span class="da-nav-icon">
+
+                                            <!--i class="icon-home"></i-->
+                                            <img src="img/home.jpg">
+
+                                        </span>
+                            <span style="text-align:center;"><h4><font color="white">DashBoard </font></h4></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="./index_management.html">
+                            <!-- Icon Container -->
+
+                                    <span class="da-nav-icon" style="text-align:center;">
+
+                                            <img src="img/management.jpg">
+
+                                    </span>
+                            <span style="text-align:center;"><h4><font color="white">Management</font></h4></span>
+                        </a>
+                    </li>
+                    <li  class="active" >
+                        <a href="./index_monitor.html">
+                            <!-- Icon Container -->
+
+                                    <span class="da-nav-icon">
+
+                                            <img src="img/monitor.jpg">
+
+                                    </span>
+
+                            <em><strong><h4>  Monitor   </h4></em></strong></span>
+                        </a>
+                    </li>
+                    <li >
+
+                        <a href="#"></a>
+                    </li>
+                    <li >
+
+                        <a href="#"></a>
+                    </li>
+                    <li >
+                        <a href="#">
+                                <!-- Icon Container -->
+
+                                    <span class="da-nav-icon">
+
+                                            <img src="img/document.jpg">
+
+                                    </span>
+
+                            <span style="text-align:center;"><h4><font color="white"> Ducoment </font></h4></span>
+                        </a>
+                    </li>
+                    <li >
+
+                        <a href="#"></a>
+                    </li>
+                    <li >
+                        <a href="#">
+                            <!-- Icon Container -->
+
+                                            <img src="img/support.jpg">
+
+
+                            <span style="text-align:center;"><h4><font color="white"> Support </font></h4></span>
+                        </a>
+                    </li>
+                    <li class="dropdown pull-right">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">下拉</a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#">操作</a>
+                            </li>
+                            <li>
+                                <a href="#">设置栏目</a>
+                            </li>
+                            <li>
+                                <a href="#">更多设置</a>
+                            </li>
+                            <li class="divider">
+                            </li>
+                            <li>
+                                <a href="#">分割线</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="row-fluid" style="border-radius:0px; border-top-style:groove; border-left-style:groove; border-right-style:groove; border-width:5px; border-color:white; ">
+                <br>
+            </div>
+            <div class="row-fluid" style="border-radius:0px;  border-left-style:groove; border-right-style:groove; border-width:5px; border-color:white; ">
+                <div class="span4" style="border-radius:2px; border-width:3px; border-color:lightsteelblue; border-style:groove;">
+
+                    <div class="span12">
+                            <img alt="140x140" src="http://a1004.mzhen.cn/ganglia/graph.php?c=mz&m=load_one&r=hour&s=by%20name&hc=4&mc=2&st=1372734217&g=mem_report&z=medium" style="min-height:270px"/>
+                    </div>
+                </div>
+                <div class="span4" style="border-radius:2px; border-width:3px; border-color:lightsteelblue; border-style:groove;">
+                    <img alt="140x140" src="http://a1004.mzhen.cn/ganglia/graph.php?r=hour&z=large&c=mz&m=load_one&s=by+name&mc=2&g=load_report"  style="min-height:270px"/>
+                </div>
+                <div class="span4" style="border-radius:2px; border-width:3px; border-color:lightsteelblue; border-style:groove;">
+                    <img alt="140x140" src="http://a1004.mzhen.cn/ganglia/graph.php?c=mz&m=load_one&r=hour&s=by%20name&hc=4&mc=2&st=1372734217&g=network_report&z=medium" style="min-height:270px"/>
+                </div>
+            </div>
+            <div class="row-fluid" style="border-radius:0px; border-left-style:groove; border-right-style:groove; border-width:5px; border-color:white; ">
+                <br>
+            </div>
+            <div class="row-fluid" style="border-radius:0px; border-left-style:groove; border-right-style:groove; border-width:5px; border-color:white; ">
+                
+                <div class="span1">
+                </div>
+                <div class="span7" style="border-radius:2px; border-width:4px; border-color:lightsteelblue; border-style:groove;">
+                            <img alt="140x140"  style="min-height:270px; min-width:736px; max-height:330px" src="img/nagios.png"/>
+
+                </div>
+                <div class="span3" style="border-radius:2px; border-width:4px; border-color:lightsteelblue; border-style:groove;">
+                        <img alt="140x140" style="min-height:330px;min-width:290px;max-height:330px" src="img/guard.png"/>
+                </div>
+                <div class="span1">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+    </html>

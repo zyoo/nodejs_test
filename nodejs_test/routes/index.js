@@ -15,56 +15,103 @@ var conn=mysql.createConnection({
 
 exports.authorize=function(req,res,next){
     console.log('check the username info ');
-    console.log(req.session.username);
-	if(!req.session.username){
-		res.redirect('/login');
-	}
-	else{
-		next();
-	}
+	console.log(req.session.username);
+    if(!req.session.username){
+        res.redirect('/login');
+    }
+    else{
+        next();
+    }
 }
-exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
-};
-exports.index = function(req,res){
-    res.render('index',{title: 'Index'});
+
+exports.authorize_admin_for_ajax = function(req, res, next) {
+	console.log('check whether the username is admin.');
+	console.log(req.session.username);
+	conn.query('select is_admin from user where user_name', req.session.username, function(err, result) {
+		if(err) {
+			res.send('200',{error:'Permission Denied, please login using the admin.'});	
+		}			
+		else {
+			if(result[0].is_admin == 1) {
+				next();	
+			}	
+			else {
+				res.send('200',{error:'Permission Denied, please login using the admin.'});	
+			}
+		}
+	});
+}
+
+exports.authorize_admin_for_form = function(req, res, next) {
+	console.log('check whether the username is admin.');
+	console.log(req.session.username);
+	conn.query('select is_admin from user where user_name = ?', req.session.username, function(err, result) {
+		if(err) {
+			res.render('login',{
+									title: 'Login',
+									error: 'Perssion Denied, please login using the admin.'
+							   });	
+		}			
+		else {
+			console.log(result[0].is_admin);
+			if(result[0].is_admin == 1) {
+				next();	
+			}	
+			else {
+				res.render('login',{
+										title: 'Login',
+										error: 'Perssion Denied, please login using the admin.'
+								   });	
+			}
+		}
+	});
 }
 exports.login = function(req,res){
     console.log("open the login page");
-    res.render('login',{title: 'user login'});
+    res.render('login',{title: 'user login', error:''});
 }
 exports.monitor = function (req, res) {
     console.log("open monitor page");
     res.render('monitor', {title : 'Cluster Monitor'});
 }
 exports.doLogin = function(req,res){
-    var user={
-        username:'admin',
-        password:'admin'
-    }
-	console.log("hello");
-	console.log(req.body);
-    if(req.body.username===user.username && req.body.password===user.password){
-	console.log("world");
-	req.session.username=user.username;
-        res.redirect('/server'); 
-    }
-    else{
-	console.log("jkjal");
-	res.redirect('/login');
-    }
+    console.log(req.body);
+	conn.query('select password from user where user_name = ?', req.body.username, function(err, result) {
+		if(err) {
+			console.log(err);
+			res.render('login',{
+									title: 'Login',
+									error: 'Password or user name is incorrect'
+							   });	
+		}			
+		else {
+			if(result.length != 1) {
+				res.render('login',{
+										title: 'Login',
+										error: 'Password or user name is incorrect'
+								   });	
+			}	
+			else {
+				console.log(result[0].password);
+				if(result[0].password != req.body.password) {
+					console.log('login failed');
+					res.render('login',{
+											title: 'Login',
+											error: 'Password or user name is incorrect'
+									   });	
+				}	
+				else {
+					req.session.username = req.body.username;
+					res.redirect('/server');	
+				}
+			}
+		}
+	});
 }
 exports.dologout=function(req,res){
     if(req.session.username)
-	req.session.username=null;
+		req.session.username=null;
     res.redirect('/login');
-}
-exports.home=function(req,res){
-    var user={
-        username:'admin',
-        password:'admin'
-    }
-    res.render('home',{title:'Home',user:user});
 }
 
 exports.server_info_update=function(req,res){
@@ -116,16 +163,16 @@ exports.server_info_update=function(req,res){
 }
 
 exports.server=function(req,res){
-	console.log(req.session.username);
+    console.log(req.session.username);
     conn.query("select host,ip,cpu,ram,disk,os,load_info,status from host_info",function(err,result){
             if(err){
                 console.log(err);
-                res.render('server',{title:'Server:Add New Server',flag:'true',CheckRes:'database option failed',DataBase_Res:'',host_arg:''});
+                res.render('server',{title:'Server:Add New Server',flag:'true',CheckRes:'database option failed',DataBase_Res:'',host_arg:'', username:req.session.username});
             }
             else{
-		if(result.length == 0){
-		    res.render('server',{title:'Server',flag:'false',CheckRes:'',DataBase_Res:'',host_arg:''});
-		}
+        if(result.length == 0){
+            res.render('server',{title:'Server',flag:'false',CheckRes:'',DataBase_Res:'',host_arg:'', username:req.session.username});
+        }
                 var count=0;
                 for(var i=0;i<result.length;i++){
                     if(result[i]['host'] == ''){
@@ -153,7 +200,7 @@ exports.server=function(req,res){
                                 if(count ==total_info.length){
                                     var str_result=JSON.stringify(total_info);
                                     var str_result1=str_result.replace(/"/g,'\"');
-                                    res.render('server',{title:'Server',flag:'false',CheckRes:'',DataBase_Res:str_result1,host_arg:''});
+                                    res.render('server',{title:'Server',flag:'false',CheckRes:'',DataBase_Res:str_result1,host_arg:'', username: req.session.username});
 
                                 }
                             }
@@ -176,7 +223,7 @@ exports.add_server_first=function(req,res){
 //    console.log(req.files.files[0]);
     if(host == null || port == null){
         console.log("hello world");
-        res.render('server',{title:'Service:Add New Server',flag:'true',CheckRes:'the input info is illegal',DataBase_Res:''});
+        res.render('server',{title:'Service:Add New Server',flag:'true',CheckRes:'the input info is illegal',DataBase_Res:'', username: req.session.username});
     }
     else{
         var current_path=process.cwd();
@@ -191,14 +238,18 @@ exports.add_server_first=function(req,res){
         exec(api_checkhost_cmd,function(err,stdout,stderr){
                 if(err == null){
                     // get the base info of the host from yanqiang's api name:host -a:add server;-g get info.
+                    var ipStr = stdout;
+                    var ipStartPos = ipStr.indexOf('(');
+                    var ipEndPos = ipStr.indexOf(')');
+                    ipStr = ipStr.substring(ipStartPos+1,ipEndPos);
                     console.log(api_checkhost_cmd+' success');
                     var api_gethostinfo_cmd='sh HOST -g '+host+' -p '+port+' -k '+new_path;
                     exec(api_gethostinfo_cmd,function(err,stdout,stderr){
-						console.log(api_gethostinfo_cmd);
+                        console.log(api_gethostinfo_cmd);
                         if(err){
-				console.log('api_gethostinfo_cmd failed');
-				console.log(err);
-                            res.render('server',{title:'Server:Add new server',flag:'true',CheckRes:'get the host info error:'+stdout+'.please cancle the operation',DataBase_Res:'',host_arg:''}); 
+                console.log('api_gethostinfo_cmd failed');
+                console.log(err);
+                            res.render('server',{title:'Server:Add new server',flag:'true',CheckRes:'get the host info error:'+stdout+'.please cancle the operation',DataBase_Res:'',host_arg:'', username: req.session.username}); 
                         }
                         else{
                             console.log(api_gethostinfo_cmd+' success');
@@ -217,31 +268,31 @@ exports.add_server_first=function(req,res){
                             //here process the api result
 //                            conn.query("delete from host_info_temp where host=?;insert into host_info_temp set host=?,ip=?,cpu=?,ram=?,disk=?,os=?,load_info=?",[host,host,list_host_info_res['ip'],list_host_info_res['cpu'],list_host_info_res['ram'],list_host_info_res['disk'],list_host_info_res['os'],list_host_info_res['load_info']],function(err,result){
                             conn.query("delete from host_info_temp where host=?",[host],function(err,result){
-				if(err){
+                if(err){
 
-				}
-				else{
-				    conn.query("insert into host_info_temp set host=?,ip=?,cpu=?,ram=?,disk=?,os=?,load_info=?,key_file_path=?,port=?,status=?",[host,list_host_info_res['ip'],list_host_info_res['cpu'],list_host_info_res['ram'],list_host_info_res['disk'],list_host_info_res['os'],list_host_info_res['load'],new_path,port,'live'],function(err,result){
-					if(err){
-					    console.log('the err is \n');
-					    console.log( err);
-					    res.render('server',{title:'Service:Add New Server',flag:'true',CheckRes:'update the database failed',DataBase_Res:'',host_arg:''});
-					}
-					else{
-					    
-					    res.render('server',{title:'Service:Add New Server',flag:'true',CheckRes:'the host is legal,please go on to add the server to the cluser',DataBase_Res:'',host_arg:host});
-					//call the api from xiaoqiang to install the nagios and other base service
-					}
-				    }); 
+                }
+                else{
+                    conn.query("insert into host_info_temp set host=?,ip=?,cpu=?,ram=?,disk=?,os=?,load_info=?,key_file_path=?,port=?,status=?",[host,ipStr,list_host_info_res['cpu'],list_host_info_res['ram'],list_host_info_res['disk'],list_host_info_res['os'],list_host_info_res['load'],new_path,port,'live'],function(err,result){
+                    if(err){
+                        console.log('the err is \n');
+                        console.log( err);
+                        res.render('server',{title:'Service:Add New Server',flag:'true',CheckRes:'update the database failed',DataBase_Res:'',host_arg:'', username: req.session.username});
+                    }
+                    else{
+                        
+                        res.render('server',{title:'Service:Add New Server',flag:'true',CheckRes:'the host is legal,please go on to add the server to the cluser',DataBase_Res:'',host_arg:host, username: req.session.username});
+                    //call the api from xiaoqiang to install the nagios and other base service
+                    }
+                    }); 
 
-				}
-			    });
+                }
+                });
                         } 
                     });
                 }
                 else{
-			console.log(err);
-                    res.render('server',{title:"Server:Add New Server",flag:'true',CheckRes:'the input info for the host is illegal,the check err is '+JSON.stringify(err)+stdout+'. please check the host info,then try again',DataBase_Res:'',host_arg:''});
+            console.log(err);
+                    res.render('server',{title:"Server:Add New Server",flag:'true',CheckRes:'the input info for the host is illegal,the check err is '+JSON.stringify(err)+stdout+'. please check the host info,then try again',DataBase_Res:'',host_arg:'',username: req.session.username});
                 }               
         });
     }
@@ -260,78 +311,78 @@ exports.add_server_second=function(req,res){
         var current_path=process.cwd();
         var new_path=current_path+'/keyfile_dir/'+host+'.keyfile.list';
         var api_addhost_cmd='sh HOST -a '+host+' -p '+port+' -k '+new_path;
-	console.log(api_addhost_cmd);
+    console.log(api_addhost_cmd);
         exec(api_addhost_cmd,function(err,stdout,stderr){
             if(err){
-		console.log('api_addhost_cmd failed');
-		console.log(err);
-		console.log(stdout);
-                res.render('server',{title:'Server:Add New Server',flag:'true',CheckRes:'add host failed,the error info is '+JSON.stringify(err)+stdout,DataBase_Res:'',host_arg:''});
+        console.log('api_addhost_cmd failed');
+        console.log(err);
+        console.log(stdout);
+                res.render('server',{title:'Server:Add New Server',flag:'true',CheckRes:'add host failed,the error info is '+JSON.stringify(err)+stdout,DataBase_Res:'',host_arg:'',username: req.session.username});
             }
             else{
-		console.log(api_addhost_cmd+' success');
+        console.log(api_addhost_cmd+' success');
 //                var result=stdout;
  //               var arr_info=result.split(";");
                 conn.query("insert into host_info select * from host_info_temp where host=?",[host],function(err,result){
-			if(err){
-				console.log("insert host_info from host_info_temp failed");
-				console.log(err);
-				res.render('server',{title:'Server:Add New Server',flag:'true',CheckRes:'add host failed,the error info is '+JSON.stringify(err),DataBase_Res:'',host_arg:''});
-			}
-			else{
-				conn.query("delete from host_info_temp where host=?",[host],function(err,result){
-				     if(err){
-					 res.render('server',{title:'Server:Add New Server',flag:'true',CheckRes:'add host failed,the error info is '+JSON.stringify(err)+stdout,DataBase_Res:'',host_arg:''});
-				     }
-				     else{
-					 conn.query("select host,ip,cpu,ram,disk,os,load_info,status from host_info",function(err,result){
-					    if(err){
-						console.log(err);
-						res.render('server',{title:'Server:Add New Server',flag:'true',CheckRes:'database option failed',DataBase_Res:'',host_arg:''});
-					    }
-					    else{
-						var count=0;
-						for(var i=0;i<result.length;i++){
-						    if(result[i]['host'] == ''){
-							console.log(result[i]);
-							continue;
-						    }
-						    console.log(result[i]['host']);
-						    conn.query("select host,role_name from services_on_the_hosts_info where host=?",[result[i]['host']],function(host_number,total_info){
-							return function(err,result){
-							    count++;
-							    if(err){
-								console.log(err);
-							    }
-							    else{
-								console.log(result); 
-								console.log(typeof result);
-								if(result.length == 0)
-								    total_info[host_number]['role_name']='';
-								else
-								    total_info[host_number]['role_name']=result[0]['role_name'];
-								for(var j=1;j<result.length;j++){
-								    total_info[host_number]['role_name']=total_info[host_number]['role_name']+','+result[j]['role_name'];
-								}
-								console.log(total_info[host_number]);
-								if(count ==total_info.length){
-								    var str_result=JSON.stringify(total_info);
-								    var str_result1=str_result.replace(/"/g,'\"');
-									console.log(str_result1);
-								    res.render('server',{title:'Server',flag:'false',CheckRes:'',DataBase_Res:str_result1,host_arg:''});
+            if(err){
+                console.log("insert host_info from host_info_temp failed");
+                console.log(err);
+                res.render('server',{title:'Server:Add New Server',flag:'true',CheckRes:'add host failed,the error info is '+JSON.stringify(err),DataBase_Res:'',host_arg:'',username: req.session.username});
+            }
+            else{
+                conn.query("delete from host_info_temp where host=?",[host],function(err,result){
+                     if(err){
+                     res.render('server',{title:'Server:Add New Server',flag:'true',CheckRes:'add host failed,the error info is '+JSON.stringify(err)+stdout,DataBase_Res:'',host_arg:'',username: req.session.username});
+                     }
+                     else{
+                     conn.query("select host,ip,cpu,ram,disk,os,load_info,status from host_info",function(err,result){
+                        if(err){
+                        console.log(err);
+                        res.render('server',{title:'Server:Add New Server',flag:'true',CheckRes:'database option failed',DataBase_Res:'',host_arg:'',username: req.session.username});
+                        }
+                        else{
+                        var count=0;
+                        for(var i=0;i<result.length;i++){
+                            if(result[i]['host'] == ''){
+                            console.log(result[i]);
+                            continue;
+                            }
+                            console.log(result[i]['host']);
+                            conn.query("select host,role_name from services_on_the_hosts_info where host=?",[result[i]['host']],function(host_number,total_info){
+                            return function(err,result){
+                                count++;
+                                if(err){
+                                console.log(err);
+                                }
+                                else{
+                                console.log(result); 
+                                console.log(typeof result);
+                                if(result.length == 0)
+                                    total_info[host_number]['role_name']='';
+                                else
+                                    total_info[host_number]['role_name']=result[0]['role_name'];
+                                for(var j=1;j<result.length;j++){
+                                    total_info[host_number]['role_name']=total_info[host_number]['role_name']+','+result[j]['role_name'];
+                                }
+                                console.log(total_info[host_number]);
+                                if(count ==total_info.length){
+                                    var str_result=JSON.stringify(total_info);
+                                    var str_result1=str_result.replace(/"/g,'\"');
+                                    console.log(str_result1);
+                                    res.render('server',{title:'Server',flag:'false',CheckRes:'',DataBase_Res:str_result1,host_arg:'', username:req.session.username});
 
-								}
-							   }
-							};
-						    }(i,result) );
-						}
-				       
-					    }
-					});                   
-				    }
-				});
-			}
-		});
+                                }
+                               }
+                            };
+                            }(i,result) );
+                        }
+                       
+                        }
+                    });                   
+                    }
+                });
+            }
+        });
 
 
             } 
@@ -343,7 +394,7 @@ exports.show_server_list=function(req,res){
 }
 exports.update_remove_server=function(req,res){
     conn.query("select host,ip from host_info",function(err,result){
-			console.log(result);
+            console.log(result);
             if(err){
                 console.log(err);
                 res.send('500',{error:"get servers info from db failed"});
@@ -377,7 +428,7 @@ exports.update_remove_server=function(req,res){
                                 if(count ==total_info.length){
                                     var str_result=JSON.stringify(total_info);
                                     var str_result1=str_result.replace(/"/g,'\"');
-									console.log(str_result1);
+                                    console.log(str_result1);
                                     res.send("200",{result:str_result1});
                                 }
                             }
@@ -391,26 +442,26 @@ var role_count_on_the_host=0;
 var removed_role_count_on_the_host=0;
 var removed_role_failed_result=[];
 exports.remove_server=function(req,res){
-	var host=req.body.removed_host;	
-	console.log("the removed host is ");
-	console.log(host);
-	var sql_cmd='select role_name from services_on_the_hosts_info where host=? and service_status=?';
-	conn.query(sql_cmd,[host,'health'],function(err,result){
-		console.log(result);
-		if(err){
-			console.log(err);
-		}
-		else{
-			if(result.length != 0){
-				res.send(200,{error_info:'please stop the services on the host firstly'});
-			}	
-			else{
-				conn.query('select role_name,service_name from services_on_the_hosts_info where host=? and service_status=?',[host,'dead'],function(err,result1){
-					console.log(result1);
-					if(err){
-						console.log(err);
-					}
-					else{
+    var host=req.body.removed_host;    
+    console.log("the removed host is ");
+    console.log(host);
+    var sql_cmd='select role_name from services_on_the_hosts_info where host=? and service_status=?';
+    conn.query(sql_cmd,[host,'health'],function(err,result){
+        console.log(result);
+        if(err){
+            console.log(err);
+        }
+        else{
+            if(result.length != 0){
+                res.send(200,{error_info:'please stop the services on the host firstly'});
+            }    
+            else{
+                conn.query('select role_name,service_name from services_on_the_hosts_info where host=? and service_status=?',[host,'dead'],function(err,result1){
+                    console.log(result1);
+                    if(err){
+                        console.log(err);
+                    }
+                    else{
                         if(result1.length == 0){
                             conn.query('delete from host_info where host =?',[host],function(err,result){
                                 if(err){
@@ -425,30 +476,30 @@ exports.remove_server=function(req,res){
                         else{
                             role_count_on_the_host=result1.length;
                             for(var i=0;i<result1.length;i++){
-                                remove_one_role_on_the_host(result1[i].role_name,host,result1[i].service_name,res,req);	
+                                remove_one_role_on_the_host(result1[i].role_name,host,result1[i].service_name,res,req);    
                             }
                         } 
-					}
-				});
-			}
-		}
-	});
+                    }
+                });
+            }
+        }
+    });
 
 }
 function remove_one_role_on_the_host(role,host,service,res,req){
     var remove_role_cmd='sh /usr/local/NArk/uppershell/bin/DPOP '+host+' hadoop '+role+' uninstall';
     var remove_check_cmd='sh /usr/local/NArk/bin/CHECK -h '+host+' -p hadoop';
-	var makeConfigFileCmd='';
-//	var config_cmd='sh /usr/local/NArk/uppershell/bin/DPOP '+host+' hadoop '+role+' config';
-//	var config_check_cmd='sh /usr/local/NArk/bin/CHECK -h '+host+' -p hadoop -c config';
-	exec(remove_role_cmd,function(err,stdout,stderr){
-		console.log(remove_role_cmd);
-		setTimeout(function(){
-			exec(remove_check_cmd,function(err,stdout,stderr){
-				console.log(remove_check_cmd);
-				if(err){
-				//	console.log(err);
-				    conn.query('delete from services_on_the_hosts_info where host=? and role_name=?',[host,role],function(err,result){
+    var makeConfigFileCmd='';
+//    var config_cmd='sh /usr/local/NArk/uppershell/bin/DPOP '+host+' hadoop '+role+' config';
+//    var config_check_cmd='sh /usr/local/NArk/bin/CHECK -h '+host+' -p hadoop -c config';
+    exec(remove_role_cmd,function(err,stdout,stderr){
+        console.log(remove_role_cmd);
+        setTimeout(function(){
+            exec(remove_check_cmd,function(err,stdout,stderr){
+                console.log(remove_check_cmd);
+                if(err){
+                //    console.log(err);
+                    conn.query('delete from services_on_the_hosts_info where host=? and role_name=?',[host,role],function(err,result){
                         update_service_config_file(makeConfigFileCmd,service,function(){
                                 exec(makeConfigFileCmd,function(err,stdout,stderr){
                                         console.log(makeConfigFileCmd);
@@ -475,7 +526,7 @@ function remove_one_role_on_the_host(role,host,service,res,req){
                                                                         console.log(config_check_cmd);
                                                                         if(err){
                                                                             console.log(err);
-                                                                        }	
+                                                                        }    
                                                                         else{
                                                                             process_other_host_role_count++;
                                                                             console.log('role_count_on_the_host is ');
@@ -502,8 +553,8 @@ function remove_one_role_on_the_host(role,host,service,res,req){
                                                                                         }
                                                                                         else{
                                                                                             for(var j=0;j<result.length;j++){
-                                                                                                removed_role_failed_result+=result[j].role_name+':';	
-                                                                                            }	
+                                                                                                removed_role_failed_result+=result[j].role_name+':';    
+                                                                                            }    
                                                                                             removed_role_failed_result=removed_role_failed_result.substring(0,removed_role_failed_result.length);
                                                                                             res.send(200,{error_info:removed_role_failed_result});
                                                                                         }
@@ -524,87 +575,87 @@ function remove_one_role_on_the_host(role,host,service,res,req){
                                 });
                         });
                     });
-				}
-				else{
-					console.log("uninstall failed");
-				}
-			});
-		},20*1000);	
-	});
+                }
+                else{
+                    console.log("uninstall failed");
+                }
+            });
+        },20*1000);    
+    });
 }
 function update_service_config_file(makeConfigFileCmd_temp,service,callback){
-	conn.query('select role_name,host from services_on_the_hosts_info where service_name=?',[service],function(err,result){
-		if(err){
-			console.log(err);
-			return;
-		}
-		else{
-			var host_role_name_result=result;
-			conn.query('select current_config from services_on_running where service_name=?',[service],function(err,result1){
-				if(err){
-					console.log(err);
-					return;
-				}
-				else{
-						var config=result1[0].current_config;
-						var makeConfigFileCmd_temp='sh /usr/local/NArk/sbin/hadoop/generate.sh '+service+' ';
-						if(service == 'hdfs'){
-								for(var i=0;i<host_role_name_result.length;i++){
-										if(host_role_name_result[i].role_name == 'namenode'){
-												makeConfigFileCmd_temp+=host_role_name_result[i].host+' ';  
-												break;
-										}
-								}
-								for(var i=0;i<host_role_name_result.length;i++){
-										if(host_role_name_result[i].role_name == 'secondarynamenode'){
-												makeConfigFileCmd_temp+=host_role_name_result[i].host+' '; 
-												break;
-										} 
-								}
-								var datanode_list='';
-								for(var i=0;i<host_role_name_result.length;i++){
-										if(host_role_name_result[i].role_name == 'datanode'){
-												datanode_list+=host_role_name_result[i].host+":"; 
-										}
-								}
-								datanode_list=datanode_list.substring(0,datanode_list.length);
-								makeConfigFileCmd_temp+=datanode_list;
-								//get nn_dir
-								var nn_dir_start=config.indexOf("namenode-directories");
-								nn_dir_start=config.indexOf("^",nn_dir_start);
-								var nn_dir_end=config.indexOf(",",nn_dir_start);
-								var nn_dir=config.substring(nn_dir_start+1,nn_dir_end);
-								makeConfigFileCmd_temp+=nn_dir+' ';
-								//get snn_dir
-								var snn_dir_start=config.indexOf("secondarynamenode-directories");
-								snn_dir_start=config.indexOf("^",snn_dir_start);
-								var snn_dir_end=config.indexOf(",",snn_dir_start);
-								var snn_dir=config.substring(snn_dir_start+1,snn_dir_end);
-								makeConfigFileCmd_temp+=snn_dir+' ';
-								//get dn_dir
-								var dn_dir_start=config.indexOf("datanode-directories");
-								dn_dir_start=config.indexOf("^",dn_dir_start);
-								var dn_dir_end=config.indexOf(",",dn_dir_start);
-								var dn_dir=config.substring(dn_dir_start+1,dn_dir_end);
-								makeConfigFileCmd_temp+=dn_dir;
-								//not finished
-						}
-						else if(service == 'mapreduce'){
-								for(var i=0;i<result.length;i++){
-										if(result[i].role_name == 'jobtracker'){
-												makeConfigFileCmd_temp+=result[i].host; 
-												break;
-										} 
-								}
-						}
+    conn.query('select role_name,host from services_on_the_hosts_info where service_name=?',[service],function(err,result){
+        if(err){
+            console.log(err);
+            return;
+        }
+        else{
+            var host_role_name_result=result;
+            conn.query('select current_config from services_on_running where service_name=?',[service],function(err,result1){
+                if(err){
+                    console.log(err);
+                    return;
+                }
+                else{
+                        var config=result1[0].current_config;
+                        var makeConfigFileCmd_temp='sh /usr/local/NArk/sbin/hadoop/generate.sh '+service+' ';
+                        if(service == 'hdfs'){
+                                for(var i=0;i<host_role_name_result.length;i++){
+                                        if(host_role_name_result[i].role_name == 'namenode'){
+                                                makeConfigFileCmd_temp+=host_role_name_result[i].host+' ';  
+                                                break;
+                                        }
+                                }
+                                for(var i=0;i<host_role_name_result.length;i++){
+                                        if(host_role_name_result[i].role_name == 'secondarynamenode'){
+                                                makeConfigFileCmd_temp+=host_role_name_result[i].host+' '; 
+                                                break;
+                                        } 
+                                }
+                                var datanode_list='';
+                                for(var i=0;i<host_role_name_result.length;i++){
+                                        if(host_role_name_result[i].role_name == 'datanode'){
+                                                datanode_list+=host_role_name_result[i].host+":"; 
+                                        }
+                                }
+                                datanode_list=datanode_list.substring(0,datanode_list.length);
+                                makeConfigFileCmd_temp+=datanode_list;
+                                //get nn_dir
+                                var nn_dir_start=config.indexOf("namenode-directories");
+                                nn_dir_start=config.indexOf("^",nn_dir_start);
+                                var nn_dir_end=config.indexOf(",",nn_dir_start);
+                                var nn_dir=config.substring(nn_dir_start+1,nn_dir_end);
+                                makeConfigFileCmd_temp+=nn_dir+' ';
+                                //get snn_dir
+                                var snn_dir_start=config.indexOf("secondarynamenode-directories");
+                                snn_dir_start=config.indexOf("^",snn_dir_start);
+                                var snn_dir_end=config.indexOf(",",snn_dir_start);
+                                var snn_dir=config.substring(snn_dir_start+1,snn_dir_end);
+                                makeConfigFileCmd_temp+=snn_dir+' ';
+                                //get dn_dir
+                                var dn_dir_start=config.indexOf("datanode-directories");
+                                dn_dir_start=config.indexOf("^",dn_dir_start);
+                                var dn_dir_end=config.indexOf(",",dn_dir_start);
+                                var dn_dir=config.substring(dn_dir_start+1,dn_dir_end);
+                                makeConfigFileCmd_temp+=dn_dir;
+                                //not finished
+                        }
+                        else if(service == 'mapreduce'){
+                                for(var i=0;i<result.length;i++){
+                                        if(result[i].role_name == 'jobtracker'){
+                                                makeConfigFileCmd_temp+=result[i].host; 
+                                                break;
+                                        } 
+                                }
+                        }
                         console.log('makeConfigFileCmd_temp is '+makeConfigFileCmd_temp);
-						callback();
-//						return makeConfigFileCmd_temp;
-				}
-			
-			});
-		}
+                        callback();
+//                        return makeConfigFileCmd_temp;
+                }
+            
+            });
+        }
 
-	});
+    });
 }
 

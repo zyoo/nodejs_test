@@ -1,0 +1,205 @@
+Express server listening on port 80
+open the login page
+[90mGET / [32m200 [90m45ms - 4.48kb[0m
+[90mGET /dist/css/bootstrap.css [33m404 [90m11ms[0m
+[90mGET /dist/css/bootstrap-theme.css [33m404 [90m20ms[0m
+[90mGET /js/bootstrap.file-input.js [33m404 [90m18ms[0m
+[90mGET /css/bootstrap.file-input.css [33m404 [90m19ms[0m
+[90mGET /dist/css/bootstrap-responsive.css [33m404 [90m18ms[0m
+[90mGET /stylesheets/bootstrap.min.css [32m200 [90m189ms - 95.06kb[0m
+hello
+{ username: 'admin', password: 'admin' }
+world
+[90mPOST /dologin [36m302 [90m15ms - 70b[0m
+admin
+[ { host: '64v2.mzhen.cn', role_name: 'namenode' },
+  { host: '64v2.mzhen.cn', role_name: 'datanode' },
+  { host: '64v2.mzhen.cn', role_name: 'jobtracker' },
+  { host: '64v2.mzhen.cn', role_name: 'tasktracker' } ]
+object
+{ host: '64v2.mzhen.cn',
+  ip: 'xxx.xxx.xxx.xxx',
+  cpu: '2',
+  ram: '2G',
+  disk: '44G',
+  os: 'centos5',
+  load_info: '20%',
+  status: 'live',
+  role_name: 'namenode,datanode,jobtracker,tasktracker' }
+[ { host: '64v3.mzhen.cn', role_name: 'secondarynamenode' },
+  { host: '64v3.mzhen.cn', role_name: 'datanode' },
+  { host: '64v3.mzhen.cn', role_name: 'tasktracker' } ]
+object
+{ host: '64v3.mzhen.cn',
+  ip: 'xxx.xxx.xxx.xxx',
+  cpu: '2',
+  ram: '2G',
+  disk: '44G',
+  os: 'centos5',
+  load_info: '20%',
+  status: 'live',
+  role_name: 'secondarynamenode,datanode,tasktracker' }
+[ { host: '64v4.mzhen.cn', role_name: 'datanode' },
+  { host: '64v4.mzhen.cn', role_name: 'tasktracker' } ]
+object
+{ host: '64v4.mzhen.cn',
+  ip: 'xxx.xxx.xxx.xxx',
+  cpu: '2',
+  ram: '2G',
+  disk: '44G',
+  os: 'centos5',
+  load_info: '20%',
+  status: 'live',
+  role_name: 'datanode,tasktracker' }
+[ { host: '64v5.mzhen.cn', role_name: 'datanode' },
+  { host: '64v5.mzhen.cn', role_name: 'tasktracker' } ]
+object
+{ host: '64v5.mzhen.cn',
+  ip: 'xxx.xxx.xxx.xxx',
+  cpu: '2',
+  ram: '2G',
+  disk: '44G',
+  os: 'centos5',
+  load_info: '20%',
+  status: 'live',
+  role_name: 'datanode,tasktracker' }
+[ { host: '64v6.mzhen.cn', role_name: 'tasktracker' } ]
+object
+{ host: '64v6.mzhen.cn',
+  ip: 'xxx.xxx.xxx.xxx',
+  cpu: '2',
+  ram: '2G',
+  disk: '44G',
+  os: 'centos5',
+  load_info: '20%',
+  status: 'live',
+  role_name: 'tasktracker' }
+[90mGET /server [32m200 [90m58ms - 22.59kb[0m
+[90mGET /dist/css/bootstrap.css [33m404 [90m14ms[0m
+[90mGET /dist/css/bootstrap-theme.css [33m404 [90m14ms[0m
+[90mGET /js/bootstrap.file-input.js [33m404 [90m14ms[0m
+[90mGET /css/bootstrap.file-input.css [33m404 [90m13ms[0m
+[90mGET /dist/css/bootstrap-responsive.css [33m404 [90m12ms[0m
+[90mGET /stylesheets/bootstrap.min.css [36m304 [90m4ms[0m
+[90mGET /javascripts/bootstrap.min.js [32m200 [90m8ms - 27.08kb[0m
+[90mGET /javascripts/bootstrap3-validation.js [32m200 [90m8ms - 14.01kb[0m
+[90mGET /javascripts/json-to-table.js [32m200 [90m8ms - 6.91kb[0m
+the request is [object Object]
+[90mGET /service [32m200 [90m87ms - 58.36kb[0m
+[90mGET /dist/css/bootstrap.css [33m404 [90m7ms[0m
+[90mGET /dist/css/bootstrap-theme.css [33m404 [90m7ms[0m
+[90mGET /js/bootstrap.file-input.js [33m404 [90m8ms[0m
+[90mGET /css/bootstrap.file-input.css [33m404 [90m5ms[0m
+[90mGET /dist/css/bootstrap-responsive.css [33m404 [90m5ms[0m
+[90mGET /stylesheets/bootstrap.min.css [36m304 [90m2ms[0m
+[90mGET /javascripts/bootstrap.min.js [36m304 [90m4ms[0m
+[90mGET /javascripts/bootstrap3-validation.js [36m304 [90m4ms[0m
+[90mGET /javascripts/json-to-table.js [36m304 [90m3ms[0m
+[90mGET /20100108135852447.jpg [33m404 [90m3ms[0m
+hdfs
+[ { host: '64v3.mzhen.cn',
+    ip: '',
+    service_name: 'hdfs',
+    role_name: 'secondarynamenode',
+    service_status: 'dead',
+    log_info: '' },
+  { host: '64v4.mzhen.cn',
+    ip: '',
+    service_name: 'hdfs',
+    role_name: 'datanode',
+    service_status: 'dead',
+    log_info: '' },
+  { host: '64v2.mzhen.cn',
+    ip: '',
+    service_name: 'hdfs',
+    role_name: 'namenode',
+    service_status: 'dead',
+    log_info: '' },
+  { host: '64v2.mzhen.cn',
+    ip: '',
+    service_name: 'hdfs',
+    role_name: 'datanode',
+    service_status: 'dead',
+    log_info: '' },
+  { host: '64v3.mzhen.cn',
+    ip: '',
+    service_name: 'hdfs',
+    role_name: 'datanode',
+    service_status: 'dead',
+    log_info: '' },
+  { host: '64v5.mzhen.cn',
+    ip: '',
+    service_name: 'hdfs',
+    role_name: 'datanode',
+    service_status: 'dead',
+    log_info: '' } ]
+[90mPOST /service/get_action [32m200 [90m28ms - 1.05kb[0m
+[90mPOST /service/get_info [32m200 [90m5ms - 61b[0m
+hdfs
+[ { host: '64v3.mzhen.cn',
+    ip: '',
+    service_name: 'hdfs',
+    role_name: 'secondarynamenode',
+    service_status: 'dead',
+    log_info: '' },
+  { host: '64v4.mzhen.cn',
+    ip: '',
+    service_name: 'hdfs',
+    role_name: 'datanode',
+    service_status: 'dead',
+    log_info: '' },
+  { host: '64v2.mzhen.cn',
+    ip: '',
+    service_name: 'hdfs',
+    role_name: 'namenode',
+    service_status: 'dead',
+    log_info: '' },
+  { host: '64v2.mzhen.cn',
+    ip: '',
+    service_name: 'hdfs',
+    role_name: 'datanode',
+    service_status: 'dead',
+    log_info: '' },
+  { host: '64v3.mzhen.cn',
+    ip: '',
+    service_name: 'hdfs',
+    role_name: 'datanode',
+    service_status: 'dead',
+    log_info: '' },
+  { host: '64v5.mzhen.cn',
+    ip: '',
+    service_name: 'hdfs',
+    role_name: 'datanode',
+    service_status: 'dead',
+    log_info: '' } ]
+[90mPOST /service/get_action [32m200 [90m8ms - 1.05kb[0m
+[90mPOST /service/get_info [32m200 [90m10ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m4ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m4ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m8ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m6ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m4ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m5ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m6ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m3ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m3ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m8ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m5ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m4ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m4ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m8ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m4ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m4ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m4ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m4ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m4ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m5ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m4ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m7ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m5ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m3ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m4ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m7ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m3ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m3ms - 61b[0m
+[90mPOST /service/get_info [32m200 [90m4ms - 61b[0m

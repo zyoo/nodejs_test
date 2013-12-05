@@ -1,0 +1,1372 @@
+<% include header.html %>
+	<div class="container col-md-12">
+		<div class="row">
+			<ul class="nav nav-tabs">
+				<li id='services-list-id' class="active"><a href="#services-list" data-toggle="tab"><h5>services list</h5></a></li>
+				<li id='add-service-id'><a href="#add-service" data-toggle="tab"><h5>add service</h5></a></li>
+				<li id='remove-service-id'><a href="#remove-service" data-toggle="tab"><h5>remove service</h5></a></li>
+			</ul>
+
+<!-- Tab panes -->
+			<div class="tab-content">
+				<div class="tab-pane active" id="services-list">
+					<div class="col-md-3">
+					
+						<ul class="nav nab-tabs" id="service-infos">
+							<li>
+								<a id='hdfs_label' href="#hdfs" data-toggle="tab">hdfs</a>
+							</li>
+							<li>
+								<a id='mapreduce_label' href="#mapreduce" data-toggle="tab">mapreduce</a>
+							</li>
+							<li>
+								<a href="#">hbase</a>
+							</li>
+						</ul>
+					</div>
+					<div class="col-md-8 tab-content">
+						<div id="hdfs" class="tab-pane">
+							<ul class="nav nav-tabs">
+								<li id='info_label' class="active"><a href="#Info" data-toggle="tab">Info</a></li>
+								<li id='config_label'><a href="#Config" data-toggle="tab">Config</a></li>
+								<li id='action_label'><a href="#Action" data-toggle="tab">Action</a></li>
+								<div class="pull-right">
+									<button type="button" class="btn btn-info" data-toggle="modal" data-target="#ChoseComponentsForNewNode">add new service node</button>
+									<div id="ChoseComponentsForNewNode_id">
+									
+									</div>
+									<!--div class="modal fade" id="ChoseComponentsForNewNode1" tabindex="-1" role="dialog" aria-labelledby="Chose Components For New Node" aria-hidden="true">
+										<div class="modal-dialog">
+										    <div class="modal-content">
+										      <div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+											<h4 class="modal-title" id="ChoseComponentsForNewNodeLabel">Chose Components For New Node</h4>
+										      </div>
+										      <div class="modal-body">
+												<input type="checkbox" >NameNode</input>
+												<br>
+												<input type="checkbox">DataNode</input>
+												<br>
+												<input type="checkbox">SecondaryNamenode</input>
+										      </div>
+										      <div class="modal-footer">
+											<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+											<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#AddNewNode">next</button>
+											
+											
+										      </div>
+										    </div>
+										  </div>
+									</div-->
+									<div class="modal fade" id="AddNewNode" tabindex="-1" role="dialog" aria-labelledby="AddNewNode" aria-hidden="true">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+													<h4 class="modal-title" id="AddNewNodeLabel">Chose Components For New Node</h4>
+												</div>
+												<div class="modal-body">
+														
+															
+													<div class="panel-group" id="accordionAddNewNode">
+														<div class="panel panel-default">
+															<div class="panel-heading">
+															      <h4 class="panel-title">
+																<a data-toggle="collapse" data-parent="#accordionAddNewNode" href="#AddHostsForNameNode">
+																	NameNode
+																</a>
+															      </h4>
+															</div>
+															<div id="AddHostsForNameNode" class="panel-collapse collapse in">
+															      <div class="panel-body">
+																	
+																	<input type="checkbox">121.mzhen.cn</input>
+																	<br>
+																	<input type="checkbox">122.mzhen.cn</input>
+																
+															      </div>
+															</div>
+														</div>
+														<div class="panel panel-default">
+															<div class="panel-heading">
+															      <h4 class="panel-title">
+																<a data-toggle="collapse" data-toggle="collapse" data-parent="#accordionAddNewNode" href="#AddHostsForSecondaryNameNode">
+																	SecondaryNameNode
+																</a>
+															      </h4>
+															</div>
+															<div id="AddHostsForSecondaryNameNode" class="panel-collapse collapse in">
+															      <div class="panel-body">
+																	<input type="checkbox">122.mzhen.cn</input>
+															      </div>
+															</div>
+														</div>
+														<div class="panel panel-default">
+															<div class="panel-heading">
+															      <h4 class="panel-title">
+																<a data-toggle="collapse" data-toggle="collapse" data-parent="#accordionAddNewNode" href="#AddHostsForDataNode">
+																  DataNode
+																</a>
+															      </h4>
+															</div>
+															<div id="AddHostsForDataNode" class="panel-collapse collapse in">
+															      <div class="panel-body">
+																	<input type="checkbox">122.mzhen.cn</input>
+															      </div>
+															</div>
+														</div>
+													</div>
+															<br><br>
+															
+															
+														
+														
+												      </div>
+												      <div class="modal-footer">
+													<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+													<button type="button" class="btn btn-primary">next</button>
+													
+													
+												</div>
+											</div><!-- /.modal-content -->
+										</div><!-- /.modal-dialog -->
+									</div>
+									<button type="button" class="btn btn-primary" href="#">Start all</button>
+									<button type="button" class="btn btn-default" href="#">Stop all</button>
+								</div>
+							</ul>
+							
+	<!-- Tab panes -->
+							<div class="tab-content">
+								<div class="tab-pane active" id="Info">
+									<p>Here is some info of the service, the info includes the hdfs 's deployment Information and the hdfs's operating status</p>
+									<div>
+										<div class="table-responsive">
+											<table class="table">
+												<tbody>
+													<tr>
+														<td>
+															NameNode
+														</td>
+														<td>
+															<div>
+															
+																<span class="glyphicon glyphicon-star"></span>
+																<a href="#">120.mzhen.cn</a> 
+																
+																<a href="#" data-toggle="modal" data-target="#more-info-NameNode">more info</a>
+																<div class="modal fade" id="more-info-NameNode" tabindex="-1" role="dialog" aria-hidden="true"> <div class="modal-dialog">
+																	    <div class="modal-content">
+																	      <div class="modal-header">
+																		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+																		<h4 class="modal-title" id="myModalLabel">NameNode Status</h4>
+																	      </div>
+																	      <div class="modal-body">
+																			<p> here is the status of the NameNode.<b>live </b> </p>
+																			
+																	      </div>
+																	      <div class="modal-footer">
+																		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+															
+																	      </div>
+																	    </div><!-- /.modal-content -->
+																	</div>
+																</div>
+															</div>
+														</td>
+													</tr>
+													<tr>
+														<td>
+														
+															Secondary NameNode
+														</td>
+														<td>
+															<div>
+																<a href="#">121.mzhen.cn</a>
+																
+																
+																<a href="#" data-toggle="modal" data-target="#more-info-SecondaryNameNode">more info</a>
+																<div class="modal fade" id="more-info-SecondaryNameNode" tabindex="-1" role="dialog" aria-hidden="true">
+																	<div class="modal-dialog">
+																	    <div class="modal-content">
+																	      <div class="modal-header">
+																		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+																		<h4 class="modal-title" id="myModalLabel">SecondaryNameNode Status</h4>
+																	      </div>
+																	      <div class="modal-body">
+																			<p> here is the status of the NameNode. <b>live</b></p>
+																			
+																	      </div>
+																	      <div class="modal-footer">
+																		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+															
+																	      </div>
+																	    </div><!-- /.modal-content -->
+																	</div>
+																</div>
+															</div>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															DataNodes
+														</td>
+														<td>
+															<!-- how do better from the translate.google!-->
+															<div>
+																<!--a >n DataNodes</a-->
+																<p>3 DataNodes
+																<a href="#" data-toggle="modal" data-target="#more-info-DataNodes">more info</a></p>
+																<div class="modal fade" id="more-info-DataNodes" tabindex="-1" role="dialog" aria-hidden="true">
+																	<div class="modal-dialog">
+																	    <div class="modal-content">
+																	      <div class="modal-header">
+																		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+																		<h4 class="modal-title" id="myModalLabel">DataNodes and their Status</h4>
+																	      </div>
+																	      <div class="modal-body">
+																			<p> here is the status of the DataNode. </p>
+																			<p>0 live / 3 dead / 0 decommissioning</p>
+																			<a href="#">120.mzhen.cn</a>
+																			<b>live</b>
+																			<a href="#" data-toggle="modal" data-target="#more-info-120mzhencn">more info</a>
+																	      </div>
+																	      <div class="modal-footer">
+																		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+															
+																	      </div>
+																	    </div><!-- /.modal-content -->
+																	</div>
+																	
+																</div>
+															</div>
+															
+															<div class="modal fade" id="more-info-120mzhencn" tabindex="-1" role="dialog" aria-hidden="true">
+																<div class="modal-dialog">
+																	<div class="modal-content">
+																		<div class="modal-header">
+																			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+																			<h4 class="modal-title" id="120.mzhen.cn-DataNode">120.mzhen.cn Status</h4>
+																		</div>
+																		<div class="modal-body">
+																			<p> here is the status of the NameNode. </p>
+																			
+																		</div>
+																		<div class="modal-footer">
+																			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+															
+																		</div>
+																	</div><!-- /.modal-content -->
+																</div>
+															</div>	
+																
+															
+														</td>
+													</tr>
+													<tr>
+														<td>
+															Version
+														</td>
+														<td>
+															<p>1.1.1.1.1</p>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															NameNode UI
+														</td>
+														<td>
+															<a href="#">Web UI</a>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															NameNode Uptime
+														</td>
+														<td>
+															<!-- here should be updated every 1~3 hours-->
+															<p>10000 days</p>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															NameNode Heap
+														</td>
+														<td>
+															<!-- here should be updated every minute-->
+															<p>1000 M / 2000 M (50% used)</p>
+														</td>
+													</tr>
+													<tr>
+												
+														<td>
+															DataNodes Status
+														</td>
+														<td>
+															<p>
+																0 live / 3 dead / 0 decommissioning 
+																<a href="#" data-toggle="modal" data-target="#more-info">more info</a>
+																<div class="modal fade" id="more-info" tabindex="-1" role="dialog" aria-hidden="true">
+																	<div class="modal-dialog">
+																	    <div class="modal-content">
+																	      <div class="modal-header">
+																		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+																		<h4 class="modal-title" id="myModalLabel">Data Status</h4>
+																	      </div>
+																	      <div class="modal-body">
+																			<p> here is the status of every datanodes,if you want more info,please go to the hosts page. </p>
+																			<div class="table-responsive">
+																				<table class="table">
+																					<tbody>
+																						<tr>
+																							<td>
+																								<a href="#">123.mzhen.cn</a>
+																							</td>
+																							<td>
+																								<p>dead</p>
+																							</td>
+																						</tr>
+																						<tr>
+																							<td>
+																								<a href="#">124.mzhen.cn</a>
+																							</td>
+																							<td>
+																								<p>dead</p>
+																							</td>
+																						</tr>
+																						<tr>
+																							<td>
+																								<a href="#">125.mzhen.cn</a>
+																							</td>
+																							<td>
+																								<p>dead</p>
+																							</td>
+																						</tr>
+																					</tbody>
+																				</table>
+																			</div>
+																	      </div>
+																	      <div class="modal-footer">
+																		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+															
+																	      </div>
+																	    </div><!-- /.modal-content -->
+																	</div>
+																</div>
+															
+															</p>
+														</td>
+													</tr>
+											
+													<tr>
+														<td>
+															HDFS Disk Capacity
+														</td>
+														<td>
+															<p>n/a / n/a (0 % used)</p>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															blocks(total)
+														</td>
+														<td>
+															<p>9</p>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															block errors
+														</td>
+														<td>
+															<p>
+																0 corrupt / 0 missing / 9 under replicated
+																<a href="#" data-toggle="modal" data-target="#more-info-block-errors">more info</a>
+																<div class="modal fade" id="more-info-block-errors" tabindex="-1" role="dialog" aria-hidden="true">
+																	<div class="modal-dialog">
+																	    <div class="modal-content">
+																	      <div class="modal-header">
+																		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+																		<h4 class="modal-title" id="myModalLabel">HDFS Blocks Status</h4>
+																	      </div>
+																	      <div class="modal-body">
+																			<p> here is the status of every hdfs blocks,if you want more info,please go to the hosts page. </p>
+																			<div class="table-responsive">
+																				<table class="table">
+																					<tbody>
+																						<tr>
+																							<td>
+																								block 1
+																							</td>
+																							<td>
+																								<a href="#">123.mzhen.cn</a>
+																							</td>
+																							<td>
+																								<p>dead</p>
+																							</td>
+																						</tr>
+																						<tr>
+																							<td>
+																								block 2
+																							</td>
+																							<td>
+																								<a href="#">124.mzhen.cn</a>
+																							</td>
+																							<td>
+																								<p>dead</p>
+																							</td>
+																						</tr>
+																						<tr>
+																							<td>
+																								block 3
+																							</td>
+																							<td>
+																								<a href="#">125.mzhen.cn</a>
+																							</td>
+																							<td>
+																								<p>dead</p>
+																							</td>
+																						</tr>
+																						
+																						<tr>
+																							<td>
+																								...
+																							</td>
+																						</tr>
+																					</tbody>
+																				</table>
+																			</div>
+																	      </div>
+																	      <div class="modal-footer">
+																		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+															
+																	      </div>
+																	    </div><!-- /.modal-content -->
+																	</div>
+																</div>
+															</p>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															Total Files+ Directories
+														</td>
+														<td>
+															<p>30</p>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															Upgrade Status
+														</td>
+														<td>
+															<p>No pending upgrade</p>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															Safe Mode Status
+														</td>
+														<td>
+															<p>Not in safe mode</p>
+														</td>
+													</tr>
+												</tbody>
+											</table>				
+										</div>
+									</div>
+									<p>Here is some charts of the service(hdfs)</p>
+									<div>
+										<img src="./20100108135852447.jpg" class="img-responsive" alt="Responsive image">
+									</div>
+									<br>
+									<br>
+									
+								</div>
+								<div class="tab-pane" id="Config">
+									<form class="form-horizontal" method="post" action="/service/modify_config">
+										<p>here is some config info of the service</p>
+										<div class="panel-group" id="accordion">
+										  <div class="panel panel-default">
+										    <div class="panel-heading">
+										      <h4 class="panel-title">
+											<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+												NameNode
+											</a>
+										      </h4>
+										    </div>
+										    <div id="collapseOne" class="panel-collapse collapse in">
+										      <div class="panel-body">
+												<label>NameNode directories</label>
+												<input type="textarea"  class="form-control" name="namenode-directories" value="/home/hadoop/hdfs/namenode">
+												<br><br>
+												<label>NameNode Java Heap Size(MB)</label>
+												<input type="textarea"  class="form-control" name="namenode-JavaHeapSize" value="1024">
+												<br><br>
+												<label>NameNode New Generation Size(MB)</label>
+												<input type="textarea"  class="form-control" name="namenode-NewGenerationSize" value="200">
+												<br><br>
+												<label>NameNode host</label>
+												<p name="namenode-Host">121.mzhen.cn</p>
+										      </div>
+										    </div>
+										  </div>
+										  <div class="panel panel-default">
+										    <div class="panel-heading">
+										      <h4 class="panel-title">
+											<a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+												SecondaryNameNode
+											</a>
+										      </h4>
+										    </div>
+										    <div id="collapseTwo" class="panel-collapse collapse in">
+										      <div class="panel-body">
+												<label>SecondaryNameNode directories</label>
+												<input type="textarea"  class="form-control" name="secondarynamenode-directories" value="/home/hadoop/hdfs/secondarynamenode">
+												<br><br>
+												<label>SecondaryNameNode host</label>
+												<p name="secondarynamenode-Host">122.mzhen.cn</p>
+										      </div>
+										    </div>
+										  </div>
+										  <div class="panel panel-default">
+										    <div class="panel-heading">
+										      <h4 class="panel-title">
+											<a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+											  DataNode
+											</a>
+										      </h4>
+										    </div>
+										    <div id="collapseThree" class="panel-collapse collapse in">
+										      <div class="panel-body">
+												<label>DataNode directories</label>
+												<input type="textarea"  class="form-control" name="datanode-directories" value="/home/hadoop/hdfs/datanode">
+												<br><br>
+												<label>DataNode Volumes Failure Toleration</label>
+												<input type="textarea"  class="form-control" name="datanode-VolumesFailureToleration" value="0">
+												<br><br>
+												<label>DataNode Maximum Java Heap Size</label>
+												<input type="textarea"  class="form-control" name="datanode-MaximumJavaHeapSize" value="1024">
+										      </div>
+										    </div>
+										  </div>
+										  <div class="panel panel-default">
+										    <div class="panel-heading">
+										      <h4 class="panel-title">
+											<a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+												Gerneral
+											</a>
+										      </h4>
+										    </div>
+										    <div id="collapseFour" class="panel-collapse collapse in">
+										      <div class="panel-body">
+												<label>Hadoop Maximum Java Heap Size(MB)</label>
+												<input type="textarea"  class="form-control" name="hadoop-MaximumJavaHeapSize" value="1024">
+												<br><br>
+												<label>HDFS Maximum Checkpoint Delay(s-second)</label>
+												<input type="textarea"  class="form-control" name="hdfs-MaximumCheckpointDelay" value="21600">
+												<br><br>
+												<label>Reserved Space For HDFS</label>
+												<input type="textarea"  class="form-control" name="ReservedSpaceForHDFS" value="1">
+												<br><br>
+												<label>WebHDFS enabled</label>
+												<input type="checkbox" name="WebHDFS-enabled" value="1" checked="checked"> </input>
+										      </div>
+										    </div>
+										  </div>
+										</div>
+										<br><br>
+										
+										<button type="submit" class="btn btn-primary pull-right">save</button>
+									
+									</form>
+								</div>
+								<div class="tab-pane" id="Action">
+									<p>start and stop node's service is here</p>
+									<div class="table-responsive">
+										<table class="table">
+											<thead>
+												<tr>
+													<th>
+														host
+													</th>
+													<th>
+														role
+													</th>
+													<th>
+														status
+													</th>
+													<th>
+														Start-action
+													</th>
+													<th>
+														Stop-action
+													</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>
+														<a href="#">120.mzhen.cn</a>
+													</td>
+													<td>
+														datanode
+													</td>
+													<td>
+														health <a href="#">more info</a>
+													</td>
+													<td>
+														<button type="button" class="btn btn-primary">Start</button>
+													</td>
+													<td>
+														<button type="button" class="btn btn-default disabled">Stop</button>
+													</td>
+													
+												</tr>
+											</tbody>
+										
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div id="mapreduce" class="tab-pane">
+							hell world
+						</div>
+					</div>
+					<div class="col-md-1">
+					</div>
+				</div>
+				<div class="tab-pane" id="add-service">
+					<div class="row">
+						<br>
+						<br>
+
+						<div class="container col-md-12">
+							<form method='post' action='/service/select_service'>
+								<table class="table">
+									<tr>
+										<td> </td>
+										<td style="width:15%">
+											service name
+										</td>
+										<td style="width:10%">
+											version
+										</td>
+										<td style="width:75%">
+											service brief introduction
+										</td>
+									</tr>
+									
+									<tr name='hdfs_tr'>
+										<td>
+											<input type="radio" name="serviceChoice" value='hdfs' checked>
+										</td>
+										
+										<td>
+											hdfs
+										</td>
+										<td>
+											1.1.1.1
+										</td>
+										<td>
+											hdfs is a distributed file system
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<input type="radio" name="serviceChoice" value='mapreduce'>
+										</td>
+										<td>
+											mapreduce
+										</td>
+										<td>
+											1.1.1.1
+										</td>
+										<td>
+											mapreduce is a distributed computing framework
+										</td>
+									</tr>
+								</table>
+								<br><br>
+								<!--button type='submit' class="btn btn-primary pull-right" data-toggle="modal" data-target="#AddHostsForService">add</button-->
+								<button type='submit' class='btn btn-primary pull-right' id='selectService'>select</button>
+							</form>
+
+							<div id='SelectHostsForService'>
+								<form  method='post' action='/service/select_hosts_for_service' class='form-horizontal'>
+									<div class="modal fade" id="AddHostsForService" tabindex="-1" role="dialog" aria-labelledby="add hosts for service" aria-hidden="true">
+										<div class="modal-dialog">
+										    <div class="modal-content">
+										      <div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+											<h4 class="modal-title" id="AddHostsForServiceLabel">Add Hosts For Service Components</h4>
+										      </div>
+										      <div id='AddHostsForComponentsModalBody' class="modal-body">
+												
+													
+													<div class="panel-group" id="accordion1">
+													  <div class="panel panel-default">
+													    <div class="panel-heading">
+													      <h4 class="panel-title">
+														<a data-toggle="collapse" data-parent="#accordion" href="#AddHostsForNameNode">
+															NameNode
+														</a>
+													      </h4>
+													    </div>
+													    <div id="AddHostsForNameNode" class="panel-collapse collapse in">
+													      <div class="panel-body">
+															
+															<input type="checkbox">121.mzhen.cn</input>
+															<br>
+															<input type="checkbox">122.mzhen.cn</input>
+														
+													      </div>
+													    </div>
+													  </div>
+													  <div class="panel panel-default">
+													    <div class="panel-heading">
+													      <h4 class="panel-title">
+														<a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#AddHostsForSecondaryNameNode">
+															SecondaryNameNode
+														</a>
+													      </h4>
+													    </div>
+													    <div id="AddHostsForSecondaryNameNode" class="panel-collapse collapse in">
+													      <div class="panel-body">
+															<input type="checkbox">122.mzhen.cn</input>
+													      </div>
+													    </div>
+													  </div>
+													  <div class="panel panel-default">
+													    <div class="panel-heading">
+													      <h4 class="panel-title">
+														<a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#AddHostsForDataNode">
+														  DataNode
+														</a>
+													      </h4>
+													    </div>
+													    <div id="AddHostsForDataNode" class="panel-collapse collapse in">
+													      <div class="panel-body">
+															<input type="checkbox">122.mzhen.cn</input>
+													      </div>
+													    </div>
+													  </div>
+													</div>
+													<br><br>
+
+										      </div>
+										      <div class="modal-footer">
+											<form action='/service/select_hosts_for_components' method='post'>
+											<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+											<button type="submit" class="btn btn-primary" href="#Config">Add</button>
+											</form>
+										      </div>
+										    </div><!-- /.modal-content -->
+										  </div><!-- /.modal-dialog -->
+									</div>
+								</form>
+							</div>
+							<div id='ConfigForService'>
+							
+							</div>
+						</div>
+						<div class="container col-md-1">
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane" id="remove-service">
+					<div class="row">
+						<br>
+						<br>
+						<div class="container col-md-12">
+							
+							<div class="table-responsive">
+								<table class="table">
+									<tr>
+										<td> </td>
+										<td style="width:15%">
+											service name
+										</td>
+										<td style="width:10%">
+											version
+										</td>
+										<td style="width:10%">
+											status
+										</td>
+										<td style="width:65%">
+											service brief introduction
+										</td>
+									</tr>
+									
+									<tr>
+										<td>
+											<input type="radio" name="serviceChoice" checked>
+										</td>
+										<td>
+											hdfs
+										</td>
+										<td>
+											1.1.1.1
+										</td>
+										<td>
+											health running
+										</td>
+										<td>
+											hdfs is a distributed file system
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<input type="radio" name="serviceChoice">
+										</td>
+										<td>
+											mapreduce
+										</td>
+										<td>
+											1.1.1.1
+										</td>
+										<td>
+											health running
+										</td>
+										<td>
+											mapreduce is a distributed computing framework
+										</td>
+									</tr>
+								</table>
+							</div>
+							<br><br>
+							<button class="btn btn-primary pull-right" data-toggle="modal" data-target="#StopService">remove</button>
+							<div class="modal fade" id="StopService" tabindex="-1" role="dialog" aria-labelledby="add hosts for service" aria-hidden="true">
+								<div class="modal-dialog">
+								    <div class="modal-content">
+								      <div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+									<h4 class="modal-title" id="AddHostsForServiceLabel">Stop Service</h4>
+								      </div>
+								      <div class="modal-body">
+										<form class="form-horizontal">
+											
+											<div class="panel-group" id="accordion">
+											  <div class="panel panel-default">
+											    <div class="panel-heading">
+											      <h4 class="panel-title">
+												<a data-toggle="collapse" data-parent="#accordion" href="#AddHostsForNameNode">
+													NameNode
+												</a>
+											      </h4>
+											    </div>
+											    <div id="AddHostsForNameNode" class="panel-collapse collapse in">
+											      <div class="panel-body">
+													
+													<input type="checkbox">121.mzhen.cn</input>
+													<br>
+													<input type="checkbox">122.mzhen.cn</input>
+												
+											      </div>
+											    </div>
+											  </div>
+											  <div class="panel panel-default">
+											    <div class="panel-heading">
+											      <h4 class="panel-title">
+												<a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#AddHostsForSecondaryNameNode">
+													SecondaryNameNode
+												</a>
+											      </h4>
+											    </div>
+											    <div id="AddHostsForSecondaryNameNode" class="panel-collapse collapse in">
+											      <div class="panel-body">
+													<input type="checkbox">122.mzhen.cn</input>
+											      </div>
+											    </div>
+											  </div>
+											  <div class="panel panel-default">
+											    <div class="panel-heading">
+											      <h4 class="panel-title">
+												<a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#AddHostsForDataNode">
+												  DataNode
+												</a>
+											      </h4>
+											    </div>
+											    <div id="AddHostsForDataNode" class="panel-collapse collapse in">
+											      <div class="panel-body">
+													<input type="checkbox">122.mzhen.cn</input>
+											      </div>
+											    </div>
+											  </div>
+											</div>
+											<br><br>
+											
+											
+										
+										</form>
+								      </div>
+								      <div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+									<button type="button" class="btn btn-primary" href="#Config">Stop</button>
+								      </div>
+								    </div><!-- /.modal-content -->
+								  </div><!-- /.modal-dialog -->
+							</div>
+						</div>
+						<div class="container col-md-1">
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+    </div> <!-- /container -->
+
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/bootstrap3-validation.js"></script>
+    <script src="/javascripts/json-to-table.js"></script>
+    <script type="text/javascript">
+
+	var flag='<%= Flag %>';
+	var originComponents='<%= Components %>';
+	var HostList='<%= HostList %>';
+	var Unique_Flag1='<%= Unique_Flag %>';
+	var Config='<%= Config %>';
+    var ErrInfo='<%= err_info %>';
+	if('true'==flag){
+
+		if(Config != '')
+		{
+			Config=Config.replace(/&quot;/g,'"');
+			Config=eval(Config);
+			var Config_page="<form  method='post' action='/service/modify_config' class='form-horizontal'><div class='modal fade' id='ModifyConfigForService' tabindex='-1' role='dialog' ara-labelledby='modify config for service' aria-hidden='true'>"+
+				"<div class='modal-dialog'><div class='modal-content'><div class='modal-header'><button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>"+
+				"<h4 class='modal-title' id='ModifyConfigForServiceLabel'>Modify Config For Service Components</h4></div><div id='ModifyConfigForComponentsModalBody' class='modal-body'><div class='panel-group' id='accordion'>";
+			var role_config_arr=Config[0].default_config.split(';');
+			for(var i=0;i<role_config_arr.length;i++)
+			{
+				if(role_config_arr[i].length == 0)
+					continue;
+				var role_config=role_config_arr[i].split(':');
+				Config_page+='<div class="panel panel-default"> <div class="panel-heading"> <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">';
+				Config_page+=role_config[0];
+				Config_page+='</a></h4></div> <div id="'+role_config[0]+'" class="panel-collapse collapse in"> <div class="panel-body">';
+				var specific_config=(role_config[1]).split(",");
+				for(var j=0;j<specific_config.length;j++)
+				{
+					if(specific_config[j].length == 0)
+						continue;
+					Config_page+='<label>'+(specific_config[j].split("^"))[0]+'</label>';
+					Config_page+='<input type="textarea" class="form-control" name="'+specific_config[j].split('^')[0]+'" value="'+specific_config[j].split('^')[1]+'">';
+					Config_page+='<br><br>';
+				}
+				Config_page+='</div></div></div>';
+			}
+			Config_page+="<br><br></div><div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>"+
+				"<button type='submit' class='btn btn-primary' href='#Config'>save</button></div></div></div></div></form>";
+			
+			$("#ConfigForService").html(Config_page);
+
+			$('#add-service-id a').click();
+			$('#ModifyConfigForService').modal('toggle');
+		}
+		else
+		{
+			Unique_Flag1=Unique_Flag1.replace(/&quot;/g,'"');
+			
+			Unique_Flag1=$.parseJSON(Unique_Flag1);
+			
+			var Unique_Flag_map=[];
+			for(var i=0;i<Unique_Flag1.length;i++)
+			{
+				Unique_Flag_map[Unique_Flag1[i].role_name]=Unique_Flag1[i].unique_flag;
+			}
+			if(originComponents != ''){
+				if(HostList != '' ){
+					HostList=HostList.replace(/&quot;/g,'"');
+					var HostListJson=$.parseJSON(HostList);
+					var arrComponents=originComponents.split(",");
+					var SelectHostsForComponents="<form  method='post' action='/service/select_hosts_for_service' class='form-horizontal'><div class='modal fade' id='AddHostsForService' tabindex='-1' role='dialog' ara-labelledby='add hosts for service' aria-hidden='true'>"+
+					"<div class='modal-dialog'><div class='modal-content'><div class='modal-header'><button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>"+
+					"<h4 class='modal-title' id='AddHostsForServiceLabel'>Add Hosts For Service Components</h4></div><div id='AddHostsForComponentsModalBody' class='modal-body'>";
+					for(var i=0;i<arrComponents.length;i++)
+					{
+						SelectHostsForComponents+="<div class='panel panel-default'> <div class='panel-heading'><h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion1' href='#AddHostsFor"+arrComponents[i]+"'>"+arrComponents[i]+"</a>"+
+						"</h4></div><div id='AddHostsFor"+arrComponents[i]+"' class='panel-collapse collapse in'> <div class='panel-body'>";
+			
+						$.each(HostListJson,function(){
+							var hostsListTable="";
+							$.each(this,function(k,v){
+								if(Unique_Flag_map[arrComponents[i]] != '1')
+									SelectHostsForComponents+="<input type='checkbox' name='hostslist_"+arrComponents[i]+"' value='"+arrComponents[i]+","+v+"'>"+v+"</input><br>";
+								else
+									SelectHostsForComponents+="<input type='radio' name='hostslist_"+arrComponents[i]+"' value='"+arrComponents[i]+","+v+"'>"+v+"</input><br>";
+
+							});
+						});
+						SelectHostsForComponents+="</div></div></div>";
+					}
+					SelectHostsForComponents+="<br><br></div><div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>"+
+					"<button type='submit' class='btn btn-primary' href='#Config'>Add</button></div></div></div></div></form>";
+					
+					$("#SelectHostsForService").html(SelectHostsForComponents);
+				}
+				
+			}
+			$('#add-service-id a').click();
+			$('#AddHostsForService').modal('toggle');
+		}
+	}
+	else if('false'==flag){
+        $('#add-service-id a').click();
+	    alert(ErrInfo);	
+	}
+	else if('unset'==flag){
+		var servicesTag='<div class="col-md-3"><ul class="nav nab-tabs" id="service-infos">';
+		originComponents=originComponents.replace(/&quot;/g,'"');
+		originComponents=$.parseJSON(originComponents);
+		
+		for(var i=0;i<originComponents.length;i++){
+			var service_name_list=originComponents[i].service_name;
+			servicesTag+='<li> <a id="'+service_name_list+'_label" href="#'+service_name_list+'" data-toggle="tab" onclick="get_all_infos(\''+service_name_list+'\')">'+service_name_list+'</a></li>';
+		}
+		servicesTag+='</ul></div>'+'<div id="all_infos" class="col-md-8 tab-content"></div>';
+
+		$('#services-list').html(servicesTag);
+	}
+	function get_all_infos(ser){
+			var service_name_list1=ser;
+			var servicesTag="";
+			servicesTag+='<div id="'+service_name_list1+'" class="tab-pane"> <ul class="nav nav-tabs">';
+			servicesTag+='<li id="info_label" > <a href="#Info" data-toggle="tab" onclick="get_info(\''+service_name_list1+'\')">Info</a></li>';
+			servicesTag+='<li id="config_label" > <a href="#Config" data-toggle="tab" onclick="get_config(\''+service_name_list1+'\')">Config</a></li>';
+			servicesTag+='<li id="action_label" > <a href="#Action" data-toggle="tab" onclick="get_action(\''+service_name_list1+'\')">Action</a></li>';
+			servicesTag+='<div class="pull-right">';
+			servicesTag+='<button type="button" class="btn btn-info" data-toggle="modal" data-target="#ChoseComponentsForNewNode" onclick="add_new_node(\''+service_name_list1+'\')">add new service node</button>';
+			
+			servicesTag+='<button type="button" class="btn btn-primary" href="#" onclick="start_all_node(\''+service_name_list1+'\')">Start all</button>';
+			servicesTag+='<button type="button" class="btn btn-primary" href="#" onclick="stop_all_node(\''+service_name_list1+'\')">Stop all</button>';
+			servicesTag+='<div id="ChoseComponentsForNewNode_id"></div>';
+			servicesTag+='<div id="SelectNewNodeFroRole_id"></div>';
+			servicesTag+='</div></ul>';
+			servicesTag+='<div class="tab-content"><div class="tab-pane" id="Info"></div>';
+			servicesTag+='<div class="tab-pane" id="Config"></div>';
+			servicesTag+='<div class="tab-pane" id="Action"></div>';
+	//		servicesTag+='</div>';
+			$('#all_infos').html(servicesTag);	
+//            alert($('#all_infos').html());
+//            alert($('#services-list').html());
+
+	}	
+	function get_info(ser){
+		function get_info_update(ser){
+			var data={"Service":ser};
+			var table_data;
+			var info_temp_var='';
+			$.post("service/get_info",data,function(data,textStatus){
+				if(textStatus == 'success'){
+					if(data.result){
+						info_temp_var=data.result;
+						var info_arr=info_temp_var.split(";");
+						table_data='<div class="table-responsive"> <table class="table"> <tbody>';
+						for(var i=0;i<info_arr.length;i++){
+							var info_k_v=info_arr[i].split(":");
+							table_data+='<tr><td>'+info_k_v[0]+'</td><td>'+info_k_v[1]+'</td></tr>';
+						}
+						table_data+='</tbody></table></div>';
+					}
+					else{
+						table_data='<p>'+data.error+'</p>';
+					}
+				}
+				$('#Info').html(table_data);
+			});
+
+		}
+		get_info_update(ser);
+
+		setInterval(function(){
+			get_info_update(ser);
+		},30000);	
+	}
+	function get_config(ser){
+	
+		var data={"Service":ser};
+		$.post("service/get_config",data,function(data,textStatus){
+			if(textStatus == 'success'){
+                var config_info='';
+                if(data.error){
+                    config_info="<p>"+data.error+"</p>";
+                }
+                else{
+                    var config_temp_var=data.result;
+                    config_info="<form  method='post' action='/service/modify_config' class='form-horizontal'>"+
+                    ""+
+                    "<div class='panel-group' id='accordion_config'>";
+                    var config_arr=config_temp_var.split(';');
+                    for(var i=0;i<config_arr.length;i++)
+                    {
+                        if(config_arr[i].length == 0)
+                            continue;
+                        var role_config=config_arr[i].split(':');
+                        config_info+='<div class="panel panel-default"> <div class="panel-heading"> <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion_config" href="#'+role_config[0]+'">';
+                        config_info+=role_config[0];
+                        config_info+='</a></h4></div> <div id="'+role_config[0]+'" class="panel-collapse collapse in"> <div class="panel-body">';
+                        var specific_config=(role_config[1]).split(",");
+                        for(var j=0;j<specific_config.length;j++)
+                        {
+                            if(specific_config[j].length == 0)
+                                continue;
+                            config_info+='<label>'+(specific_config[j].split("^"))[0]+'</label>';
+                            config_info+='<input type="textarea" class="form-control" name="'+specific_config[j].split('^')[0]+'" value="'+specific_config[j].split('^')[1]+'">';
+                            config_info+='<br>';
+                        }
+                        config_info+='</div></div></div>';
+                    }
+                    config_info+="<br><br></div><div class='pull-right'><button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>"+
+                        "<button type='submit' class='btn btn-primary' href='#Config'>save</button></div></div></div></div></div></form>";
+                }				
+				$("#Config").html(config_info);
+				$('#config_label a').tab('show');
+			}
+		});
+	}
+	function get_action(ser){
+		function get_action_update(ser){
+			var data={"Service":ser};
+			$.post("/service/get_action",data,function(data,textStatus){
+				if(textStatus == 'success'){
+/*                    var table_data='';
+                    if(data.error){
+                        table_data="<p>"+data.error+"</p>"; 
+                    }
+                    else{
+*/
+                        var service_action_temp_var=data.result;
+                        var table_data='<div class="table-responsive"> <table class="table"> '+'<thead><tr><th>host</th><th>role</th><th>status</th><th>Start-action</th><th>Stop-action</th></tr></thead> <tbody>';
+                        for(var i=0;i<service_action_temp_var.length;i++){
+                            table_data+='<tr><td>'+service_action_temp_var[i].host+'</td><td>'+service_action_temp_var[i].role_name+'</td><td>'+service_action_temp_var[i].service_status+'</td>';
+                            if(service_action_temp_var[i].service_status == 'dead'){
+                                table_data+='<td><button type="button" data-loading-text="starting..." class="btn btn-primary" onclick="start_node('+'\''+service_action_temp_var[i].host+'\',\''+service_action_temp_var[i].role_name+'\''+')" >Start</button></td>'+
+                                '<td><button type="button" class="btn btn-default disabled" onclick="">Stop</button></td>';
+                            }
+                            else{
+                                table_data+='<td><button type="button" data-loading-text="stopping..." class="btn btn-default disabled" onclick="" >Start</button></td>'+
+                                '<td><button type="button" class="btn btn-primary" onclick="stop_node('+'\''+service_action_temp_var[i].host+'\',\''+service_action_temp_var[i].role_name+'\''+')">Stop</button></td>';
+                            }
+                            table_data+='</tr>';
+                        }
+                        table_data+='</tbody></table></div>'+'<div id="button_status_modal"></div>';
+//                    }
+                    
+                    $('#Action').html(table_data);
+				}
+				
+			});
+
+		}
+		get_action_update(ser);
+
+/*		setInterval(function(){
+			get_action_update(ser);
+		},30000);	
+*/
+	}
+	function start_node(host,role){
+        var ButtonStatusModalContent1="<div class='modal fade' id='ButtonStatusModal' tabindex='-1' role='dialog' ara-labelledby='show button status' aria-hidden='true'>"+
+        "<div class='modal-dialog'><div class='modal-content'><div class='modal-header'><button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>"+
+        "<h4 class='modal-title' id='ButtonStatusModalLabel'>Operation Status</h4></div><div id='ButtonStatusModalBody' class='modal-body'>";
+        var ButtonStatusModalContent2="<p id='opreation_status'>Please waiting for a moment <image src='/images/loading.jpg'/> </p>";
+        var ButtonStatusModalContent3="</div><div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>"+
+        "</div></div></div></div>";
+        $('#button_status_modal').html(ButtonStatusModalContent1+ButtonStatusModalContent2+ButtonStatusModalContent3);
+        $('#ButtonStatusModal').modal('toggle');
+		var data={"Host":host,"Role":role};
+		$.post("/service/start_node",data,function(data,textStatus){
+			if(textStatus == 'success'){
+                var start_node_temp_var='';
+                if(data.result){
+                    $('#opreation_status').html(data.result);
+                    start_node_temp_var=data.result;
+                    $('#ButtonStatusModal').modal('hide');
+                    $('#action_label a').click(); 
+                } 
+                else{
+                    start_node_temp_var=data.error;
+                    $('#opreation_status').html(start_node_temp_var);
+                }
+			}
+		
+		});
+	}
+	
+	function stop_node(host,role){
+        var ButtonStatusModalContent1="<div class='modal fade' id='ButtonStatusModal' tabindex='-1' role='dialog' ara-labelledby='show button status' aria-hidden='true'>"+
+        "<div class='modal-dialog'><div class='modal-content'><div class='modal-header'><button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>"+
+        "<h4 class='modal-title' id='ButtonStatusModalLabel'>Operation Status</h4></div><div id='ButtonStatusModalBody' class='modal-body'>";
+        var ButtonStatusModalContent2="<p id='opreation_status'>Please waiting for a moment <image src='/images/loading.jpg'/> </p>";
+        var ButtonStatusModalContent3="</div><div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal' >Close</button>"+
+        "</div></div></div></div>";
+        $('#button_status_modal').html(ButtonStatusModalContent1+ButtonStatusModalContent2+ButtonStatusModalContent3);
+        $('#ButtonStatusModal').modal('toggle');
+
+		var data={"Host":host,"Role":role};
+		$.post("/service/stop_node",data,function(data,textStatus){
+			if(textStatus == 'success'){
+                var stop_node_temp_var='';
+                if(data.result){
+
+                    $('#opreation_status').html(data.result);
+                    stop_node_temp_var=data.result;
+  //                  $('#ButtonStatusModal').modal('toggle');
+   //                 $('#action_label a').click(); 
+                }
+                else{
+                    stop_node_temp_var=data.error;
+                    $('#opreation_status').html(stop_node_temp_var);
+                }
+                
+//                ButtonStatusModalContent2='<p>'+stop_node_temp_var+'</p>';
+    //            alert(stop_node_temp_var);
+//				$('#action_label a').click();
+			}
+		
+		});
+	}
+	function add_new_node(ser){
+		var data={"Service":ser};
+		$.post("/service/add_new_node",data,function(data,textStatus){
+			if(textStatus == 'success'){
+                var modal_data='<div class="modal fade" id="ChoseComponentsForNewNode" tabindex="-1" role="dialog" aria-labelledby="ChoseComponentsForNewNode123" aria-hidden="true"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
+                '<h4 class="modal-title" id="ChoseComponentsForNewNodeLabel">Chose Components For New Node</h4></div><div class="modal-body">';
+                if(data.error){
+                    modal_data+="<p>"+data.error+"</p>";
+                }
+                else{
+
+                    var temp_data=data.result;
+                    for(var i=0;i<temp_data.length;i++){
+                        modal_data+='<input type="checkbox" name="role_selected" value="'+temp_data[i].role_name+'">'+temp_data[i].role_name+'</input><br>';
+                    }
+                }
+                modal_data+='</div><div class="modal-footer">';
+                modal_data+='<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>';
+                modal_data+='<button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#AddNewNode" onclick="select_new_node()">next</button></div></div></div>';
+                $('#ChoseComponentsForNewNode_id').html(modal_data);				
+                //can not show the modal,why?
+                $('#ChoseComponentsForNewNode').modal('toggle');
+            }
+			else{
+//				alert(data.error);
+			}
+		});
+	}
+	function select_new_node(){
+		var boxes=document.getElementsByName('role_selected');
+		var boxes_values=new Array();
+		for(var i=0;i<boxes.length;i++){
+			if(boxes[i].checked){
+				boxes_values[i]=boxes[i].value;
+			}
+		}
+		var data={"RoleList":boxes_values};
+		$.post("/service/select_new_node",data,function(data,textStatus){
+			if(textStatus == 'success'){
+				var modal_data='<form method="post" action="/service/install_for_newnodes" class="form-horizontal"><div class="modal fade" id="SelectNodeForNewNode" tabindex="-1" role="dialog" aria-labelledby="SelectNodeForNewNode123" aria-hidden="true"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+				modal_data+='<h4 class="modal-title" id="ChoseComponentsForNewNodeLabel">Select Node For New Node</h4></div><div class="modal-body">';
+
+                if(data.error){
+                    modal_data+='<p>'+data.error+'</p>';                 
+                }
+                else{
+                    modal_data+="<div class='panel-group' id='SelectNewNodePanel'>"
+                    for(var i=0;i<boxes.length;i++){
+                        modal_data+='<div class="panel panel-default"> <div class="panel-heading"> <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#SelectNewNodePanel" href="#'+boxes[i].value+'newnodelabel">';
+                        modal_data+=boxes[i].value;
+                        modal_data+='</a></h4></div> <div id="'+boxes[i].value+'newnodelabel" class="panel-collapse collapse in"> <div class="panel-body">';
+
+                        var temp_data=data.result[boxes[i].value];
+                        if(temp_data.length == 0){
+                            modal_data+='<p>no nodes for the role,please add new server to the cluster first</p>';
+
+                        }
+                        else{
+                            for(var j=0;j<temp_data.length;j++){
+                                modal_data+='<input type="checkbox" name="NodesSelected" value="'+boxes[i].value+':'+temp_data[j].host+'">';
+                                modal_data+=temp_data[j].host;
+                                modal_data+='</input>';
+                                modal_data+='<br>';
+                            }
+                        }
+                        modal_data+='</div></div></div>';
+                    }
+                    modal_data+="<br><br></div>";
+                }
+
+                modal_data+="<div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>";
+				modal_data+="<button type='submit' class='btn btn-primary' href='#'>Add</button></div></div></div></div>";
+				modal_data+='</div></form>';
+				$('#SelectNewNodeFroRole_id').html(modal_data);
+				$('#SelectNodeForNewNode').modal('toggle');
+			}
+
+		});
+	}
+	function start_all_node(ser){
+        var ButtonStatusModalContent1="<div class='modal fade' id='ButtonStatusModal' tabindex='-1' role='dialog' ara-labelledby='show button status' aria-hidden='true'>"+
+        "<div class='modal-dialog'><div class='modal-content'><div class='modal-header'><button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>"+
+        "<h4 class='modal-title' id='ButtonStatusModalLabel'>Operation Status</h4></div><div id='ButtonStatusModalBody' class='modal-body'>";
+        var ButtonStatusModalContent2="<p id='opreation_status'>Please waiting for a moment <image src='/images/loading.jpg'/> </p>";
+        var ButtonStatusModalContent3="</div><div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal' onclick=''>Close</button>"+
+        "</div></div></div></div>";
+        $('#button_status_modal').html(ButtonStatusModalContent1+ButtonStatusModalContent2+ButtonStatusModalContent3);
+        $('#ButtonStatusModal').modal('toggle');
+
+		var data={"Service":ser};
+		$.post("/service/start_all_nodes",data,function(data,textStatus){
+			if(textStatus == 'success'){
+                if(data.result){
+                    $('#ButtonStatusModal').modal('toggle');
+                    $('action_label a').click();
+                }
+                else if(data.error_info){
+                    $('#opreation_status').html(data.error_info);
+                }
+			}
+			else{
+				
+			}
+		});
+	}
+	function stop_all_node(ser){
+        var ButtonStatusModalContent1="<div class='modal fade' id='ButtonStatusModal' tabindex='-1' role='dialog' ara-labelledby='show button status' aria-hidden='true'>"+
+        "<div class='modal-dialog'><div class='modal-content'><div class='modal-header'><button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>"+
+        "<h4 class='modal-title' id='ButtonStatusModalLabel'>Operation Status</h4></div><div id='ButtonStatusModalBody' class='modal-body'>";
+        var ButtonStatusModalContent2="<p id='opreation_status'>Please waiting for a moment <image src='/images/loading.jpg'/> </p>";
+        var ButtonStatusModalContent3="</div><div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal' onclick=''>Close</button>"+
+        "</div></div></div></div>";
+        $('#button_status_modal').html(ButtonStatusModalContent1+ButtonStatusModalContent2+ButtonStatusModalContent3);
+        $('#ButtonStatusModal').modal('toggle');
+		var data={"Service":ser};
+		$.post("/service/stop_all_nodes",data,function(data,textStatus){
+			if(textStatus == 'success'){
+                if(data.result){
+                    $('#ButtonStatusModal').modal('toggle');
+                    $('action_label a').click();
+                }
+                else if(data.error_info){
+                    $('#opreation_status').html(data.error_info);
+                }
+			}
+		
+		});
+	}
+</script>
+    
+
+    
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<% include footer.html %>

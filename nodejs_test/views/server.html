@@ -4,7 +4,7 @@
 			<ul class="nav nav-tabs">
 				<li id="server_list_link_id" name="server_list_link" class="active"><a href="#server-list" data-toggle="tab">server list</a></li>
 				<li id="add_server_link_id" name="add_server_link"><a href="#add-server" data-toggle="tab">add server</a></li>
-				<li id="delete_server_link_id" name="delete_server_link"><a href="#delete-server" data-toggle="tab">delete server</a></li>
+				<li id="delete_server_link_id" name="delete_server_link"><a href="#delete-server" data-toggle="tab" onclick="get_remove_server_list()">remove server</a></li>
 				<!--li><a href="#config-server" data-toggle="tab">config server</a></li-->
 			</ul>
 
@@ -13,85 +13,56 @@
 				<div class="tab-pane active" id="server-list">
 					<div class="col-md-12">
 					<div class="table-responsive">
-
-					<table class="table" id="server_list11">
-						<thead>
-							<tr>
-								<th>
-									host
-								</th>
-								<th>
-									ip
-								</th>
-								<th>
-									cpu
-								</th>
-								<th>
-									ram
-								</th>
-								<th>
-									disk
-								</th>
-								<th>
-									os
-								</th>
-								<th>
-									load(%)
-								</th>
-								<th>
-									status
-								</th>
-								<th>
-									Components
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							<!--tr>
-								<td>
-									<a href="./host_demo.html">120.mzhen.cn</a>
-								</td>
-								<td>
-									192.168.1.120
-								</td>
-								<td>
-									16
-								</td>
-								<td>
-									32g
-								</td>
-								<td>
-									health
-								</td>
-								<td>
-									20
-								</td>
-								<td>
-									<div class="dropdown">
-									<a class="dropdown-toggle" data-toggle="dropdown">角色<b class="caret"></b></a>
-							  		<ul class="dropdown-menu">
-								    		<li><a href="#">hdfs</a></li>
-								    		<li><a href="#">mapreduce</a></li>
-								    		<li><a href="#">zookeeper</a></li>
-							  		</ul>
-									</div>
-								</td>
-							</tr-->
-						</tbody>
-					</table>				
+						<table class="table" id="server_list11">
+							<thead>
+								<tr>
+									<th>
+										host
+									</th>
+									<th>
+										ip
+									</th>
+									<th>
+										cpu
+									</th>
+									<th>
+										ram
+									</th>
+									<th>
+										disk
+									</th>
+									<th>
+										os
+									</th>
+									<th>
+										load(%)
+									</th>
+									<th>
+										status
+									</th>
+									<th>
+										Components
+									</th>
+								</tr>
+							</thead>
+							<tbody id = 'server_list_body'>
+							</tbody>
+						</table>				
+						<div class='holder'>
+						</div>
 					</div>
 	
-					<div align="right">
-						<ul class="pagination">
-							<li><a href="#">&laquo;</a></li>
-							<li><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
+					<!--div align="center"-->
+						<!--ul class="pagination"-->
+							<!--li><a href="#">&laquo;</a></li-->
+							<!--li><a href="#">1</a></li-->
+							<!--li><a href="#">2</a></li>
 							<li><a href="#">3</a></li>
 							<li><a href="#">4</a></li>
 							<li><a href="#">5</a></li>
-							<li><a href="#">&raquo;</a></li>
-						</ul>
-					</div>
+							<li><a href="#">&raquo;</a></li-->
+						<!--/ul>
+					</div-->
 
 
 				</div>
@@ -118,7 +89,6 @@
 											</div>
 										
 										</div>
-									</div>
 									<br><br>
 									<label>SSH Private Key</label>
 										<div>
@@ -130,27 +100,17 @@
 											 var files = evt.target.files; // FileList object
 											var key_file=files[0];
 											
-											    // Loop through the FileList and render image files as thumbnails.
-											 //   for (var i = 0, f; f = files[i]; i++) {
 
 											      var reader = new FileReader();
-
-											      // Closure to capture the file information.
 											      reader.onload = (function(theFile) {
 												return function(e) {
-												  // Render thumbnail.
 												  var textarea1 = document.createElement('textarea');
 												  textarea1.innerHTML = e.currentTarget.result;
 												  textarea1.className="form-control";
-												 
-												  
 												  document.getElementById('list').insertBefore(textarea1, null);
 												};
 											      }(key_file));
-											      // Read in the image file as a data URL.
 											      reader.readAsText(key_file);
-											    //}
-										    
 										  }
 										
 										  document.getElementById('files').addEventListener('change', handleFileSelect, false);
@@ -160,7 +120,6 @@
 								
 										<span class="help-block">please enter the right machine host and port.select the right key file</span>
 										
-										<!--button  type="sumbit" class="btn btn-primary pull-right" data-toggle="modal" data-target="#CheckHost">next</button-->
 										<button  type="submit" class="btn btn-primary pull-right" id="FirstNext">next</button>
 
 									</form>
@@ -189,19 +148,23 @@
 
 
 								<!--/form-->
+								</div>
 							</div>
 						</div>
 
 					</div>
 				</div>
 				<div class="tab-pane" id="delete-server">
+					<div id='waitModal'>
+
+					</div>
 					<form>
-						<table class="table">
+						<table id="remove_server_table" class="table">
 							<thead>
 							<tr>
 								<th>
 
-									<input name="checkAll" onclick="check_all(this,'a')" type="checkbox" />
+									<!--input name="checkAll" onclick="check_all(this,'a')" type="checkbox" /-->
 
 				
 								</th>
@@ -212,67 +175,16 @@
 							</tr>
 							</thead>
 							<tbody>
-							<tr>
-								<td>
-									<input type="checkbox" value="" name="a">
-								</td>
-								<td>
-									121.mzhen.cn
-								</td>
-								<td>
-									192.168.1.121
-								</td>
-								<td>
-									no component
-								</td>
-							</tr>
+
 							</tbody>
 						</table>
 							
 							<br><br><br>
-							<button class="btn btn-primary pull-right" data-toggle="modal" data-target="#CheckHostService">Delete</button>
-							<div class="modal fade" id="CheckHostService" tabindex="-1" role="dialog" aria-labelledby="add hosts for service" aria-hidden="true">
-								<div class="modal-dialog">
-								    <div class="modal-content">
-								      <div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-									<h4 class="modal-title" id="AddHostsForServiceLabel">Check and Stop Service</h4>
-								      </div>
-								      <div class="modal-body">
-										<p>if the host has service which is running,please stop the service firstly</p>
-										<a href="host_demo.html">120.mzhen.cn</a>
-								      </div>
-								      <div class="modal-footer">
-									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#DeleteHost">Next</button>
-								      </div>
-								    </div><!-- /.modal-content -->
-								  </div><!-- /.modal-dialog -->
-	
-							</div>
-							<div class="modal fade" id="DeleteHost" tabindex="-1" role="dialog" aria-labelledby="add hosts for service" aria-hidden="true">
-								<div class="modal-dialog">
-								    <div class="modal-content">
-								      <div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-									<h4 class="modal-title" id="AddHostsForServiceLabel">Delete Host</h4>
-								      </div>
-								      <div class="modal-body">
-										<p>if you want to delete the host from the cluster,please enter the delete button</p>
-								      </div>
-								      <div class="modal-footer">
-									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-									<button type="button" class="btn btn-primary">Delete</button>
-								      </div>
-								    </div><!-- /.modal-content -->
-								  </div><!-- /.modal-dialog -->
-	
-							</div>
+							<button id='remove_button' type='button' class='btn btn-primary pull-right' onclick='remove_host()'>remove</button>
+
 					</form>
 				</div>
-				<!--div class="tab-pane" id="config-server">
-					<blockquote> <p>config server in the page</p> </blockquote>
-				</div-->
+
 			</div>
 
 		</div>
@@ -284,64 +196,16 @@
     <script src="/javascripts/bootstrap.min.js"></script>
     <script src="/javascripts/bootstrap3-validation.js"></script>
     <script src="/javascripts/json-to-table.js"></script>
-    <!--script type="text/javascript">
-	function get_data()
-	{
-		$.ajax({
-			url: '/server',
-			success: function(data) {
-				var DataBaseResult='<%= DataBase_Res %>'
-				if(DataBaseResult != '' ){
-					DataBaseResult=DataBaseResult.replace(/&quot;/g,'"');
-					var DataBaseResultJson=$.parseJSON(DataBaseResult);
-					var tbl_body="";
-					$.each(DataBaseResultJson,function(){
-						var tbl_row="";
-						$.each(this,function(k,v){
-							if(k=='role_name'){
-								if(v == ''){
-									tbl_row+="<td>no services on the host</td>";
-								}
-								else{
-								var str_role=new Array();
-									while(-1 != v.indexOf(',')){
-										str_role.push(v.substr(0,v.indexOf(',')));
-										v=v.substr(v.indexOf(',')+1);
-									}
-									str_role.push(v);
-									tbl_row+="<td> <div class='dropdown'> <a class=dropdown-toggle' data-toggle='dropdown'>Components<b class='caret'></b></a><ul class='dropdown-menu'>";
-									for(var j=0;j<str_role.length;j++){
-										tbl_row+=("<li><a href='#'>"+str_role[j]+"</a></li>");
-									}
-									tbl_row+="</ul></div></td>";
-								}
-							}
-							else{
-								tbl_row+="<td>"+v+"</td>";
-							}
-						});
-						tbl_body+="<tr>"+tbl_row+"</tr>";
-					});
-					$("#server_list11 tbody").html(tbl_body);
-					
-				}
-			});
-		}
-	}
-	setInterval("get_data()",10000);//3?????
-    </script-->
+	<script src='/javascripts/jPages.js'></script>
     <script language="JavaScript">
 	function myrefresh()
 	{
-	//var dt = new Date();
 	      $('#server_list_link_id a').tab("show");
-	      //alert(0);
-	      //window.location.reload();
-	      //window.location.href="http://localhost:3000/server/";
 	}
-	//setTimeout('myrefresh()',1000); //??1?????
     </script>
     <script type="text/javascript">
+	var username = '<%= username %>';
+	$('#username_id').html(username);
 	var DataBaseResult='<%= DataBase_Res %>'
 	if(DataBaseResult != '' ){
 		DataBaseResult=DataBaseResult.replace(/&quot;/g,'"');
@@ -368,60 +232,329 @@
 						tbl_row+="</ul></div></td>";
 					}
 				}
+				else if(k == 'host') {
+					tbl_row += "<td>";
+						tbl_row += "<form action = '/server/get_host_info' method = 'post' " + "id = '" + v + "_form" + "'>";
+						tbl_row += "<input name = '" + k + "' value = '" + v + "' class = 'hidden'/>";
+						tbl_row += "<a onclick = 'get_host_info(\"" + v + "\")'>";
+						tbl_row += v;
+						tbl_row += "</a>";
+						tbl_row += "</form>";
+						tbl_row += "</td>";					
+				}
 				else{
 					tbl_row+="<td>"+v+"</td>";
 				}
-//				alert(k);
 			});
 			tbl_body+="<tr>"+tbl_row+"</tr>";
 		});
 		$("#server_list11 tbody").html(tbl_body);
 	}
     </script>
-	<!--script type="text/javascript">/*<![CDATA[*/
-		var strJson = "[{username:'guosheng',password:'123456'},{username:'hanhan',password:'123s'}]";
-		function setStr()
+	<script type='text/javascript' language='javascript' src='/javascripts/jquery.js'></script>
+	<script type='text/javascript' language='javascript' src='/javascripts/jquery.dataTables.js'></script>
+	<script type='text/javascript'>
+		$.extend( $.fn.dataTableExt.oStdClasses, {
+				"sSortAsc": "header headerSortDown",
+				"sSortDesc": "header headerSortUp",
+				"sSortable": "header"
+				} );
+		/* API method to get paging information */
+		$.fn.dataTableExt.oApi.fnPagingInfo = function ( oSettings )
 		{
-		  var list = (new Function("return ("+ strJson +")"))();
-		  for(var i=0; i<list.length; i++){
-		    var s="";
-		    for(var e in list[i]){
-		      s += e +"="+ list[i][e] +"\n";
-		    }
-		    alert(s);
-		  }
+			return {
+					"iStart":         oSettings._iDisplayStart,
+					"iEnd":           oSettings.fnDisplayEnd(),
+					"iLength":        oSettings._iDisplayLength,
+					"iTotal":         oSettings.fnRecordsTotal(),
+					"iFilteredTotal": oSettings.fnRecordsDisplay(),
+					"iPage":          Math.ceil( oSettings._iDisplayStart / oSettings._iDisplayLength ),
+					"iTotalPages":    Math.ceil( oSettings.fnRecordsDisplay() / oSettings._iDisplayLength )
+			};
 		}
-		setStr();
-	</script-->
-    
+		/* Bootstrap style pagination control */
+		$.extend( $.fn.dataTableExt.oPagination, {
+			"bootstrap": {
+				"fnInit": function( oSettings, nPaging, fnDraw ) {
+					var oLang = oSettings.oLanguage.oPaginate;
+					var fnClickHandler = function ( e ) {
+						e.preventDefault();
+						if ( oSettings.oApi._fnPageChange(oSettings, e.data.action) ) {
+							fnDraw( oSettings );
+						}
+					};
+					$(nPaging).addClass('pagination').append(
+						'<ul>'+
+						'<li class="prev disabled"><a href="#">&larr; '+oLang.sPrevious+'</a></li>'+
+						'<li class="next disabled"><a href="#">'+oLang.sNext+' &rarr; </a></li>'+
+						'</ul>'
+						);
+					var els = $('a', nPaging);
+					$(els[0]).bind( 'click.DT', { action: "previous" }, fnClickHandler );
+					$(els[1]).bind( 'click.DT', { action: "next" }, fnClickHandler );
+				},
+				"fnUpdate": function ( oSettings, fnDraw ) {
+					var iListLength = 5;
+					var oPaging = oSettings.oInstance.fnPagingInfo();
+					var an = oSettings.aanFeatures.p;
+					var i, j, sClass, iStart, iEnd, iHalf=Math.floor(iListLength/2);
+					if ( oPaging.iTotalPages < iListLength) {
+						iStart = 1;
+						iEnd = oPaging.iTotalPages;
+					}
+					else if ( oPaging.iPage <= iHalf ) {
+						iStart = 1;
+						iEnd = iListLength;
+					} else if ( oPaging.iPage >= (oPaging.iTotalPages-iHalf) ) {
+						iStart = oPaging.iTotalPages - iListLength + 1;
+						iEnd = oPaging.iTotalPages;
+					} else {
+						iStart = oPaging.iPage - iHalf + 1;
+						iEnd = iStart + iListLength - 1;
+					}
+					for ( i=0, iLen=an.length ; i<iLen ; i++ ) {
+						// Remove the middle elements
+						$('li:gt(0)', an[i]).filter(':not(:last)').remove();
+						// Add the new list items and their event handlers
+						for ( j=iStart ; j<=iEnd ; j++ ) {
+							sClass = (j==oPaging.iPage+1) ? 'class="active"' : '';
+							$('<li '+sClass+'><a href="#">'+j+'</a></li>')
+								.insertBefore( $('li:last', an[i])[0] )
+								.bind('click', function (e) {
+										e.preventDefault();
+										oSettings._iDisplayStart = (parseInt($('a', this).text(),10)-1) * oPaging.iLength;
+										fnDraw( oSettings );
+										} );
+						}
+						// Add / remove disabled classes from the static elements
+						if ( oPaging.iPage === 0 ) {
+							$('li:first', an[i]).addClass('disabled');
+						} else {
+							$('li:first', an[i]).removeClass('disabled');
+						}
+						if ( oPaging.iPage === oPaging.iTotalPages-1 || oPaging.iTotalPages === 0 ) {
+							$('li:last', an[i]).addClass('disabled');
+						} else {
+							$('li:last', an[i]).removeClass('disabled');
+						}
+					}
+				}
+			}
+		} ); 
+		$(document).ready(function(){
+			$('#server_list11').dataTable({
+//				'sDom': "<'row'<'col-8' l><'col-8'f>r>t<'row'<'col-8'i><'col-8'p>>"
+				"sDom": "<'row'<'pull-right'f><'pull-left'l>r<'clearfix'>>t<'row'<'pull-left'i><'pull-right'p><'clearfix'>>",
+//				 "sPaginationType": "bootstrap",
+				 "oLanguage": {
+					 "sLengthMenu": "_MENU_ records per page"
+				 }
+			});
+		});
+	</script>
+
+	<script type='text/javascript'>
+		function get_remove_server_list(){
+			$.get('/server/update_remove_server',function(data,textStatus){
+				if(textStatus == 'success'){
+						var data_temp=data.result;
+						if(data_temp != '' ){
+							data_temp=data_temp.replace(/&quot;/g,'"');
+							var data_temp_json=$.parseJSON(data_temp);
+							var tbl_body="";
+							$.each(data_temp_json,function(){
+								var tbl_row="";
+								$.each(this,function(k,v){
+									if(k=='host'){
+										tbl_row+="<td><input type='radio' name='removed_host' value='"+v+"'></td>";
+									}
+									if(k=='role_name'){
+										if(v == ''){
+											tbl_row+="<td>no services on the host</td>";
+										}
+										else{
+										var str_role=new Array();
+											while(-1 != v.indexOf(',')){
+												str_role.push(v.substr(0,v.indexOf(',')));
+												v=v.substr(v.indexOf(',')+1);
+											}
+											str_role.push(v);
+											tbl_row+="<td> <div class='dropdown'> <a class=dropdown-toggle' data-toggle='dropdown'>Components<b class='caret'></b></a><ul class='dropdown-menu'>";
+											for(var j=0;j<str_role.length;j++){
+												tbl_row+=("<li><a href='#'>"+str_role[j]+"</a></li>");
+											}
+											tbl_row+="</ul></div></td>";
+										}
+									}
+									else if(k == 'host') {
+										tbl_row += "<td>";
+
+										tbl_row += "<form action = '/server/get_host_info' method = 'post' " + "id = '" + v + "_form" + "'>";
+										tbl_row += "<input name = '" + k + "' value = '" + v + "' class = 'hidden'/>";
+										tbl_row += "<a onclick = 'get_host_info(\"" + v + "\")'>";
+										tbl_row += v;
+										tbl_row += "</a>";
+										tbl_row += "</form>";
+										tbl_row += "</td>";
+									}
+									else{
+										tbl_row+="<td>"+v+"</td>";
+									}
+					//				alert(k);
+								});
+								tbl_body+="<tr>"+tbl_row+"</tr>";
+							});
+							$("#remove_server_table tbody").html(tbl_body);
+						}	
+						else{
+							var no_host_info="<p> no host in the cluster </p>";
+							$("#remove_server_table tbody").html(no_host_info);
+						}
+				}
+			});
+		}
+
+		function getradiovalue(radioname){
+			var temp_obj;
+			temp_obj=document.getElementsByName(radioname);	
+			if(temp_obj != null){
+				var i;
+				for(i=0;i<temp_obj.length;i++){
+					if(temp_obj[i].checked){
+						return temp_obj[i].value;
+					}
+				}
+			}
+		}
+		function remove_host(){
+			var removed_host_val=getradiovalue('removed_host');
+			var ButtonStatusModalContent1="<div class='modal fade' id='ButtonStatusModal' tabindex='-1' role='dialog' ara-labelledby='show button status' aria-hidden='true'>"+
+			"<div class='modal-dialog'><div class='modal-content'><div class='modal-header'><button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>"+
+			"<h4 class='modal-title' id='ButtonStatusModalLabel'>Operation Status</h4></div><div id='ButtonStatusModalBody' class='modal-body'>";
+			var ButtonStatusModalContent2="<p id='opreation_status'>Please waiting for a moment <image src='/images/loading.jpg'/> </p>";
+			var ButtonStatusModalContent3="</div><div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal' onclick='get_remove_server_list()'>Close</button>"+
+			"</div></div></div></div>";
+			$('#waitModal').html(ButtonStatusModalContent1+ButtonStatusModalContent2+ButtonStatusModalContent3);
+			$('#ButtonStatusModal').modal('toggle');
+
+			var data={removed_host:removed_host_val};
+			if(removed_host_val){
+					$.post('/server/remove_server',data,function(data,textStatus){
+						var temp_data;
+						if(data.error_info){
+							temp_data=data.error_info;	
+						}
+						else{
+							temp_data=data.result;
+						}
+						$('#opreation_status').html(temp_data);
+
+					});
+			}	
+			else{
+				$('#opreation_status').html('please select the host to removed');
+			}
+		}
+	</script>
+    <script type="text/javascript">
+	function update_server_info(){
+		$.get("/server/update",function(data,textStatus){
+			if(textStatus == 'success'){
+				var data_temp=data.result;
+				if(data_temp != '' ){
+					data_temp=data_temp.replace(/&quot;/g,'"');
+					var data_temp_json=$.parseJSON(data_temp);
+					var tbl_body="";
+					$.each(data_temp_json,function(){
+						var tbl_row="";
+						$.each(this,function(k,v){
+							if(k=='role_name'){
+								if(v == ''){
+									tbl_row+="<td>no services on the host</td>";
+								}
+								else{
+								var str_role=new Array();
+									while(-1 != v.indexOf(',')){
+										str_role.push(v.substr(0,v.indexOf(',')));
+										v=v.substr(v.indexOf(',')+1);
+									}
+									str_role.push(v);
+									tbl_row+="<td> <div class='dropdown'> <a class=dropdown-toggle' data-toggle='dropdown'>Components<b class='caret'></b></a><ul class='dropdown-menu'>";
+									for(var j=0;j<str_role.length;j++){
+										tbl_row+=("<li><a href='#'>"+str_role[j]+"</a></li>");
+									}
+									tbl_row+="</ul></div></td>";
+								}
+							}
+							else if(k == 'host') {
+								tbl_row += "<td>";
+
+								tbl_row += "<form action = '/server/get_host_info' method = 'post' " + "id = '" + v + "_form" + "'>";
+								tbl_row += "<input name = '" + k + "' value = '" + v + "' class = 'hidden'/>";
+								tbl_row += "<a onclick = 'get_host_info(\"" + v + "\")'>";
+								tbl_row += v;
+								tbl_row += "</a>";
+								tbl_row += "</form>";
+								tbl_row += "</td>";
+							}
+							else{
+								tbl_row+="<td>"+v+"</td>";
+							}
+			//				alert(k);
+						});
+						tbl_body+="<tr>"+tbl_row+"</tr>";
+					});
+					$("#server_list11 tbody").html(tbl_body);
+				}	
+				else{
+					var no_host_info="<p> no host in the cluster </p>";
+					$("#server_list11 tbody").html(no_host_info);
+				}
+
+			}
+			else{
+				var db_err="<p>"+data.error+"</p>";
+				$("#server_list11 tbody").html(db_err);
+			}
+
+		}); 
+	}
+	setInterval(function(){
+		update_server_info();
+
+	},30000);
+    </script>
+	<script type = 'text/javascript'>
+		function get_host_info(host) {
+			document.getElementById(host+"_form").submit();	
+		}
+	</script>
 	<script type="text/javascript">
 		$(function(){
 			//1. ????:
 			$("form").validation();
 			$("button[id='FirstNext']").on('click',function(event){
 			// 2.????? valid()???
-			if ($("form").valid()==false){
-				$("#error-text").text("error!");
-				return false;
-			}
-		})  })
-	</script>
-	<!--script type="text/javascript">
-		$(function(){
-			$("button[id='SecondNext']").on('click',function(){
-				document.getElementById("SecondNext").value="true";
-				document.getElementByName("machine_host1").value=document.getElementByName("machine_host").value;
-			})
+					if ($("form").valid()==false){
+						$("#error-text").text("error!");
+						return false;
+					}
+			})  
 		})
-	</script-->
+	</script>
+	<script>
+		
+	</script>
+
     <script >
 	var flag='<%= flag %>';
 	if('true'==flag){
-//		document.getElementById("add_server_link_id").className="active ";
-//		document.getElementById("server_list_link_id").className=null;
 		$('#add_server_link_id a').click();
 		$('#CheckHost').modal('toggle');
 		document.getElementById("CheckResult").innerHTML='<%= CheckRes %>';
+	}
+	else{
+		$('#servers-list-id a').click();
 	}
 	
     </script>

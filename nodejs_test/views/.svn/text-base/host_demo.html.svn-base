@@ -1,0 +1,146 @@
+<% include header.html %>
+	<div id = 'host_role_info' class="container col-md-12">
+	</div>
+	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="../dist/js/bootstrap.js"></script>
+	<script type='text/javascript'>
+		var host = '<%= host %>';
+		var hostinfo = '<%= hostinfo %>';
+		var roleinfo = '<%= roleinfo %>';
+		hostinfo = hostinfo.replace(/&quot;/g,'"');
+		hostinfo = eval(hostinfo);
+		roleinfo = roleinfo.replace(/&quot;/g,'"');
+		roleinfo = eval(roleinfo);
+		var content = '';
+		content += '<div class = "row">';
+			content += '<div class = "row">';
+				content += '<h2>' + host + '</h2>';
+				content += '<a href = "/server" class = "pull-right">';
+				content += 'Back To The Servers List';
+				content += '</a>';
+			content += '</div>';
+			content += '<div class = "row">';
+				content += '<div class = "container col-md-6">';
+					content += '<div class = "row">';
+						content += '<div class = "panel-group" id = "HostSummary">';
+							content += '<div class = "panel panel-default">';
+								content += '<div class = "panel-heading">';
+									content += '<a data-toggle = "collapse" data-parent = "HostSummary" href = "#HostInfo">';
+									content += 'Host Info';
+									content += '</a>';
+								content += '</div>';
+								content += '<div id = "HostInfo" class = "panel-collapse collapse in">';
+									content += '<div class = "panel-body">';
+										content += '<div class = "row">';
+											content += '<table class = "table">';
+											if(0) {
+												alert('no host exist');	
+											}	
+											else {
+												for(var k in hostinfo[0]) {
+													var v = hostinfo[0][k];
+													if(typeof(v) == 'object')
+														continue;
+													content += '<tr>';
+														content += '<td>';
+														content += k;
+														content += '</td>';
+														content += '<td>';
+														content += v;
+														content += '</td>';
+													content += '</tr>';
+												}
+											}
+											content += '</table>';
+										content += '</div>';
+									content += '</div>';
+								content += '</div>';
+							content += '</div>';
+						content += '</div>';
+					content += '</div>';
+					content += '<div class = "row">';
+						content += '<div class = "panel-group" id = "HostSummary1">';
+							content += '<div class = "panel panel-default">';
+								content += '<div class = "panel-heading">';
+									content += '<a data-toggle = "collapse" data-parent = "HostSummary1" href = "#RoleInfo">';
+									content += 'Components Info';
+									content += '</a>';
+								content += '</div>';
+								content += '<div id = "RoleInfo" class = "panel-collapse collapse in">';
+									content += '<div class = "panel-body">';
+										content += '<div class = "row">';
+											content += '<table class = "table">';
+												content += '<tr>';
+												content += '<td>';
+												content += 'Component Name';
+												content += '</td>';
+												content += '<td> Service </td>';
+												content += '<td> Status </td>';
+												content += '<td> Start </td>';
+												content += '<td> Stop </td>';
+												content += '</tr>';
+											if(roleinfo.length == 0) {
+												alert('no service on the host');	
+											}	
+											else {
+												for(var i = 0; i < roleinfo.length; i++) {
+													if(roleinfo[i].length == 0) {
+														continue;	
+													}	
+													content += '<tr>';
+														content += '<td>';
+														content += roleinfo[i].role_name;
+														content += '</td>';
+														content += '<td>';
+														content += roleinfo[i].service_name;
+														content += '</td>';
+														content += '<td>';
+														content += roleinfo[i].service_status;
+														content += '</td>';
+														if(roleinfo[i].status == 'live') {
+															content += '<td>'
+															content += '<button type = "button" class = "btn btn-primary disabled">';
+															content += 'Start';
+															content += '</td>';
+															content += '<td>';
+															content += '</button>';
+															content += '<button type = "button" class = "btn btn-primary">';
+															content += 'Stop';
+															content += '</button>';
+															content += '</td>';
+														}
+														else {
+															content += '<td>';
+															content += '<button type = "button" class = "btn btn-primary">';
+															content += 'Start';
+															content += '</td>';
+															content += '<td>';
+															content += '</button>';
+															content += '<button type = "button" class = "btn btn-primary disabled">';
+															content += 'Stop';
+															content += '</button>';
+															content += '</td>';
+														}
+													content += '</tr>';
+												}
+											}
+											content += '</table>';
+										content += '</div>';
+									content += '</div>';
+								content += '</div>';
+							content += '</div>';
+						content += '</div>';
+					content += '</div>';
+				content += '</div>';
+				content += '<div class = "container col-md-6">';
+					content += '<p>';
+					content += 'dashboard is here';
+					content += '</p>';
+				content += '</div>';
+			content += '</div>';
+		content += '</div>';
+		$('#host_role_info').html(content);	
+	</script>
+</body>
+
+</html>

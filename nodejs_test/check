@@ -1,0 +1,32 @@
+#!/bin/bash
+#1
+
+nrpeBin="/usr/lib/nagios/plugins/check_nrpe"
+checkServer="$1"
+checkService="$2"
+remoteCheckBin="/usr/local/nagios/libexec/check_service"
+command="$nrpeBin -H $checkServer"
+
+if [ -z "$checkServer" ];then
+echo "argument error!"
+exit
+2
+fi
+
+if [ -z "$checkService" ];then
+checkCommand="$command"
+else
+checkCommand="$command -c $remoteCheckBin -a $checkService"
+fi
+
+$checkCommand
+
+if [ $? -eq "0" ];then
+exit 0
+elif [ $? -eq "1" ];then
+exit 1
+elif [ $? -eq "2" ];then
+exit 1
+else
+exit $?
+fi
